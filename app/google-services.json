@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "10518271158",
+    "firebase_url": "https://flightdelivery-316cc-default-rtdb.firebaseio.com",
+    "project_id": "flightdelivery-316cc",
+    "storage_bucket": "flightdelivery-316cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10518271158:android:d3b7d00df5d80de7604217",
+        "android_client_info": {
+          "package_name": "com.example.devicetracking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5_Rw916sxRMb4aDO1cIZQ3_-V6Nfk2rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

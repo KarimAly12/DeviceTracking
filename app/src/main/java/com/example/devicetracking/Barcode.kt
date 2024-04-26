@@ -16,9 +16,12 @@ import java.util.UUID
 
 @Composable
 fun Barcode(){
+
     val uid = UUID.randomUUID().toString()
     val barcodeEncoder = BarcodeEncoder()
     val bitmap = barcodeEncoder.encodeBitmap(uid, BarcodeFormat.QR_CODE, 400, 400)
+
+
 
     Log.i("uid", uid)
 
