@@ -59,6 +59,9 @@ fun CreateProfileScreen(cpViewModel: CreateProfileViewModel = hiltViewModel(), n
             navHostController.navigate(Screens.ChildHome.name)
             cpViewModel.isCreateSuccess.value =false
 
+        }else{
+            navHostController.navigate(Screens.ParentHome.name)
+            cpViewModel.isCreateSuccess.value =false
         }
 
     }

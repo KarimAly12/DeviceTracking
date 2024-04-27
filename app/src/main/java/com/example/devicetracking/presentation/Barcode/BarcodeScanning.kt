@@ -10,7 +10,7 @@ import java.util.Timer
 
 class BarcodeScanning(val context:Context) {
 
-    val barCodeResults = MutableStateFlow<String?>(null)
+
 
     val options = GmsBarcodeScannerOptions.Builder()
         .setBarcodeFormats(
@@ -20,12 +20,15 @@ class BarcodeScanning(val context:Context) {
         .enableAutoZoom()
         .build()
 
-    fun starScan(){
+    fun starScan(
+        onScanSuccess: (String) -> Unit,
+    ){
         val scanner = GmsBarcodeScanning.getClient(context, options)
 
         scanner.startScan()
             .addOnSuccessListener{
-                barCodeResults.value = it.rawValue
+
+                onScanSuccess(it.rawValue!!)
 
 
             }

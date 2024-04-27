@@ -23,7 +23,7 @@ class ParentRepositoryImpl:ParentRepository {
                 }else{
                     ref.child("parent").child(auth.currentUser!!.uid).setValue(parent)
 
-                    success = true
+                    isCreateProfile.value = true
                 }
             }
 
