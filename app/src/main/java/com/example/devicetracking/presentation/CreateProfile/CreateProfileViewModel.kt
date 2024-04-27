@@ -1,23 +1,16 @@
 package com.example.flightdelivery.Presentation.CreateProfile
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
-import com.example.devicetracking.domain.Usecases.CreateParent.ParentUsecases
-import com.example.devicetracking.domain.Usecases.UserUsecases
+import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.Parent
-import com.example.devicetracking.domain.model.User
 
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import java.util.concurrent.Flow
 import javax.inject.Inject
 
 @HiltViewModel

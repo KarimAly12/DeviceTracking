@@ -43,7 +43,9 @@ fun ParentHome(parentViewModel: ParentViewModel = hiltViewModel()){
                     Log.i("test", "parent home")
 
                     barcodeScanning.starScan(
-                        onScanSuccess = {}
+                        onScanSuccess = {
+                            parentViewModel.addChild(it)
+                        }
                     )
 
                 }

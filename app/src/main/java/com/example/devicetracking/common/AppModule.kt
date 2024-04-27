@@ -5,16 +5,15 @@ import android.app.Application
 import com.example.devicetracking.DeviceTrackingApp
 import com.example.devicetracking.data.repository.ChildRepositoryImpl
 import com.example.devicetracking.data.repository.ParentRepositoryImpl
-import com.example.devicetracking.data.repository.UserRepositoryImpl
 import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.Childusecases.CreateChild
-import com.example.devicetracking.domain.Usecases.CreateParent.CreateParent
-import com.example.devicetracking.domain.Usecases.CreateParent.ParentUsecases
-import com.example.devicetracking.domain.Usecases.Signup
-import com.example.devicetracking.domain.Usecases.UserUsecases
+import com.example.devicetracking.domain.Usecases.Childusecases.UpdateChildLocation
+import com.example.devicetracking.domain.Usecases.ParentUsecases.AddChildToParent
+import com.example.devicetracking.domain.Usecases.ParentUsecases.CreateParent
+import com.example.devicetracking.domain.Usecases.ParentUsecases.GetParent
+import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.example.devicetracking.domain.repository.ParentRepository
-import com.example.devicetracking.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,7 +40,9 @@ object AppModule {
     @Provides
     fun provideParentUsecases(parentRepository: ParentRepository):ParentUsecases{
         return ParentUsecases(
-            createParent = CreateParent(parentRepository)
+            createParent = CreateParent(parentRepository),
+            addChildToParent = AddChildToParent(parentRepository),
+            getParent = GetParent(parentRepository)
         )
     }
 
@@ -53,7 +54,8 @@ object AppModule {
     @Provides
     fun childUseCases(childRepository: ChildRepository):ChildUsecases{
         return ChildUsecases(
-            createChild = CreateChild(childRepository)
+            createChild = CreateChild(childRepository),
+            updatChildLocation = UpdateChildLocation(childRepository)
         )
     }
 

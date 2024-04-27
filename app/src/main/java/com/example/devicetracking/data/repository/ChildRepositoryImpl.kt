@@ -33,5 +33,12 @@ class ChildRepositoryImpl : ChildRepository {
         TODO("Not yet implemented")
     }
 
+    override fun upadteChildLocation(childId: String, location:Pair<Double,Double>) {
+        val ref = database.getReference("Users")
+
+        ref.child("children").child(childId).child("location").setValue(location)
+
+    }
+
 
 }

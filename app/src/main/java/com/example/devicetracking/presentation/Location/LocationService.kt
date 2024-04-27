@@ -14,23 +14,37 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import com.example.devicetracking.R
+import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
+import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
+import com.google.android.gms.location.LocationServices
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class LocationService: Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob()+Dispatchers.IO)
 
     private lateinit var locationProvider:LocationProvider
 
+    @Inject
+    lateinit var childUsecases: ChildUsecases
+
+    val authId = Firebase.auth.currentUser!!.uid
+
     override fun onCreate() {
         super.onCreate()
         locationProvider = LocationProvider(this)
+        locationProvider.fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
     }
 
@@ -76,6 +90,10 @@ class LocationService: Service() {
                                 .build()
 
                             notificationManager.notify(1, updatedNotification)
+
+                            serviceScope.launch {
+                                childUsecases.updatChildLocation(authId, location)
+                            }
 
                         },
                         onGetCurrentLocationFail = {}

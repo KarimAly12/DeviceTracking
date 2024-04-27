@@ -7,4 +7,7 @@ interface ChildRepository {
 
     fun createChild(child: Child, password:String, isCreateProfile: MutableState<Boolean>):Boolean
     fun getChild()
+    fun upadteChildLocation(childId: String, location:Pair<Double,Double>)
+
+
 }

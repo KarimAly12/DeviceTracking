@@ -1,10 +1,8 @@
-package com.example.devicetracking.domain.Usecases.CreateParent
+package com.example.devicetracking.domain.Usecases.ParentUsecases
 
 import androidx.compose.runtime.MutableState
 import com.example.devicetracking.domain.model.Parent
-import com.example.devicetracking.domain.model.User
 import com.example.devicetracking.domain.repository.ParentRepository
-import com.example.devicetracking.domain.repository.UserRepository
 
 
 class CreateParent(private val parentRepository: ParentRepository) {

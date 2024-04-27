@@ -10,6 +10,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -19,8 +20,7 @@ class LocationProvider(
     private val context: Context
 ) {
 
-      var fusedLocationClient:FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-
+      lateinit var fusedLocationClient:FusedLocationProviderClient
 
 
     @SuppressLint("MissingPermission")
