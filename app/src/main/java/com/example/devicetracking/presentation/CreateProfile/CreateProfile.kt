@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.devicetracking.presentation.Navigation.Screens
 import com.example.devicetracking.ui.theme.colorButton1
 
 
@@ -52,14 +53,15 @@ fun CreateProfileScreen(cpViewModel: CreateProfileViewModel = hiltViewModel(), n
     var passwordVisibility by remember { mutableStateOf(false) }
 
 
-    val context = LocalContext.current
+    if(cpViewModel.isCreateSuccess.value){
 
+        if (cpViewModel.type == "children"){
+            navHostController.navigate(Screens.ChildHome.name)
+            cpViewModel.isCreateSuccess.value =false
 
+        }
 
-//    if(cpViewModel.signUpSuccess.value){
-//
-//        navHostController.navigate("home")
-//    }
+    }
 
 
     Column {

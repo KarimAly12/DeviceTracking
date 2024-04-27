@@ -15,7 +15,9 @@ import com.example.devicetracking.domain.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import java.util.concurrent.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +38,8 @@ class  CreateProfileViewModel @Inject constructor(
     var email = mutableStateOf("")
     var password = mutableStateOf("")
     var signUpSuccess = mutableStateOf(false)
-    private val type:String = checkNotNull(savedStateHandle["type"])
+    val type:String = checkNotNull(savedStateHandle["type"])
+    val isCreateSuccess = mutableStateOf(false)
 
 
 
@@ -44,13 +47,16 @@ class  CreateProfileViewModel @Inject constructor(
 
     fun signUp(){
 
+
+
         if(type == "children"){
 
             val child = Child(
                 firstName.value, lastName.value, email.value, Pair(0.0f,0.0f),
             )
             viewModelScope.launch {
-                childUsecases.createChild(child, password.value)
+               childUsecases.createChild(child, password.value, isCreateSuccess)
+
 
             }
 
@@ -60,7 +66,7 @@ class  CreateProfileViewModel @Inject constructor(
             )
 
             viewModelScope.launch {
-                parentUsecases.createParent(parent, password.value)
+                parentUsecases.createParent(parent, password.value, isCreateSuccess)
 
             }
         }

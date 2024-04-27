@@ -15,15 +15,13 @@ import java.util.UUID
 
 
 @Composable
-fun Barcode(){
+fun Barcode(childID:String){
 
-    val uid = UUID.randomUUID().toString()
+    //val uid = UUID.randomUUID().toString()
     val barcodeEncoder = BarcodeEncoder()
-    val bitmap = barcodeEncoder.encodeBitmap(uid, BarcodeFormat.QR_CODE, 400, 400)
+    val bitmap = barcodeEncoder.encodeBitmap(childID, BarcodeFormat.QR_CODE, 400, 400)
 
 
-
-    Log.i("uid", uid)
 
     Column {
 
@@ -43,5 +41,5 @@ fun getFID(){
 @Preview
 @Composable
 fun BarcodePreview(){
-    Barcode()
+    //Barcode()
 }

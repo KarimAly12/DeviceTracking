@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.devicetracking.presentation.Child.ChildHome
 import com.example.devicetracking.presentation.CreateProfile.TypeSelection
 import com.example.flightdelivery.Presentation.CreateProfile.CreateProfileScreen
 
@@ -29,6 +30,10 @@ fun Navigation(){
             arguments =  listOf(navArgument("type") {type = NavType.StringType})
         ){
             CreateProfileScreen(navHostController = navHostController)
+        }
+
+        composable(Screens.ChildHome.name){
+            ChildHome()
         }
 
     }
