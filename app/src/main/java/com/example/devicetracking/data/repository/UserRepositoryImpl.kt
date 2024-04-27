@@ -14,17 +14,16 @@ import com.google.firebase.database.database
 class UserRepositoryImpl(private val application: Application) : UserRepository {
 
     private val auth = Firebase.auth
-
     val database = Firebase.database
 
 
-    override fun createNewUser(user: User) {
+    override fun createNewUser(user: User, id:String) {
 
         val ref = database.getReference("Users")
-        ref.child(user.uid).setValue(user)
+        ref.child(user.type).child(id).setValue(user)
     }
 
-    override suspend fun signUp(user:User, password:String, cpViewModel: CreateProfileViewModel):Boolean {
+    override suspend fun signUp(user:User, password:String):Boolean {
 
 
         var isSuccess = false
@@ -32,15 +31,14 @@ class UserRepositoryImpl(private val application: Application) : UserRepository 
             .addOnCompleteListener{
             if(!it.isSuccessful){
 
-                cpViewModel.signUpSuccess.value = false
+                //cpViewModel.signUpSuccess.value = false
 
 
             }else{
 
-                val user = User(auth.currentUser!!.uid, user.firstName, user.lastName, user.email)
-                createNewUser(user)
+                createNewUser(user, auth.currentUser!!.uid)
 
-                cpViewModel.signUpSuccess.value = true
+                //cpViewModel.signUpSuccess.value = true
 
             }
         }

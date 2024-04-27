@@ -65,7 +65,7 @@ fun TypeSelection(
                     .clickable {
                         parentBoxSelected = true
                         childBoxSelected = false
-                        selectedType = "parents"
+                        selectedType = "parent"
                     }
                     .fillMaxHeight()
                     .padding(8.dp)

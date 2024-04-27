@@ -8,7 +8,7 @@ import com.example.flightdelivery.Presentation.CreateProfile.CreateProfileViewMo
 
 class Signup(private val repository: UserRepository) {
 
-    suspend operator fun invoke(user: User, password:String, createProfileViewModel: CreateProfileViewModel):Boolean{
-        return repository.signUp(user, password, createProfileViewModel)
+    suspend operator fun invoke(user: User, password:String):Boolean{
+        return repository.signUp(user, password)
     }
 }

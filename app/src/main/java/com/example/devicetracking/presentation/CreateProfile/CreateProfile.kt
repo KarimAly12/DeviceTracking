@@ -56,10 +56,10 @@ fun CreateProfileScreen(cpViewModel: CreateProfileViewModel = hiltViewModel(), n
 
 
 
-    if(cpViewModel.signUpSuccess.value){
-
-        navHostController.navigate("home")
-    }
+//    if(cpViewModel.signUpSuccess.value){
+//
+//        navHostController.navigate("home")
+//    }
 
 
     Column {

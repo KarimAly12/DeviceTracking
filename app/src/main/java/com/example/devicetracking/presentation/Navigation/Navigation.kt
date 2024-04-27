@@ -14,17 +14,20 @@ import com.example.flightdelivery.Presentation.CreateProfile.CreateProfileScreen
 fun Navigation(){
 
     val navHostController = rememberNavController()
-    NavHost(navController = navHostController , startDestination = Screens.TypeSelection.name + "/{type}"){
+    NavHost(navController = navHostController , startDestination = Screens.TypeSelection.name){
 
         composable(
-            Screens.TypeSelection.name + "/{type}",
+            Screens.TypeSelection.name,
             arguments = listOf(navArgument("type") {type = NavType.StringType})
         ){
             TypeSelection(
                 navHostController = navHostController
             )
         }
-        composable(Screens.CreateProfile.name){
+        composable(
+            Screens.CreateProfile.name +"/{type}",
+            arguments =  listOf(navArgument("type") {type = NavType.StringType})
+        ){
             CreateProfileScreen(navHostController = navHostController)
         }
 

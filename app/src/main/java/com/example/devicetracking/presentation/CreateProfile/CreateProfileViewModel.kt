@@ -2,9 +2,14 @@ package com.example.flightdelivery.Presentation.CreateProfile
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
+import com.example.devicetracking.domain.Usecases.CreateParent.ParentUsecases
 import com.example.devicetracking.domain.Usecases.UserUsecases
+import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.Parent
 import com.example.devicetracking.domain.model.User
 
 import com.google.firebase.Firebase
@@ -16,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class  CreateProfileViewModel @Inject constructor(
 
-    val userUsecases: UserUsecases
+    val childUsecases: ChildUsecases,
+    val parentUsecases: ParentUsecases,
+    savedStateHandle: SavedStateHandle
 ):ViewModel() {
 
     var passwordWeak = false
@@ -29,6 +36,7 @@ class  CreateProfileViewModel @Inject constructor(
     var email = mutableStateOf("")
     var password = mutableStateOf("")
     var signUpSuccess = mutableStateOf(false)
+    private val type:String = checkNotNull(savedStateHandle["type"])
 
 
 
@@ -36,12 +44,27 @@ class  CreateProfileViewModel @Inject constructor(
 
     fun signUp(){
 
-        val user = User("", firstName.value, lastName.value, email.value)
+        if(type == "children"){
 
-        signUpSuccess.value = false
-        viewModelScope.launch {
-            signUpSuccess.value = userUsecases.signup(user, password.value, this@CreateProfileViewModel)
+            val child = Child(
+                firstName.value, lastName.value, email.value, Pair(0.0f,0.0f),
+            )
+            viewModelScope.launch {
+                childUsecases.createChild(child, password.value)
+
+            }
+
+        }else{
+            val parent = Parent(
+                firstName.value, lastName.value, email.value
+            )
+
+            viewModelScope.launch {
+                parentUsecases.createParent(parent, password.value)
+
+            }
         }
+
 
 
     }

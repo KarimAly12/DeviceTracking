@@ -5,8 +5,8 @@ import com.example.flightdelivery.Presentation.CreateProfile.CreateProfileViewMo
 
 interface UserRepository {
 
-    fun createNewUser(user: User)
+    fun createNewUser(user: User, id:String)
 
-    suspend fun signUp(user: User, password:String, cpViewModel: CreateProfileViewModel):Boolean
+    suspend fun signUp(user: User, password:String):Boolean
 
 }

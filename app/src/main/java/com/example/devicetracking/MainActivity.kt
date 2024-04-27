@@ -18,7 +18,9 @@ import com.example.devicetracking.presentation.Location.LocationService
 import com.example.devicetracking.presentation.Navigation.Navigation
 import com.example.devicetracking.ui.theme.MyApplicationTheme
 import com.example.devicetracking.presentation.requestPermissions
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
