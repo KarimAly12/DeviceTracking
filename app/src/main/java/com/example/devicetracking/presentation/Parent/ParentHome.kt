@@ -5,12 +5,15 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -45,6 +48,7 @@ fun ParentHome(parentViewModel: ParentViewModel = hiltViewModel()){
                     barcodeScanning.starScan(
                         onScanSuccess = {
                             parentViewModel.addChild(it)
+                            parentViewModel.getChildren()
                         }
                     )
 
@@ -63,6 +67,12 @@ fun ParentHome(parentViewModel: ParentViewModel = hiltViewModel()){
        Column(
            modifier = Modifier.padding(it)
        ) {
+           
+           LazyColumn {
+               items(parentViewModel.children){
+                   Text(text = it.email)
+               }
+           }
            
        } 
         

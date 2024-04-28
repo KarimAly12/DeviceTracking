@@ -12,7 +12,7 @@ interface ParentRepository {
 
     fun addChildToParent(childId:Parent)
 
-    fun getChildren(childrenList:List<String>): SnapshotStateList<Child>
+    suspend fun getChildren(childrenList:List<String>): SnapshotStateList<Child>
 
 
 

@@ -61,17 +61,28 @@ class ParentRepositoryImpl:ParentRepository {
         ref.child("parent").child(auth.currentUser!!.uid).child("children").setValue(parent.children)
     }
 
-    override fun getChildren(childrenList:List<String>):SnapshotStateList<Child> {
+    override suspend fun getChildren(childrenList:List<String>):SnapshotStateList<Child> {
         val list = mutableStateListOf<Child>()
         val ref = database.getReference("Users")
 
-        for(childID in childrenList){
+
 
             object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(childID in childrenList){
+                        list.add(snapshot.child("Users").child("children").child(childID).getValue(Child::class.java)!!)
+
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
             }
 
-        }
+
 
 
 
