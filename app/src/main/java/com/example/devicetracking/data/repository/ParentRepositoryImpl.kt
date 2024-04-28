@@ -1,7 +1,10 @@
 package com.example.devicetracking.data.repository
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.Parent
 import com.example.devicetracking.domain.repository.ParentRepository
 import com.google.firebase.Firebase
@@ -56,5 +59,24 @@ class ParentRepositoryImpl:ParentRepository {
         val ref = database.getReference("Users")
 
         ref.child("parent").child(auth.currentUser!!.uid).child("children").setValue(parent.children)
+    }
+
+    override fun getChildren(childrenList:List<String>):SnapshotStateList<Child> {
+        val list = mutableStateListOf<Child>()
+        val ref = database.getReference("Users")
+
+        for(childID in childrenList){
+
+            object: ValueEventListener{
+
+            }
+
+        }
+
+
+
+
+
+        return list
     }
 }

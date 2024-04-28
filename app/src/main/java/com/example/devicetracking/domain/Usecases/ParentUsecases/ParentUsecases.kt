@@ -6,6 +6,7 @@ class ParentUsecases(
     val createParent: CreateParent,
     val addChildToParent: AddChildToParent,
     val getParent: GetParent,
+    val getChildren: GetChildren
 ) {
 }
 

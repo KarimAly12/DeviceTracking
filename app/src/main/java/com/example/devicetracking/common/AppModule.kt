@@ -10,6 +10,7 @@ import com.example.devicetracking.domain.Usecases.Childusecases.CreateChild
 import com.example.devicetracking.domain.Usecases.Childusecases.UpdateChildLocation
 import com.example.devicetracking.domain.Usecases.ParentUsecases.AddChildToParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.CreateParent
+import com.example.devicetracking.domain.Usecases.ParentUsecases.GetChildren
 import com.example.devicetracking.domain.Usecases.ParentUsecases.GetParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.repository.ChildRepository
@@ -42,7 +43,8 @@ object AppModule {
         return ParentUsecases(
             createParent = CreateParent(parentRepository),
             addChildToParent = AddChildToParent(parentRepository),
-            getParent = GetParent(parentRepository)
+            getParent = GetParent(parentRepository),
+            getChildren = GetChildren(parentRepository)
         )
     }
 

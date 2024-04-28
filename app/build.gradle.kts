@@ -93,6 +93,10 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
 
 
+    //Google maps
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.maps.android:maps-compose:4.3.3")
+
 
     implementation ("com.google.android.gms:play-services-auth:21.1.0")
 
