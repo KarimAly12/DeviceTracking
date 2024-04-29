@@ -45,11 +45,9 @@ class ChildRepositoryImpl : ChildRepository {
 
                     try {
 
-                        val c:Child? = snapshot.child("children").child(childId).getValue(Child::class.java)!!
+                        child.value = snapshot.child("children").child(childId).getValue(Child::class.java)!!
 
-                        if(c != null){
-                            child.value = c
-                        }
+
 
 
                     }catch (_:Exception){

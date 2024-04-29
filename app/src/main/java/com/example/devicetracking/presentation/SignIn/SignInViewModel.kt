@@ -57,6 +57,7 @@ class SignInViewModel @Inject constructor(
 
 
                 } else {
+                    Log.i("test", it.result.toString())
 
                 }
 

@@ -47,20 +47,13 @@ class ParentRepositoryImpl:ParentRepository {
                     Log.i("test", parentId)
 
                     try {
-                        val p:Parent? = snapshot.child("parent").child(parentId).getValue(Parent::class.java)!!
+                        parent.value = snapshot.child("parent").child(parentId).getValue(Parent::class.java)!!
 
-                        if(p != null){
-                            parent.value = p
-                        }
 
-                    }catch (e:Exception){
+                    }catch (_:Exception){
 
 
                     }
-
-
-
-
 
                 }
 
