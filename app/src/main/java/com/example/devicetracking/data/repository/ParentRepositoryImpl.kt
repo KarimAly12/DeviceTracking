@@ -1,8 +1,8 @@
 package com.example.devicetracking.data.repository
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.Parent
@@ -37,19 +37,42 @@ class ParentRepositoryImpl:ParentRepository {
         return success
     }
 
-    override fun getParent(parentId:String, parent: MutableState<Parent>) {
+    override suspend fun getParent(parentId:String, parent: MutableState<Parent>) {
 
-        object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                parent.value = snapshot.child("Users").child("parent").child(parentId).getValue(Parent::class.java)!!
+        val ref = database.getReference("Users")
+
+        ref.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.i("test", parentId)
+
+                    try {
+                        val p:Parent? = snapshot.child("parent").child(parentId).getValue(Parent::class.java)!!
+
+                        if(p != null){
+                            parent.value = p
+                        }
+
+                    }catch (e:Exception){
+
+
+                    }
+
+
+
+
+
+                }
+
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+
             }
+        )
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-
-        }
 
 
 
@@ -66,21 +89,20 @@ class ParentRepositoryImpl:ParentRepository {
         val ref = database.getReference("Users")
 
 
+        object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(childID in childrenList){
+                    list.add(snapshot.child("Users").child("children").child(childID).getValue(Child::class.java)!!)
 
-            object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(childID in childrenList){
-                        list.add(snapshot.child("Users").child("children").child(childID).getValue(Child::class.java)!!)
-
-                    }
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        }
 
 
 

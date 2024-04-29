@@ -19,7 +19,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.Parent
 import com.example.devicetracking.presentation.Navigation.Screens
 import com.example.devicetracking.ui.theme.colorButton1
 import com.google.firebase.Firebase
@@ -27,6 +30,7 @@ import com.google.firebase.auth.auth
 
 @Composable
 fun SingInScreen(
+    signInViewModel: SignInViewModel = hiltViewModel(),
      navHostController: NavHostController
 ){
 
@@ -39,22 +43,29 @@ fun SingInScreen(
     }
 
 
-    var p by remember {
-        mutableStateOf("")
+
+
+    if(signInViewModel.child.value.email != ""){
+        navHostController.navigate(Screens.ChildHome.name){
+            popUpTo(Screens.SignInScreen.name){
+
+                inclusive = true
+            }
+        }
+        signInViewModel.child.value = Child()
+
+    }else if (signInViewModel.parent.value.email != ""){
+        navHostController.navigate(Screens.ParentHome.name){
+            popUpTo(Screens.SignInScreen.name){
+
+                inclusive = true
+            }
+        }
+        signInViewModel.parent.value = Parent()
+
     }
 
-
     Column {
-
-        TextField(
-            label = { Text("Email") },
-            value = p,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            onValueChange ={
-                p = it
-            } )
 
         TextField(
             label = { Text("Email") },
@@ -90,26 +101,7 @@ fun SingInScreen(
             shape = RoundedCornerShape(10),
             onClick = {
 
-
-                      auth.signInWithEmailAndPassword(email, password)
-                          .addOnCompleteListener{
-
-                              if (it.isSuccessful) {
-
-                                  if(p == "p"){
-                                      navHostController.navigate(Screens.ParentHome.name)
-                                  }else{
-                                      navHostController.navigate(Screens.ChildHome.name)
-
-                                  }
-
-                              }
-
-
-                          }
-
-
-
+                signInViewModel.signIn(email,password, navHostController)
             },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent
@@ -117,6 +109,33 @@ fun SingInScreen(
         ) {
             Text(
                 text = "Sign In",
+                color = Color.White
+            )
+
+        }
+
+
+        Button(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(colorButton1, colorButton1)
+                    ),
+                    shape = RoundedCornerShape(10)
+                ),
+            shape = RoundedCornerShape(10),
+            onClick = {
+
+                navHostController.navigate(Screens.TypeSelection.name)
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent
+            )
+        ) {
+            Text(
+                text = "Create Profile",
                 color = Color.White
             )
 
