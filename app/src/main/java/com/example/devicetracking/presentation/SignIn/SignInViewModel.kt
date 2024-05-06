@@ -36,12 +36,14 @@ class SignInViewModel @Inject constructor(
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener{
 
-                if (it.isSuccessful) {
-                    val user = auth.currentUser
+                try{
 
-                    viewModelScope.launch {
-                        childUsecases.getChild(user?.uid!!, child)
-                        parentUsecases.getParent(user.uid, parent)
+                    if (it.isSuccessful) {
+                        val user = auth.currentUser
+
+                        viewModelScope.launch {
+                            childUsecases.getChild(user?.uid!!, child)
+                            parentUsecases.getParent(user.uid, parent)
 
 //                        if(child.value.email != ""){
 //                            navHostController.navigate(Screens.ChildHome.name)
@@ -50,16 +52,23 @@ class SignInViewModel @Inject constructor(
 //
 //                        }
 
+                        }
+
+
+
+
+
+                    } else {
+                        Log.i("test", it.result.toString())
+
                     }
 
 
 
-
-
-                } else {
-                    Log.i("test", it.result.toString())
-
+                }catch (e:Exception){
+                    Log.i("signinexception", e.toString())
                 }
+
 
 
             }
