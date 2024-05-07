@@ -16,6 +16,7 @@ import com.example.devicetracking.domain.Usecases.ParentUsecases.GetParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.example.devicetracking.domain.repository.ParentRepository
+import com.example.devicetracking.presentation.Location.LocationProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,12 +28,17 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
 
+    @Provides
     fun provoideApplication(): Application {
         return DeviceTrackingApp()
     }
 
-
-
+//
+//
+//    @Provides
+//    fun provideLocationProvider(application: Application): LocationProvider {
+//        return LocationProvider(application)
+//    }
     @Provides
     fun provideParentRepository():ParentRepository{
         return ParentRepositoryImpl()
