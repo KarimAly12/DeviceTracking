@@ -1,11 +1,14 @@
 package com.example.devicetracking.presentation.ParentScreen
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.devicetracking.R
 import com.example.devicetracking.domain.model.Child
-import com.example.devicetracking.presentation.Barcode.BarcodeScanning
 import com.example.devicetracking.ui.theme.colorButton1
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,6 +106,18 @@ fun ChildItem(child:Child){
             text = child.firstName + " " + child.lastName,
             color = Color.White
         )
+
+
+        Spacer(modifier = Modifier.weight(1f))
+
+
+        if(child.inTrip){
+            Image(painter = painterResource(id = R.drawable.walk),
+                contentDescription = "Child in trip",
+                modifier = Modifier.size(35.dp)
+            )
+        }
+
 
 
     }

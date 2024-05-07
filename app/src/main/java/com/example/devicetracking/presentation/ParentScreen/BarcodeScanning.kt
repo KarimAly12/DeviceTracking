@@ -1,4 +1,4 @@
-package com.example.devicetracking.presentation.Barcode
+package com.example.devicetracking.presentation.ParentScreen
 
 import android.content.Context
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanner

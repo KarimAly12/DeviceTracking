@@ -1,4 +1,4 @@
-package com.example.devicetracking.presentation.Map
+package com.example.devicetracking.presentation.MapScreen
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
