@@ -1,4 +1,4 @@
-package com.example.devicetracking.presentation.Child
+package com.example.devicetracking.presentation.ChildScreen
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase

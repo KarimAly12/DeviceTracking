@@ -1,8 +1,8 @@
-package com.example.devicetracking.presentation.Parent
+package com.example.devicetracking.presentation.ParentScreen
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
@@ -23,7 +23,7 @@ class ParentViewModel @Inject constructor(
     val auth = Firebase.auth
 
     var parent = mutableStateOf<Parent>(Parent("", "", ""))
-    var  children:SnapshotStateList<Child> = mutableStateListOf()
+    var  children:MutableList<Child> = mutableStateListOf()
 
 
 
@@ -39,11 +39,11 @@ class ParentViewModel @Inject constructor(
     fun getChildren(){
         children.clear()
         viewModelScope.launch {
-            parenteUsecases.getParent(auth.currentUser!!.uid, parent)
-            children.addAll(parenteUsecases.getChildren(parent.value.children))
+            //parenteUsecases.getParent(auth.currentUser!!.uid, parent)
+            children = parenteUsecases.getChildren(parent.value.children)
+            Log.i("test", children.size.toString())
 
         }
-
 
 
     }
@@ -54,6 +54,7 @@ class ParentViewModel @Inject constructor(
         viewModelScope.launch {
 
             parenteUsecases.addChildToParent(parent.value)
+
 
         }
 

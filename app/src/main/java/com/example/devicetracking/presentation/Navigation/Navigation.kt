@@ -6,9 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.devicetracking.presentation.Child.ChildHome
+import com.example.devicetracking.presentation.ChildScreen.ChildHome
 import com.example.devicetracking.presentation.CreateProfile.TypeSelection
-import com.example.devicetracking.presentation.Parent.ParentHome
+import com.example.devicetracking.presentation.ParentScreen.ParentScreen
 import com.example.devicetracking.presentation.SignIn.SingInScreen
 import com.example.flightdelivery.Presentation.CreateProfile.CreateProfileScreen
 
@@ -38,7 +38,7 @@ fun Navigation(){
             ChildHome()
         }
         composable(Screens.ParentHome.name){
-            ParentHome()
+            ParentScreen()
         }
 
         composable(Screens.SignInScreen.name){

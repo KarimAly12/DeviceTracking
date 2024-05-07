@@ -81,26 +81,25 @@ class ParentRepositoryImpl:ParentRepository {
         val list = mutableStateListOf<Child>()
         val ref = database.getReference("Users")
 
+        Log.i("testAddChildren", childrenList.toString() )
+        ref.child("children").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach{
 
-        object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(childID in childrenList){
-                    list.add(snapshot.child("Users").child("children").child(childID).getValue(Child::class.java)!!)
 
+                        if(childrenList.contains(it.key!!)){
+                            list.add(it.getValue(Child::class.java)!!)
+                            Log.i("testAddChildren", list[0].email )
+                        }
+                    }
                 }
 
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        }
-
-
-
-
-
+        )
 
 
         return list
