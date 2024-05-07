@@ -20,13 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.devicetracking.domain.model.Location
 import com.example.devicetracking.presentation.Location.LocationService
 import com.example.devicetracking.ui.theme.colorButton1
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChildHome(childViewModel:ChildViewModel = hiltViewModel()){
+fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
     val context = LocalContext.current
 
@@ -59,22 +60,25 @@ fun ChildHome(childViewModel:ChildViewModel = hiltViewModel()){
 
             Spacer(modifier = Modifier.weight(1f))
 
-
-            Image(
-                modifier = Modifier
-                    .size(400.dp)
-                    .padding(8.dp),
-                bitmap = childViewModel.bitmap.asImageBitmap(),
-                contentDescription = "")
-
-            Text(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .align(Alignment.CenterHorizontally),
-                text = "Scan to add child device",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+            
+            
+            MapScreen(childLocation = childViewModel.)
+//
+//            Image(
+//                modifier = Modifier
+//                    .size(400.dp)
+//                    .padding(8.dp),
+//                bitmap = childViewModel.bitmap.asImageBitmap(),
+//                contentDescription = "")
+//
+//            Text(
+//                modifier = Modifier
+//                    .padding(8.dp)
+//                    .align(Alignment.CenterHorizontally),
+//                text = "Scan to add child device",
+//                fontSize = 20.sp,
+//                fontWeight = FontWeight.SemiBold
+//            )
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -84,6 +88,15 @@ fun ChildHome(childViewModel:ChildViewModel = hiltViewModel()){
 
     }
 
+
+
+}
+
+
+@Composable
+fun MapScreen(
+    childLocation : Location
+){
 
 
 }
