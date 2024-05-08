@@ -1,7 +1,7 @@
 package com.example.devicetracking.domain.model
 
 
-data class Location(
+data class ChildLocation(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0
 )
@@ -9,8 +9,8 @@ data class Child(
     val firstName: String = "",
     val lastName: String = "",
     val email: String = "",
-    var location: Location = Location(),
+    var location: ChildLocation = ChildLocation(),
     val inTrip: Boolean = false
 ) {
-    constructor() : this("", "", "", Location(), false)
+    constructor() : this("", "", "", ChildLocation(), false)
 }

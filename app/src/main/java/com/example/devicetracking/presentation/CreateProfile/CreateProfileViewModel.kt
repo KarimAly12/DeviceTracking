@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.Child
-import com.example.devicetracking.domain.model.Location
+import com.example.devicetracking.domain.model.ChildLocation
 import com.example.devicetracking.domain.model.Parent
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +46,7 @@ class  CreateProfileViewModel @Inject constructor(
         if(type == "children"){
 
             val child = Child(
-                firstName.value, lastName.value, email.value, Location(0.0,0.0),
+                firstName.value, lastName.value, email.value, ChildLocation(0.0,0.0),
             )
             viewModelScope.launch {
                childUsecases.createChild(child, password.value, isCreateSuccess)

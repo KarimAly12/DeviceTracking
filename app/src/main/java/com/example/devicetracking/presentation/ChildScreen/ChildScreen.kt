@@ -1,41 +1,39 @@
 package com.example.devicetracking.presentation.ChildScreen
 
-import android.content.Intent
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.devicetracking.domain.model.Location
-import com.example.devicetracking.presentation.Location.LocationService
+import com.example.devicetracking.presentation.LocationMap.LocationMap
+import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
+import com.example.devicetracking.presentation.LocationMap.centerOnLocation
 import com.example.devicetracking.ui.theme.colorButton1
-import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapType
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import java.util.concurrent.TimeUnit
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,8 +60,8 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
                     onClick = {
 
                         //childViewModel.getChildLocation()
-                        val intent = Intent(context, LocationService::class.java)
-                        context.startForegroundService(intent)
+//                        val intent = Intent(context, LocationService::class.java)
+//                        context.startForegroundService(intent)
 
 
                     }) {
@@ -81,13 +79,13 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
             ){
 
 
-                Text(text = childViewModel.child.value.firstName)
 
                 Spacer(modifier = Modifier.weight(1f))
 
 
 
-                MapScreen(childLocation = childViewModel.child.value.location)
+                ChildMap()
+
 //
 //            Image(
 //                modifier = Modifier
@@ -125,34 +123,83 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 }
 
 
+
 @Composable
-fun MapScreen(
-    childLocation : Location
+fun ChildMap(
+
 ){
 
-    val location = LatLng(childLocation.latitude, childLocation.longitude)
-
-    val cameraPosition = rememberCameraPositionState{
-        position = CameraPosition.fromLatLngZoom(location, 5f)
+    var locationRequest by remember {
+        mutableStateOf<LocationRequest?>(null)
     }
 
-    val properties by remember {
-        mutableStateOf(MapProperties(mapType = MapType.TERRAIN))
+    var locationLatLng by remember {
+        mutableStateOf(LatLng(0.0,0.0))
     }
-    GoogleMap(
-        modifier = Modifier.
-            padding(8.dp)
-            .size(
-                400.dp
-            ),
-        cameraPositionState = cameraPosition,
-        properties = properties
-    ){
-        Marker(
-            state = MarkerState(position = location),
 
+    var locationUpdates by remember {
+        mutableStateOf("")
+    }
+
+    var cameraState = rememberCameraPositionState()
+
+    if(locationRequest != null){
+        LocationUpdatesEffect(locationRequest = locationRequest!!) {result ->
+            for (location in result.locations){
+
+                locationLatLng = LatLng(location.latitude, location.longitude)
+                locationUpdates = "- @lat: ${location.latitude}\n" +
+                        "- @lng: ${location.longitude}\n"
+
+            }
+
+        }
+
+    }
+    
+
+    LaunchedEffect(key1 = locationLatLng) {
+        cameraState.centerOnLocation(locationLatLng)
+    }
+
+
+
+
+    Column {
+
+
+        Row {
+            Text(text = "Turn On GPS",
+                fontWeight = FontWeight.Bold
             )
+            Switch(checked = locationRequest != null,
+                onCheckedChange = {checked ->
+                    locationRequest = if(checked){
+
+                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
+
+                    }else{
+                        null
+                    }
+
+                })
+        }
+
+        LocationMap(
+            modifier = Modifier
+                .padding(8.dp)
+                .background(
+                    color =  Color.Transparent,
+                    shape = RoundedCornerShape(20.dp)
+                )
+                .size(600.dp)
+
+            ,
+            locationLatLng = locationLatLng,
+            cameraState)
     }
+
+
 
 
 }

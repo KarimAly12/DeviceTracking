@@ -20,6 +20,8 @@ class DeviceTrackingApp:Application() {
 
     }
 
+    
+
     private fun createNotificationChannel(){
 
         val channel = NotificationChannel(
