@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.devicetracking.core.location.Location.LocationUtils
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation
@@ -53,25 +54,6 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
         Scaffold(
 
-            floatingActionButton = {
-
-                ExtendedFloatingActionButton(
-                    containerColor = colorButton1,
-                    onClick = {
-
-                        //childViewModel.getChildLocation()
-//                        val intent = Intent(context, LocationService::class.java)
-//                        context.startForegroundService(intent)
-
-
-                    }) {
-                    Text(
-                        text = "Start Trip",
-                        color = Color.White
-                    )
-
-                }
-            }
         ) {
 
             Column(
@@ -82,9 +64,7 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
                 Spacer(modifier = Modifier.weight(1f))
 
-
-
-                ChildMap()
+                ChildLocationMap()
 
 //
 //            Image(
@@ -125,7 +105,7 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
 
 @Composable
-fun ChildMap(
+fun ChildLocationMap(
 
 ){
 
@@ -141,7 +121,7 @@ fun ChildMap(
         mutableStateOf("")
     }
 
-    var cameraState = rememberCameraPositionState()
+    val cameraState = rememberCameraPositionState()
 
     if(locationRequest != null){
         LocationUpdatesEffect(locationRequest = locationRequest!!) {result ->
@@ -156,7 +136,7 @@ fun ChildMap(
         }
 
     }
-    
+
 
     LaunchedEffect(key1 = locationLatLng) {
         cameraState.centerOnLocation(locationLatLng)
@@ -165,16 +145,14 @@ fun ChildMap(
 
 
 
-    Column {
+    Scaffold(
+        floatingActionButton = {
 
+            ExtendedFloatingActionButton(
+                containerColor = colorButton1,
+                onClick = {
 
-        Row {
-            Text(text = "Turn On GPS",
-                fontWeight = FontWeight.Bold
-            )
-            Switch(checked = locationRequest != null,
-                onCheckedChange = {checked ->
-                    locationRequest = if(checked){
+                    locationRequest = if(locationRequest == null){
 
                         LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
 
@@ -182,22 +160,45 @@ fun ChildMap(
                         null
                     }
 
-                })
+                    //childViewModel.getChildLocation()
+//                        val intent = Intent(context, LocationService::class.java)
+//                        context.startForegroundService(intent)
+
+
+                }) {
+                Text(
+                    text = "Start Trip",
+                    color = Color.White
+                )
+
+            }
+        }
+    ) {
+
+
+        Column(
+            modifier = Modifier.padding(it)
+        ) {
+
+
+
+            LocationMap(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(
+                        color = Color.Transparent,
+                        shape = RoundedCornerShape(20.dp)
+                    )
+                    .size(600.dp)
+
+                ,
+                locationLatLng = locationLatLng,
+                cameraState)
         }
 
-        LocationMap(
-            modifier = Modifier
-                .padding(8.dp)
-                .background(
-                    color =  Color.Transparent,
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .size(600.dp)
-
-            ,
-            locationLatLng = locationLatLng,
-            cameraState)
     }
+
+
 
 
 
