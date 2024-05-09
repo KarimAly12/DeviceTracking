@@ -29,9 +29,11 @@ class ChildViewModel @Inject constructor(
 
 
 
-    fun updateChild(){
+    fun updateChild(
+        child:Child
+    ){
         viewModelScope.launch {
-            
+            childUsecases.updateChild(childId, child)
         }
     }
 

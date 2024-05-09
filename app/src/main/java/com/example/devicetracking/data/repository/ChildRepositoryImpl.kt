@@ -67,10 +67,18 @@ class ChildRepositoryImpl : ChildRepository {
 
 
     }
-    override fun upadteChildLocation(childId: String, location:Pair<Double,Double>) {
+    override fun updateChildLocation(childId: String, location:Pair<Double,Double>) {
         val ref = database.getReference("Users")
 
         ref.child("children").child(childId).child("location").setValue(location)
+
+    }
+
+    override fun updateChild(childId: String, child: Child) {
+        val ref = database.getReference("Users")
+        ref.child("children").child(childId).setValue(child)
+
+
 
     }
 

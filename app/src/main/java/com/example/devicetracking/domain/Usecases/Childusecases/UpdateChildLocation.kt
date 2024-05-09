@@ -7,7 +7,7 @@ class UpdateChildLocation(val repository: ChildRepository) {
 
     suspend operator fun invoke(childId: String, location: Pair<Double,Double>) {
 
-        repository.upadteChildLocation(childId, location)
+        repository.updateChildLocation(childId, location)
 
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.devicetracking.core.service.DefaultLocationServiceManager
+import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation
@@ -146,9 +147,19 @@ fun ChildLocationMap(
             ExtendedFloatingActionButton(
                 containerColor = colorButton1,
                 onClick = {
+
+                    val child = Child(
+                        childViewModel.child.value.firstName,
+                        childViewModel.child.value.lastName,
+                        childViewModel.child.value.email,
+                        childViewModel.child.value.location,
+                         !childViewModel.child.value.inTrip
+                    )
+                    childViewModel.child.value = child
+
+                    childViewModel.updateChild(child)
+
                     val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
-
-
 
                     locationRequest = if(locationRequest == null){
 
@@ -184,7 +195,6 @@ fun ChildLocationMap(
 
             LocationMap(
                 modifier = Modifier
-                    .padding(8.dp)
                     .fillMaxSize()
                     .background(
                         color = Color.Transparent,
