@@ -26,20 +26,14 @@ class ChildViewModel @Inject constructor(
     private val barcodeEncoder = BarcodeEncoder()
     val bitmap = barcodeEncoder.encodeBitmap(childId, BarcodeFormat.QR_CODE, 400, 400)
     val child:MutableState<Child> = mutableStateOf(Child())
-//    val location = mutableStateOf(Location())
-//    var isGettingLocation = true
-//
-    lateinit var location:Location
 
 
-    init {
 
+    fun updateChild(){
         viewModelScope.launch {
-
-            childUsecases.getChild(childId, child)
+            
         }
     }
-
 
 
 //    fun getChildLocation(){

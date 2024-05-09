@@ -1,4 +1,4 @@
-package com.example.devicetracking.core.location.Location
+package com.example.devicetracking.core.location
 
 import android.app.Activity
 import android.content.Context

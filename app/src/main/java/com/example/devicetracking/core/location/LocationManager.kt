@@ -1,4 +1,4 @@
-package com.example.devicetracking.core.location.Location
+package com.example.devicetracking.core.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,6 +22,7 @@ class LocationManager(
 
       @SuppressLint("MissingPermission")
       fun registerCallback(locationCallback: LocationCallback){
+
 
 
           if (areLocationPermissionGranted()){
