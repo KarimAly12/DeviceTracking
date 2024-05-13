@@ -24,14 +24,19 @@ class ChildParentViewModel @Inject constructor(
 
     val childID = checkNotNull(savedStateHandle["childID"])
     val child: MutableState<Child> = mutableStateOf(Child())
+    var childLocation = mutableStateOf(child.value.location)
 
+    init {
+        getChild()
+    }
 
     fun getChild(){
 
         viewModelScope.launch {
             while (true){
-                Log.i("testchildparentscreen" , "getChild")
                 childUsecases.getChild(childID.toString(), child)
+                Log.i("testchildparentscreen" , child.value.location.toString())
+                childLocation.value = child.value.location
                 delay(10000)
 
             }

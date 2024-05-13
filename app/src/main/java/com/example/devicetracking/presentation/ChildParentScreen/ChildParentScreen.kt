@@ -31,9 +31,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun ChildParentScreen(
     childParentViewModel: ChildParentViewModel = hiltViewModel()
 ){
-    if (childParentViewModel.child.value.email == ""){
-        childParentViewModel.getChild()
-    }
+
 
     ChildParentMap(childParentViewModel = childParentViewModel)
 
@@ -48,9 +46,9 @@ fun ChildParentMap(
     val cameraState = rememberCameraPositionState()
 
     childParentViewModel.apply {
-        LaunchedEffect(key1 = child.value){
+        LaunchedEffect(key1 = childLocation.value){
             Log.i("testchildparentscreen" , "inLaunchedEffect")
-            locationLatLng = LatLng(child.value.location.latitude, child.value.location.longitude)
+            locationLatLng = LatLng(childLocation.value.latitude, childLocation.value.longitude)
             cameraState.centerOnLocation(locationLatLng, cameraState.position.zoom)
 
         }

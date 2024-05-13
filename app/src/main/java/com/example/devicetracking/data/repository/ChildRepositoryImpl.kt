@@ -48,6 +48,7 @@ class ChildRepositoryImpl : ChildRepository {
 
                         child.value = snapshot.child("children").child(childId).getValue(Child::class.java)!!
 
+                        Log.i("test", child.value.location.toString())
 
 
 
