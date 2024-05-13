@@ -25,6 +25,7 @@ class ChildRepositoryImpl : ChildRepository {
                 if(!it.isSuccessful){
 
                 }else{
+                    child.childID = auth.currentUser!!.uid
                     ref.child("children").child(auth.currentUser!!.uid).setValue(child)
                     isCreateProfile.value = true
                 }

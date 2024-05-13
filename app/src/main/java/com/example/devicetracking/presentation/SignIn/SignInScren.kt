@@ -5,8 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -18,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -33,6 +40,8 @@ fun SingInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
      navHostController: NavHostController
 ){
+
+    var passwordVisibility by remember { mutableStateOf(false) }
 
     val auth = Firebase.auth
     var email by remember {
@@ -78,13 +87,26 @@ fun SingInScreen(
             } )
 
         TextField(
-            label = { Text("Password") },
+            label = {Text("Password")},
             value = password,
+            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            trailingIcon = {
+                val image = if (passwordVisibility)
+                    Icons.Filled.Visibility
+                else Icons.Filled.VisibilityOff
+                IconButton(
+                    onClick = {passwordVisibility = !passwordVisibility}
+                ){
+
+                    Icon(imageVector = image, contentDescription = "Show Password")
+                }
+            },
             onValueChange ={
                 password = it
+                //signInViewModel.checkPasswordStrength()
             } )
 
 

@@ -3,6 +3,7 @@ package com.example.devicetracking.presentation.ParentScreen
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,13 +29,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.devicetracking.R
+import com.example.devicetracking.core.barcode.BarcodeScanning
 import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.presentation.ChildScreen.ChildViewModel
+import com.example.devicetracking.presentation.Navigation.Screens
 import com.example.devicetracking.ui.theme.colorButton1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ParentScreen(parentViewModel: ParentViewModel = hiltViewModel()){
+fun ParentScreen(parentViewModel: ParentViewModel = hiltViewModel(), navHostController: NavHostController){
 
 
     if(parentViewModel.children.isEmpty()){
@@ -66,7 +71,6 @@ fun ParentScreen(parentViewModel: ParentViewModel = hiltViewModel()){
                     tint = Color.White
                     )
             }
-            
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
@@ -75,23 +79,22 @@ fun ParentScreen(parentViewModel: ParentViewModel = hiltViewModel()){
            modifier = Modifier.padding(it)
        ) {
            
-           ChildLazyColumn(children = parentViewModel.children)
+           ChildLazyColumn(children = parentViewModel.children, navHostController)
            
-       } 
-        
+       }
     }
-
-
-
 }
 
 
 @Composable
-fun ChildItem(child:Child){
+fun ChildItem(child:Child, navHostController: NavHostController){
 
 
     Row(
         modifier = Modifier
+            .clickable {
+                navHostController.navigate(Screens.ParentChildScreen.name + "/${child.childID}")
+            }
             .padding(16.dp)
             .fillMaxWidth()
             .background(
@@ -118,19 +121,20 @@ fun ChildItem(child:Child){
             )
         }
 
-
-
     }
-
 
 }
 
+
+
+
+
 @Composable
-fun ChildLazyColumn(children:List<Child>){
+fun ChildLazyColumn(children:List<Child>, navHostController: NavHostController){
 
     LazyColumn {
         items(children){
-            ChildItem(child = it)
+            ChildItem(child = it, navHostController)
         }
     }
 

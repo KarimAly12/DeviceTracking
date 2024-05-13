@@ -7,4 +7,5 @@ sealed class Screens(val name:String){
     object TypeSelection:Screens("typeselection")
     object CreateProfile:Screens("createprofile")
     object ChildHome:Screens("childHome")
+    object ParentChildScreen:Screens("parentchildscreen")
 }

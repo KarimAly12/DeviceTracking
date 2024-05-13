@@ -108,18 +108,15 @@ fun LocationUpdatesEffect(
         
     }
 
-
-
-
 }
 
 
 
-suspend fun CameraPositionState.centerOnLocation(location: LatLng){
+suspend fun CameraPositionState.centerOnLocation(location: LatLng, zoom:Float){
 
     animate(
         update = CameraUpdateFactory.newLatLngZoom(
-            location, 15f
+            location, zoom
         ),
         durationMs = 1500
     )

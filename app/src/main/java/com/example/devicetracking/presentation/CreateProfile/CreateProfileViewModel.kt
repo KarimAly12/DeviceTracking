@@ -46,6 +46,7 @@ class  CreateProfileViewModel @Inject constructor(
         if(type == "children"){
 
             val child = Child(
+                childID = "",
                 firstName.value, lastName.value, email.value, ChildLocation(0.0,0.0),
             )
             viewModelScope.launch {

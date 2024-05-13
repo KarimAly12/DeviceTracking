@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.devicetracking.presentation.ChildParentScreen.ChildParentScreen
 import com.example.devicetracking.presentation.ChildScreen.ChildScreen
 import com.example.devicetracking.presentation.CreateProfile.TypeSelection
 import com.example.devicetracking.presentation.ParentScreen.ParentScreen
@@ -38,11 +39,18 @@ fun Navigation(){
             ChildScreen()
         }
         composable(Screens.ParentHome.name){
-            ParentScreen()
+            ParentScreen(navHostController = navHostController)
         }
 
         composable(Screens.SignInScreen.name){
             SingInScreen(navHostController= navHostController)
+        }
+
+        composable(Screens.ParentChildScreen.name +"/{childID}",
+            arguments = listOf(navArgument("childID"){type = NavType.StringType})
+        ){
+           ChildParentScreen()
+
         }
 
     }

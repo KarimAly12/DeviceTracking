@@ -170,25 +170,11 @@ fun ChildLocationMap(
 
     val context = LocalContext.current
 
-    var locationRequest by remember {
-
-        mutableStateOf<LocationRequest?>(null)
-    }
-
-    if(childViewModel.child.value.inTrip){
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
-    }
-
-
-    var locationLatLng by remember {
-        mutableStateOf(LatLng(0.0,0.0))
-    }
-
-//    var locationUpdates by remember {
-//        mutableStateOf("")
-//    }
-
+    var locationRequest by remember { mutableStateOf<LocationRequest?>(null) }
+    var locationLatLng by remember { mutableStateOf(LatLng(0.0,0.0)) }
     val cameraState = rememberCameraPositionState()
+    if(childViewModel.child.value.inTrip){
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build() }
 
     if(locationRequest != null){
         LocationUpdatesEffect(locationRequest = locationRequest!!) {result ->
@@ -202,7 +188,8 @@ fun ChildLocationMap(
 
 
     LaunchedEffect(key1 = locationLatLng) {
-        cameraState.centerOnLocation(locationLatLng)
+
+        cameraState.centerOnLocation(locationLatLng, cameraState.position.zoom)
     }
 
 
@@ -216,11 +203,12 @@ fun ChildLocationMap(
                 onClick = {
 
                     val child = Child(
+                        childViewModel.child.value.childID,
                         childViewModel.child.value.firstName,
                         childViewModel.child.value.lastName,
                         childViewModel.child.value.email,
                         childViewModel.child.value.location,
-                         !childViewModel.child.value.inTrip
+                        !childViewModel.child.value.inTrip
                     )
                     childViewModel.child.value = child
 
