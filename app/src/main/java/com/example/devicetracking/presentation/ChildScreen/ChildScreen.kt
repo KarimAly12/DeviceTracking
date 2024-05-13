@@ -1,26 +1,47 @@
 package com.example.devicetracking.presentation.ChildScreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.content.MediaType.Companion.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.devicetracking.core.service.DefaultLocationServiceManager
 import com.example.devicetracking.domain.model.Child
@@ -33,6 +54,7 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 
@@ -41,6 +63,9 @@ import java.util.concurrent.TimeUnit
 fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
     val context = LocalContext.current
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
 
 
     if(childViewModel.child.value.email == ""){
@@ -49,41 +74,88 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
     }else{
 
 
-        Column(
+        ModalNavigationDrawer(
+            gesturesEnabled = drawerState.isOpen,
+            drawerState = drawerState,
+            drawerContent = {
 
-        ){
+                ModalDrawerSheet {
+                    Divider()
+
+                    Column {
+
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(height = 250.dp)
+                                .padding(start = 8.dp, end = 8.dp),
+                            bitmap = childViewModel.bitmap.asImageBitmap(),
+                            contentDescription = "")
+
+//                        Text(
+//                            modifier = Modifier
+//                                .padding(8.dp)
+//                                .align(Alignment.CenterHorizontally),
+//                            text = "Scan to add child device",
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.SemiBold
+//                        )
+
+                    }
+
+                }
 
 
 
-            Spacer(modifier = Modifier.weight(1f))
 
-            ChildLocationMap(childViewModel)
 
-//
-//            Image(
-//                modifier = Modifier
-//                    .size(400.dp)
-//                    .padding(8.dp),
-//                bitmap = childViewModel.bitmap.asImageBitmap(),
-//                contentDescription = "")
-//
-//            Text(
-//                modifier = Modifier
-//                    .padding(8.dp)
-//                    .align(Alignment.CenterHorizontally),
-//                text = "Scan to add child device",
-//                fontSize = 20.sp,
-//                fontWeight = FontWeight.SemiBold
-//            )
+        }) {
 
-            Spacer(modifier = Modifier.weight(1f))
 
+            Scaffold(
+                topBar = {
+                    Row{
+                        IconButton(onClick = {
+                            scope.launch {
+                               if(drawerState.isOpen) drawerState.close() else drawerState.open()
+                                }
+                        }) {
+                            Icon(imageVector = Icons.Rounded.Menu, contentDescription = "Menu")
+                        }
+                    }
+                }
+            ) {
+
+                Column(
+                    modifier = Modifier.padding(it)
+
+                ){
+
+
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    ChildLocationMap(childViewModel)
+
+
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+
+                }
+
+
+            }
+
+
+
+
+        }
 
         }
 
 
 
-    }
 
 
 }
@@ -121,12 +193,7 @@ fun ChildLocationMap(
     if(locationRequest != null){
         LocationUpdatesEffect(locationRequest = locationRequest!!) {result ->
             for (location in result.locations){
-
-
                 locationLatLng = LatLng(location.latitude, location.longitude)
-//                locationUpdates = "- @lat: ${location.latitude}\n" +
-//                        "- @lng: ${location.longitude}\n"
-
             }
 
         }
