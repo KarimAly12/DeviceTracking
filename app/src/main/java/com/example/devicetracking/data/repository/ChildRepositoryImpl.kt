@@ -91,11 +91,11 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-    override suspend fun getChildLocation(childId: String): ChildLocation {
+    override suspend fun getChildLocation(childId: String, locationValueListener: ValueEventListener): ChildLocation {
         val ref = database.getReference("Locations")
         var location = ChildLocation()
 
-        ref.addValueEventListener(
+        ref.addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     Log.i("test", location.toString())
@@ -120,8 +120,11 @@ class ChildRepositoryImpl : ChildRepository {
             }
         )
 
+        ref.child(childId).addValueEventListener(locationValueListener)
         return location
     }
+
+
 
 
 }

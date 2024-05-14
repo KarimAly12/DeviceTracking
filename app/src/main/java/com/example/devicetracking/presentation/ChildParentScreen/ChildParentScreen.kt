@@ -4,13 +4,10 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,8 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation
-import com.example.devicetracking.presentation.ParentScreen.ParentViewModel
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
 
@@ -48,12 +43,12 @@ fun ChildParentMap(
 
 
     childParentViewModel.apply {
-//        LaunchedEffect(key1 = childLocation.value){
-//            Log.i("testchildparentscreen" , "inLaunchedEffect")
-//            locationLatLng = LatLng(childLocation.value.latitude, childLocation.value.longitude)
-//            cameraState.centerOnLocation(locationLatLng, cameraState.position.zoom)
-//
-//        }
+        LaunchedEffect(key1 = childLocation.value){
+            Log.i("testchildparentscreen" , "inLaunchedEffect")
+            locationLatLng = LatLng(childLocation.value.latitude, childLocation.value.longitude)
+            cameraState.centerOnLocation(locationLatLng, cameraState.position.zoom)
+
+        }
 
     }
 

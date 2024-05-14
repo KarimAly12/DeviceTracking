@@ -9,8 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.ChildLocation
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -27,9 +28,26 @@ class ChildParentViewModel @Inject constructor(
 
     val childID = checkNotNull(savedStateHandle["childID"])
     val child: MutableState<Child> = mutableStateOf(Child())
-    var childLocation: Flow<ChildLocation> =  flow {
+
+    var childLocation = mutableStateOf(ChildLocation())
+    private val locationValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            // Get updated value
+            childLocation.value = dataSnapshot.getValue(ChildLocation::class.java)!!
+            Log.i("testEventListener", childLocation.toString())
+
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+
+
+        }
+    }
+
+
+    var childLocationFlow: Flow<ChildLocation> =  flow {
         while (true){
-            val childLocation = childUsecases.getChildLocation(childID.toString())
+            val childLocation = childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
             emit(childLocation)
             delay(1000)
         }
@@ -37,26 +55,20 @@ class ChildParentViewModel @Inject constructor(
     }
 
     init {
-        getChild()
+        getChildLocation()
     }
 
-    fun getChild(){
+    fun getChildLocation(){
 
         viewModelScope.launch {
+            childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
 
-
-             childLocation.collect{location ->
-
-                 Log.i("testchildparentscreen" , location.toString())
-
-             }
-//            while (true){
-//                childUsecases.getChild(childID.toString(), child)
-//                Log.i("testchildparentscreen" , child.value.inTrip.toString())
-//                childLocation.value = child.value.location
-//                delay(10000)
+//             childLocationFlow.collect{location ->
 //
-//            }
+//                 Log.i("testchildparentscreen" , location.toString())
+//
+//             }
+
         }
     }
 
