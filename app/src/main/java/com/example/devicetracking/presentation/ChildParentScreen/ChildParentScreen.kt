@@ -45,13 +45,15 @@ fun ChildParentMap(
     var locationLatLng by remember { mutableStateOf(LatLng(0.0,0.0)) }
     val cameraState = rememberCameraPositionState()
 
-    childParentViewModel.apply {
-        LaunchedEffect(key1 = childLocation.value){
-            Log.i("testchildparentscreen" , "inLaunchedEffect")
-            locationLatLng = LatLng(childLocation.value.latitude, childLocation.value.longitude)
-            cameraState.centerOnLocation(locationLatLng, cameraState.position.zoom)
 
-        }
+
+    childParentViewModel.apply {
+//        LaunchedEffect(key1 = childLocation.value){
+//            Log.i("testchildparentscreen" , "inLaunchedEffect")
+//            locationLatLng = LatLng(childLocation.value.latitude, childLocation.value.longitude)
+//            cameraState.centerOnLocation(locationLatLng, cameraState.position.zoom)
+//
+//        }
 
     }
 

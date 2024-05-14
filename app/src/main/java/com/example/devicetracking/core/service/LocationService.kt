@@ -17,6 +17,7 @@ import com.example.devicetracking.R
 import com.example.devicetracking.core.location.LocationManager
 import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
+import com.example.devicetracking.domain.model.ChildLocation
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -52,6 +53,7 @@ class LocationService: Service() {
 
     private lateinit var locationCallback:LocationCallback
     private var locationRequest: LocationRequest? = null
+
     override fun onCreate() {
         super.onCreate()
 
@@ -59,20 +61,19 @@ class LocationService: Service() {
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build()
         locationManager = LocationManager(this, fusedLocationProviderClient, locationRequest!!)
 
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(restult: LocationResult) {
                 for (location in restult.locations) {
-                    val latLng = Pair(location.latitude, location.longitude)
-                    Log.i("testLocationService", latLng.toString())
+                    val childLocation = ChildLocation(location.latitude, location.longitude)
                     scope.launch {
-                        childUsecases.updatChildLocation(authId, latLng)
+                        childUsecases.updatChildLocation(authId, childLocation)
+                        //Log.i("testLocationService", latLng.toString())
 
                     }
                 }
             }
         }
-
-
     }
 
 
