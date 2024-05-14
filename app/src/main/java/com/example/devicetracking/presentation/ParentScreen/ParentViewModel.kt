@@ -22,9 +22,8 @@ class ParentViewModel @Inject constructor(
 
     val auth = Firebase.auth
 
-    var parent = mutableStateOf<Parent>(Parent("", "", ""))
-    var  children:MutableList<Child> = mutableStateListOf()
-
+    var parent = mutableStateOf(Parent("", "", ""))
+    var children:MutableList<Child> = mutableStateListOf()
 
 
     init {
@@ -44,9 +43,8 @@ class ParentViewModel @Inject constructor(
             Log.i("test", children.size.toString())
 
         }
-
-
     }
+
     fun addChild(childId:String){
 
         parent.value.children.add(childId)

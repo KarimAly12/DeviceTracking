@@ -88,13 +88,14 @@ class ParentRepositoryImpl:ParentRepository {
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach{
-
-
+                        list.clear()
                         if(childrenList.contains(it.key!!)){
                             list.add(it.getValue(Child::class.java)!!)
                             Log.i("testAddChildren", list[0].email )
                         }
                     }
+
+                   //Log.i("testNewChildren", "in")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
