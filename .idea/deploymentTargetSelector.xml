@@ -4,14 +4,27 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-05-14T05:05:08.351477Z">
+        <DropdownSelection timestamp="2024-05-14T11:53:47.923169Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/karimosama/.android/avd/Pixel_3_XL_API_33.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/karimosama/.android/avd/Pixel_4a_API_33.avd" />
             </handle>
           </Target>
         </DropdownSelection>
-        <DialogSelection />
+        <DialogSelection>
+          <targets>
+            <Target type="DEFAULT_BOOT">
+              <handle>
+                <DeviceId pluginId="LocalEmulator" identifier="path=/Users/karimosama/.android/avd/Pixel_4a_API_33.avd" />
+              </handle>
+            </Target>
+            <Target type="DEFAULT_BOOT">
+              <handle>
+                <DeviceId pluginId="LocalEmulator" identifier="path=/Users/karimosama/.android/avd/Pixel_3_XL_API_33.avd" />
+              </handle>
+            </Target>
+          </targets>
+        </DialogSelection>
       </SelectionState>
       <SelectionState runConfigName="GoogleMapScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />

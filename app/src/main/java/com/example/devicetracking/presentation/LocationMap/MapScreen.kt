@@ -52,7 +52,7 @@ fun LocationMap(
 
     ){
         Marker(
-            state = MarkerState(position = locationLatLng)
+            state = MarkerState(position = locationLatLng),
         )
     }
 

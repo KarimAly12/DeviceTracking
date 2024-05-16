@@ -2,6 +2,7 @@ package com.example.devicetracking.presentation.SignIn
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -76,6 +77,8 @@ fun SingInScreen(
 
     Column {
 
+        Spacer(modifier = Modifier.weight(1f))
+
         TextField(
             label = { Text("Email") },
             value = email,
@@ -139,7 +142,7 @@ fun SingInScreen(
 
         Button(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(end = 16.dp, start = 16.dp)
                 .fillMaxWidth()
                 .background(
                     brush = Brush.linearGradient(
@@ -164,6 +167,7 @@ fun SingInScreen(
         }
 
 
+        Spacer(modifier = Modifier.weight(1f))
 
     }
 }

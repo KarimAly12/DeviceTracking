@@ -48,6 +48,7 @@ import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation
+import com.example.devicetracking.presentation.NavigationDrawer.ScreenNavigationDrawer
 import com.example.devicetracking.ui.theme.colorButton1
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority
@@ -74,51 +75,28 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
     }else{
 
 
-        ModalNavigationDrawer(
-            gesturesEnabled = drawerState.isOpen,
+        ScreenNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
 
-                ModalDrawerSheet {
-                    Divider()
 
-                    Column {
-
-                        Image(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(height = 250.dp)
-                                .padding(start = 8.dp, end = 8.dp),
-                            bitmap = childViewModel.bitmap.asImageBitmap(),
-                            contentDescription = "")
-
-//                        Text(
-//                            modifier = Modifier
-//                                .padding(8.dp)
-//                                .align(Alignment.CenterHorizontally),
-//                            text = "Scan to add child device",
-//                            fontSize = 20.sp,
-//                            fontWeight = FontWeight.SemiBold
-//                        )
-
-                    }
-
-                }
-
-
-
-
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(height = 250.dp)
+                        .padding(start = 8.dp, end = 8.dp),
+                    bitmap = childViewModel.bitmap.asImageBitmap(),
+                    contentDescription = "")
 
         }) {
-
 
             Scaffold(
                 topBar = {
                     Row{
                         IconButton(onClick = {
                             scope.launch {
-                               if(drawerState.isOpen) drawerState.close() else drawerState.open()
-                                }
+                                if(drawerState.isOpen) drawerState.close() else drawerState.open()
+                            }
                         }) {
                             Icon(imageVector = Icons.Rounded.Menu, contentDescription = "Menu")
                         }
@@ -137,27 +115,13 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
                     ChildLocationMap(childViewModel)
 
-
-
                     Spacer(modifier = Modifier.weight(1f))
 
 
                 }
-
-
             }
-
-
-
-
         }
-
-        }
-
-
-
-
-
+    }
 }
 
 
@@ -262,9 +226,5 @@ fun ChildLocationMap(
 
     }
 
-
-
-
-
-
 }
+
