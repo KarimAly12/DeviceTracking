@@ -34,6 +34,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -72,7 +73,20 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("androidx.compose.material:material-icons-extended:1.6.6")
 
-     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //AWS
+
+
+    //AWS Amplify
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.amplifyframework.ui:authenticator:1.2.0")
+    implementation ("com.amplifyframework:aws-auth-cognito:2.16.1")
+    implementation ("com.amplifyframework:core:2.16.1")
+
+
+
+
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 //    implementation ("com.google.zxing:core:4.3.0")
 
     implementation ("com.google.zxing:core:3.2.1")

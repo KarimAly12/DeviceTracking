@@ -5,6 +5,7 @@ import android.app.Application
 import com.example.devicetracking.DeviceTrackingApp
 import com.example.devicetracking.data.repository.ChildRepositoryImpl
 import com.example.devicetracking.data.repository.ParentRepositoryImpl
+import com.example.devicetracking.data.repository.UserAuthRepositoryImpl
 import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.Childusecases.CreateChild
 import com.example.devicetracking.domain.Usecases.Childusecases.GetChild
@@ -18,6 +19,7 @@ import com.example.devicetracking.domain.Usecases.ParentUsecases.GetParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.example.devicetracking.domain.repository.ParentRepository
+import com.example.devicetracking.domain.repository.UserAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +31,11 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
 
+
+    @Provides
+    fun provideUserAuthRepository():UserAuthRepository{
+        return UserAuthRepositoryImpl()
+    }
     @Provides
     fun provoideApplication(): Application {
         return DeviceTrackingApp()

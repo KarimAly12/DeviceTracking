@@ -105,6 +105,16 @@ fun CreateProfileScreen(cpViewModel: CreateProfileViewModel = hiltViewModel(), n
             } )
 
         TextField(
+            label = {Text("Username")},
+            value = cpViewModel.username.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            onValueChange ={
+                cpViewModel.username.value = it
+            } )
+
+        TextField(
             label = {Text("Email")},
             value = cpViewModel.email.value,
             modifier = Modifier

@@ -9,6 +9,7 @@ import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.ChildLocation
 import com.example.devicetracking.domain.model.Parent
+import com.example.devicetracking.domain.repository.UserAuthRepository
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class  CreateProfileViewModel @Inject constructor(
 
     val childUsecases: ChildUsecases,
     val parentUsecases: ParentUsecases,
+    val userAuthRepository: UserAuthRepository,
     savedStateHandle: SavedStateHandle
 ):ViewModel() {
 
@@ -29,9 +31,12 @@ class  CreateProfileViewModel @Inject constructor(
 
     var firstName = mutableStateOf("")
     var lastName = mutableStateOf("")
+    var username = mutableStateOf("")
     var email = mutableStateOf("")
     var password = mutableStateOf("")
+
     var signUpSuccess = mutableStateOf(false)
+
     val type:String = checkNotNull(savedStateHandle["type"])
     val isCreateSuccess = mutableStateOf(false)
 
@@ -41,30 +46,38 @@ class  CreateProfileViewModel @Inject constructor(
 
     fun signUp(){
 
+        userAuthRepository.signUp(username.value, email.value, password.value ,"")
 
 
-        if(type == "children"){
+        viewModelScope.launch {
 
-            val child = Child(
-                childID = "",
-                firstName.value, lastName.value, email.value, ChildLocation(0.0,0.0),
-            )
-            viewModelScope.launch {
-               childUsecases.createChild(child, password.value, isCreateSuccess)
-
-
-            }
-
-        }else{
-            val parent = Parent(
-                firstName.value, lastName.value, email.value
-            )
-
-            viewModelScope.launch {
-                parentUsecases.createParent(parent, password.value, isCreateSuccess)
-
-            }
         }
+
+
+
+
+//        if(type == "children"){
+//
+//            val child = Child(
+//                childID = "",
+//                firstName.value, lastName.value, email.value, ChildLocation(0.0,0.0),
+//            )
+//            viewModelScope.launch {
+//               childUsecases.createChild(child, password.value, isCreateSuccess)
+//
+//
+//            }
+//
+//        }else{
+//            val parent = Parent(
+//                firstName.value, lastName.value, email.value
+//            )
+//
+//            viewModelScope.launch {
+//                parentUsecases.createParent(parent, password.value, isCreateSuccess)
+//
+//            }
+//        }
 
 
 
