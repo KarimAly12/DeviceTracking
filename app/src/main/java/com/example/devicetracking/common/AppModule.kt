@@ -6,12 +6,7 @@ import com.example.devicetracking.DeviceTrackingApp
 import com.example.devicetracking.data.repository.ChildRepositoryImpl
 import com.example.devicetracking.data.repository.ParentRepositoryImpl
 import com.example.devicetracking.data.repository.UserAuthRepositoryImpl
-import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
-import com.example.devicetracking.domain.Usecases.Childusecases.CreateChild
-import com.example.devicetracking.domain.Usecases.Childusecases.GetChild
-import com.example.devicetracking.domain.Usecases.Childusecases.GetChildLocation
-import com.example.devicetracking.domain.Usecases.Childusecases.UpdateChild
-import com.example.devicetracking.domain.Usecases.Childusecases.UpdateChildLocation
+
 import com.example.devicetracking.domain.Usecases.ParentUsecases.AddChildToParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.CreateParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.GetChildren
@@ -68,16 +63,16 @@ object AppModule {
         return ChildRepositoryImpl()
     }
 
-    @Provides
-    fun childUseCases(childRepository: ChildRepository):ChildUsecases{
-        return ChildUsecases(
-            createChild = CreateChild(childRepository),
-            updatChildLocation = UpdateChildLocation(childRepository),
-            getChild = GetChild(childRepository),
-            updateChild = UpdateChild(childRepository),
-            getChildLocation = GetChildLocation(childRepository)
-        )
-    }
+//    @Provides
+//    fun childUseCases(childRepository: ChildRepository):ChildUsecases{
+//        return ChildUsecases(
+//            createChild = CreateChild(childRepository),
+//            updatChildLocation = UpdateChildLocation(childRepository),
+//            getChild = GetChild(childRepository),
+//            updateChild = UpdateChild(childRepository),
+//            getChildLocation = GetChildLocation(childRepository)
+//        )
+//    }
 
 
 }

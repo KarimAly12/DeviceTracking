@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
+//import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.Parent
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    val childUsecases: ChildUsecases,
+    //val childUsecases: ChildUsecases,
     val parentUsecases: ParentUsecases,
 ):ViewModel() {
 

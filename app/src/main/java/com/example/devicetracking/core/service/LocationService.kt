@@ -15,7 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import com.example.devicetracking.R
 import com.example.devicetracking.core.location.LocationManager
-import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
+//import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.ChildLocation
 import com.google.android.gms.location.LocationCallback
@@ -46,8 +46,8 @@ class LocationService: Service() {
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)
 
-    @Inject
-    lateinit var childUsecases: ChildUsecases
+    //@Inject
+    //lateinit var childUsecases: ChildUsecases
 
     val authId = Firebase.auth.currentUser!!.uid
 
@@ -67,7 +67,7 @@ class LocationService: Service() {
                 for (location in restult.locations) {
                     val childLocation = ChildLocation(location.latitude, location.longitude)
                     scope.launch {
-                        childUsecases.updatChildLocation(authId, childLocation)
+                        //childUsecases.updatChildLocation(authId, childLocation)
                         //Log.i("testLocationService", latLng.toString())
 
                     }

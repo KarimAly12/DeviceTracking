@@ -91,7 +91,7 @@ class ParentRepositoryImpl:ParentRepository {
                         list.clear()
                         if(childrenList.contains(it.key!!)){
                             list.add(it.getValue(Child::class.java)!!)
-                            Log.i("testAddChildren", list[0].email )
+                            //Log.i("testAddChildren", list[0].email )
                         }
                     }
 

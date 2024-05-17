@@ -4,7 +4,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.model.Child
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -18,7 +17,7 @@ import android.location.Location
 
 @HiltViewModel
 class ChildViewModel @Inject constructor(
-    private val childUsecases: ChildUsecases,
+    //private val childUsecases: ChildUsecases,
 ): ViewModel(){
 
 
@@ -33,7 +32,7 @@ class ChildViewModel @Inject constructor(
         child:Child
     ){
         viewModelScope.launch {
-            childUsecases.updateChild(childId, child)
+            //childUsecases.updateChild(childId, child)
         }
     }
 
@@ -50,7 +49,7 @@ class ChildViewModel @Inject constructor(
     fun getChild(){
 
         viewModelScope.launch {
-            childUsecases.getChild(childId, child)
+            //childUsecases.getChild(childId, child)
         }
     }
 
