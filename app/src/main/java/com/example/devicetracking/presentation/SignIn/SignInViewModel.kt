@@ -23,57 +23,41 @@ class SignInViewModel @Inject constructor(
     val parentUsecases: ParentUsecases,
 ):ViewModel() {
 
-
-    val auth = Firebase.auth
-    val child:MutableState<Child> = mutableStateOf(Child())
-    val parent:MutableState<Parent> = mutableStateOf(Parent())
-
-
-    fun signIn(email:String, password:String, navHostController: NavHostController) {
+    var passwordWeak = false
+    var passwordMedium = false
+    var passwordStrong = false
 
 
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener{
+    fun checkPasswordStrength(
+       password:String
 
-                try{
+        ){
+        checkPasswordUpperAndLowerCaseChar(password)
+        checkPasswordLength(password)
+        checkPasswordSpecialChar(password)
+    }
+    private fun checkPasswordLength( password:String){
+        passwordMedium = password.length >= 8
+    }
 
-                    if (it.isSuccessful) {
-                        val user = auth.currentUser
+    private fun checkPasswordUpperAndLowerCaseChar( password:String){
 
-                        viewModelScope.launch {
-                            childUsecases.getChild(user?.uid!!, child)
-                            parentUsecases.getParent(user.uid, parent)
+        val regex = Regex("[a-zA-Z]")
+        val hasUpperCase = regex.containsMatchIn(password)
+        val hasLowerCase = regex.containsMatchIn(password)
 
-//                        if(child.value.email != ""){
-//                            navHostController.navigate(Screens.ChildHome.name)
-//                        }else if (parent.value.email != ""){
-//                            navHostController.navigate(Screens.ParentHome.name)
-//
-//                        }
-
-                        }
-
-
-
-
-
-                    } else {
-                        Log.i("test", it.result.toString())
-
-                    }
-
-
-
-                }catch (e:Exception){
-                    Log.i("signinexception", e.toString())
-                }
-
-
-
-            }
-
-
+        passwordWeak = hasUpperCase && hasLowerCase
 
     }
+
+    private fun checkPasswordSpecialChar(password:String){
+
+        val hasNumber = password.any { it.isDigit() }
+        val hasSpecialChar = password.any { it in setOf('&', '@', '$') }
+        passwordStrong =  hasNumber && hasSpecialChar
+
+    }
+
+
 }

@@ -10,20 +10,20 @@ import com.amplifyframework.auth.result.AuthSignUpResult
 import com.amplifyframework.auth.result.step.AuthSignUpStep
 import com.amplifyframework.core.Amplify
 import com.example.devicetracking.domain.repository.UserAuthRepository
+import com.example.devicetracking.presentation.Navigation.Screens
 import com.google.android.gms.auth.api.Auth
 
 class UserAuthRepositoryImpl:UserAuthRepository {
+
+
     override  fun signUp(
-        username: String,
         email:String,
         password:String,
-        code:String
+        onSignUpSuccess:()->Unit,
+        onSignUpFailure:(String)->Unit
     ) {
 
-        val attrs = mapOf(
-            AuthUserAttributeKey.email() to email,
 
-        )
 
         val options = AuthSignUpOptions.builder()
             .userAttribute(AuthUserAttributeKey.email(), email)
@@ -34,13 +34,16 @@ class UserAuthRepositoryImpl:UserAuthRepository {
 
         try{
 
-            Amplify.Auth.signUp(username, password, options,
+            Amplify.Auth.signUp(email, password, options,
                 {result->
 
                     when(result.nextStep.signUpStep){
                         AuthSignUpStep.DONE ->{
                             Log.i("AuthQuickstart", "Sign up OK: result")
 
+                        }
+                        AuthSignUpStep.CONFIRM_SIGN_UP_STEP ->{
+                            onSignUpSuccess()
                         }
                         else->{}
                     }
@@ -49,10 +52,11 @@ class UserAuthRepositoryImpl:UserAuthRepository {
                 },
                 {error->
 
+                   onSignUpFailure(error.toString())
+
                 })
 
 
-            //Log.i("AuthQuickstart", "Sign up OK: result")
 
         }catch(e:AuthException){
             Log.e("AuthQuickstart", "Sign up failed", e)
@@ -60,5 +64,32 @@ class UserAuthRepositoryImpl:UserAuthRepository {
 
     }
 
+
+     override fun confirmSignUp(
+        email:String,
+        code:String,
+        onConfirmEmailSuccess:()->Unit,
+        onConfirmEmailFailure:(String)->Unit
+    ){
+        Amplify.Auth.confirmSignUp(
+            email,
+            code,
+            {result->
+                when(result.nextStep.signUpStep){
+                    AuthSignUpStep.DONE ->{
+                        Log.i("AuthQuickstart", "Confirm sign up OK")
+                       onConfirmEmailSuccess()
+                    }
+                    AuthSignUpStep.CONFIRM_SIGN_UP_STEP ->{
+                        onConfirmEmailFailure("Verification code does not match")
+                    }
+                    else -> {}
+                }
+            },
+            {error->
+                onConfirmEmailFailure(error.toString())
+            }
+        )
+    }
 
 }

@@ -7,7 +7,7 @@ import com.google.firebase.database.ValueEventListener
 
 interface ChildRepository {
 
-    fun createChild(child: Child, password:String, isCreateProfile: MutableState<Boolean>):Boolean
+    fun createChild(child: Child)
     suspend fun getChild(childId:String, child: MutableState<Child>)
     fun updateChildLocation(childId: String, childLocation: ChildLocation,)
 
