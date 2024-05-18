@@ -1,5 +1,6 @@
 package com.example.devicetracking.presentation.SignIn
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,6 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.core.Amplify
 import com.amplifyframework.ui.authenticator.SignInState
 import com.amplifyframework.ui.authenticator.SignUpState
 import com.amplifyframework.ui.authenticator.forms.FieldKey
@@ -317,7 +320,9 @@ fun SignUpScreen(
             onClick = {
 
                 scope.launch {
-                    state.signUp()
+
+
+                        state.signUp()
 
                 }
 

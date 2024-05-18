@@ -1,7 +1,0 @@
-type Child @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  email: String
-  firstName: String!
-  lastName: String
-  inTrip: Boolean
-}

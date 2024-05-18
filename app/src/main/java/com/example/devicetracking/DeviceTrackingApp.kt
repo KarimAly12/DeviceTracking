@@ -8,6 +8,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.content.getSystemService
 import com.amplifyframework.AmplifyException
+import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.core.configuration.AmplifyOutputs
@@ -25,6 +26,8 @@ class DeviceTrackingApp:Application() {
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.addPlugin(AWSApiPlugin())
+
             Amplify.configure(AmplifyOutputs(R.raw.amplify_outputs), applicationContext)
             Log.i("Amplify","Initialized Amplify")
         } catch (error: AmplifyException) {
