@@ -24,14 +24,4 @@ class  CreateUserViewModel @Inject constructor(
     var firstName = mutableStateOf("")
     var lastName = mutableStateOf("")
     var userType = mutableStateOf("")
-
-
-
-
-
-
-
-
-
-
 }
