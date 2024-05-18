@@ -44,8 +44,8 @@
               "isRequired": true,
               "attributes": []
             },
-            "childId": {
-              "name": "childId",
+            "childID": {
+              "name": "childID",
               "isArray": false,
               "type": "String",
               "isRequired": false,
