@@ -106,5 +106,13 @@ dependencies {
     implementation ("com.google.android.gms:play-services-auth:21.1.0")
     implementation ("com.google.firebase:firebase-database-ktx:20.3.1")
 
+
+    //AWS Amplify
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("com.amplifyframework.ui:authenticator:1.2.0")
+    implementation ("com.amplifyframework:aws-auth-cognito:2.16.1")
+    implementation ("com.amplifyframework:core:2.16.1")
+    implementation("com.amplifyframework:aws-api:2.16.1")
+    implementation ("com.amplifyframework:aws-datastore:2.16.1")
     
 }
