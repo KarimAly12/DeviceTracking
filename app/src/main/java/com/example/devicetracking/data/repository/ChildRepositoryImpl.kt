@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.Child
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.ChildLocation
 import com.example.devicetracking.domain.repository.ChildRepository
