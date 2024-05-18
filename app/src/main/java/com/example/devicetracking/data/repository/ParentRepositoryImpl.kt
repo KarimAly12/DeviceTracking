@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.Parent
 import com.example.devicetracking.domain.repository.ParentRepository
 import com.google.firebase.Firebase
@@ -13,7 +13,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import com.google.firebase.database.snapshots
 
 class ParentRepositoryImpl:ParentRepository {
 
@@ -79,8 +78,8 @@ class ParentRepositoryImpl:ParentRepository {
         ref.child("parent").child(auth.currentUser!!.uid).child("children").setValue(parent.children)
     }
 
-    override suspend fun getChildren(childrenList:List<String>):SnapshotStateList<Child> {
-        val list = mutableStateListOf<Child>()
+    override suspend fun getChildren(childrenList:List<String>):SnapshotStateList<ChildObject> {
+        val list = mutableStateListOf<ChildObject>()
         val ref = database.getReference("Users")
 
         Log.i("testAddChildren", childrenList.toString() )
@@ -90,8 +89,8 @@ class ParentRepositoryImpl:ParentRepository {
                     snapshot.children.forEach{
                         list.clear()
                         if(childrenList.contains(it.key!!)){
-                            list.add(it.getValue(Child::class.java)!!)
-                            Log.i("testAddChildren", list[0].email )
+                            list.add(it.getValue(ChildObject::class.java)!!)
+                            //Log.i("testAddChildren", list[0].email )
                         }
                     }
 

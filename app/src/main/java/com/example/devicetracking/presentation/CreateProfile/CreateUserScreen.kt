@@ -39,6 +39,9 @@ import androidx.navigation.NavHostController
 import com.example.devicetracking.R
 
 
+val PARENT = "Parent"
+val CHILD = "Child"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateUserScreen(cpViewModel: CreateUserViewModel = hiltViewModel(), navHostController: NavHostController){
@@ -97,6 +100,7 @@ fun CreateUserScreen(cpViewModel: CreateUserViewModel = hiltViewModel(), navHost
             onClick = {
 
 
+                cpViewModel.createUser()
 
                 //signInViewModel.signIn(email,password, navHostController)
             },
@@ -144,7 +148,7 @@ fun UserTypeSelection(
                     .clickable {
                         parentBoxSelected = true
                         childBoxSelected = false
-                        cpViewModel.userType.value = "parent"
+                        cpViewModel.userType.value = PARENT
                     }
                     .fillMaxHeight()
                     .padding(8.dp)
@@ -165,7 +169,7 @@ fun UserTypeSelection(
                             .size(60.dp),
                     )
 
-                    Text(text = "Parent")
+                    Text(text = PARENT)
 
 
                 }
@@ -178,7 +182,7 @@ fun UserTypeSelection(
                     .clickable {
                         parentBoxSelected = false
                         childBoxSelected = true
-                        cpViewModel.userType.value
+                        cpViewModel.userType.value = CHILD
                     }
                     .fillMaxHeight()
                     .padding(8.dp)
@@ -200,7 +204,7 @@ fun UserTypeSelection(
                             .size(60.dp),
                     )
 
-                    Text(text = "Child")
+                    Text(text = CHILD)
 
 
                 }

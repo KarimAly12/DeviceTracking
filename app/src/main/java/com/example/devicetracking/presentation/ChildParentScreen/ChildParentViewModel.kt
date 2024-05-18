@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.ChildLocation
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,7 +26,7 @@ class ChildParentViewModel @Inject constructor(
 ): ViewModel() {
 
     val childID = checkNotNull(savedStateHandle["childID"])
-    val child: MutableState<Child> = mutableStateOf(Child())
+    val child: MutableState<ChildObject> = mutableStateOf(ChildObject())
 
     var childLocation = mutableStateOf(ChildLocation())
     private val locationValueEventListener = object : ValueEventListener {

@@ -32,8 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.devicetracking.R
 import com.example.devicetracking.core.barcode.BarcodeScanning
-import com.example.devicetracking.domain.model.Child
-import com.example.devicetracking.presentation.ChildScreen.ChildViewModel
+import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.presentation.Navigation.Screens
 import com.example.devicetracking.ui.theme.colorButton1
 
@@ -87,7 +86,7 @@ fun ParentScreen(parentViewModel: ParentViewModel = hiltViewModel(), navHostCont
 
 
 @Composable
-fun ChildItem(child:Child, navHostController: NavHostController){
+fun ChildItem(child:ChildObject, navHostController: NavHostController){
 
 
     Row(
@@ -130,7 +129,7 @@ fun ChildItem(child:Child, navHostController: NavHostController){
 
 
 @Composable
-fun ChildLazyColumn(children:List<Child>, navHostController: NavHostController){
+fun ChildLazyColumn(children:List<ChildObject>, navHostController: NavHostController){
 
     LazyColumn {
         items(children){

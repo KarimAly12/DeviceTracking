@@ -2,7 +2,6 @@ package com.example.devicetracking.presentation.ChildScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.content.MediaType.Companion.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,15 +13,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
@@ -33,18 +28,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.Role.Companion.Image
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.devicetracking.core.service.DefaultLocationServiceManager
-import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation
@@ -54,7 +45,6 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -69,7 +59,7 @@ fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
 
 
 
-    if(childViewModel.child.value.email == ""){
+    if(false){
         childViewModel.getChild()
 
     }else{
@@ -166,12 +156,12 @@ fun ChildLocationMap(
                 containerColor = colorButton1,
                 onClick = {
 
-                    val child = Child(
+                    val child = ChildObject(
                         childViewModel.child.value.childID,
                         childViewModel.child.value.firstName,
                         childViewModel.child.value.lastName,
-                        childViewModel.child.value.email,
-                        childViewModel.child.value.location,
+//                        childViewModel.child.value.email,
+//                        childViewModel.child.value.location,
                         !childViewModel.child.value.inTrip
                     )
                     childViewModel.child.value = child

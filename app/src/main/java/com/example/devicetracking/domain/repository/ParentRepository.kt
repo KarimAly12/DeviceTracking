@@ -2,7 +2,7 @@ package com.example.devicetracking.domain.repository
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.Parent
 
 interface ParentRepository {
@@ -12,7 +12,7 @@ interface ParentRepository {
 
     fun addChildToParent(childId:Parent)
 
-    suspend fun getChildren(childrenList:List<String>): SnapshotStateList<Child>
+    suspend fun getChildren(childrenList:List<String>): SnapshotStateList<ChildObject>
 
 
 

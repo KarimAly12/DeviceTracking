@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
-import com.example.devicetracking.domain.model.Child
+import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.Parent
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -23,7 +23,7 @@ class ParentViewModel @Inject constructor(
     val auth = Firebase.auth
 
     var parent = mutableStateOf(Parent("", "", ""))
-    var children:MutableList<Child> = mutableStateListOf()
+    var children:MutableList<ChildObject> = mutableStateListOf()
 
 
     init {
