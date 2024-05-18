@@ -1,38 +1,22 @@
 package com.example.devicetracking.presentation.Location
 
-import android.Manifest
-import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.pm.ServiceInfo
 import android.os.IBinder
-import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.ServiceCompat
-import com.example.devicetracking.R
 import com.example.devicetracking.core.location.LocationManager
-import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
-import com.example.devicetracking.domain.model.ChildLocation
+import com.example.devicetracking.domain.model.ChildLocationObject
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -64,7 +48,7 @@ class LocationService: Service() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(restult: LocationResult) {
                 for (location in restult.locations) {
-                    val childLocation = ChildLocation(location.latitude, location.longitude)
+                    val childLocation = ChildLocationObject(location.latitude, location.longitude)
                     scope.launch {
                         //childUsecases.updatChildLocation(authId, childLocation)
                         //Log.i("testLocationService", latLng.toString())

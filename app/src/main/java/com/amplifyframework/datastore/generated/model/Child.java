@@ -3,9 +3,7 @@ package com.amplifyframework.datastore.generated.model;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.Objects;
 
 import androidx.core.util.ObjectsCompat;
 
@@ -13,7 +11,6 @@ import com.amplifyframework.core.model.AuthStrategy;
 import com.amplifyframework.core.model.Model;
 import com.amplifyframework.core.model.ModelOperation;
 import com.amplifyframework.core.model.annotations.AuthRule;
-import com.amplifyframework.core.model.annotations.Index;
 import com.amplifyframework.core.model.annotations.ModelConfig;
 import com.amplifyframework.core.model.annotations.ModelField;
 import com.amplifyframework.core.model.query.predicate.QueryField;
@@ -32,11 +29,13 @@ public final class Child implements Model {
   public static final QueryField FIRST_NAME = field("Child", "firstName");
   public static final QueryField LAST_NAME = field("Child", "lastName");
   public static final QueryField IN_TRIP = field("Child", "inTrip");
+  public static final QueryField CHILD_LOCATION = field("Child", "childLocation");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String") String childID;
   private final @ModelField(targetType="String") String firstName;
   private final @ModelField(targetType="String") String lastName;
   private final @ModelField(targetType="Boolean") Boolean inTrip;
+  private final @ModelField(targetType="ChildChildLocation") ChildLocation childLocation;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -65,6 +64,10 @@ public final class Child implements Model {
       return inTrip;
   }
   
+  public ChildLocation getChildLocation() {
+      return childLocation;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -73,12 +76,13 @@ public final class Child implements Model {
       return updatedAt;
   }
   
-  private Child(String id, String childID, String firstName, String lastName, Boolean inTrip) {
+  private Child(String id, String childID, String firstName, String lastName, Boolean inTrip, ChildLocation childLocation) {
     this.id = id;
     this.childID = childID;
     this.firstName = firstName;
     this.lastName = lastName;
     this.inTrip = inTrip;
+    this.childLocation = childLocation;
   }
   
   @Override
@@ -94,6 +98,7 @@ public final class Child implements Model {
               ObjectsCompat.equals(getFirstName(), child.getFirstName()) &&
               ObjectsCompat.equals(getLastName(), child.getLastName()) &&
               ObjectsCompat.equals(getInTrip(), child.getInTrip()) &&
+              ObjectsCompat.equals(getChildLocation(), child.getChildLocation()) &&
               ObjectsCompat.equals(getCreatedAt(), child.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), child.getUpdatedAt());
       }
@@ -107,6 +112,7 @@ public final class Child implements Model {
       .append(getFirstName())
       .append(getLastName())
       .append(getInTrip())
+      .append(getChildLocation())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -122,6 +128,7 @@ public final class Child implements Model {
       .append("firstName=" + String.valueOf(getFirstName()) + ", ")
       .append("lastName=" + String.valueOf(getLastName()) + ", ")
       .append("inTrip=" + String.valueOf(getInTrip()) + ", ")
+      .append("childLocation=" + String.valueOf(getChildLocation()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -146,6 +153,7 @@ public final class Child implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -155,7 +163,8 @@ public final class Child implements Model {
       childID,
       firstName,
       lastName,
-      inTrip);
+      inTrip,
+      childLocation);
   }
   public interface BuildStep {
     Child build();
@@ -164,6 +173,7 @@ public final class Child implements Model {
     BuildStep firstName(String firstName);
     BuildStep lastName(String lastName);
     BuildStep inTrip(Boolean inTrip);
+    BuildStep childLocation(ChildLocation childLocation);
   }
   
 
@@ -173,16 +183,18 @@ public final class Child implements Model {
     private String firstName;
     private String lastName;
     private Boolean inTrip;
+    private ChildLocation childLocation;
     public Builder() {
       
     }
     
-    private Builder(String id, String childID, String firstName, String lastName, Boolean inTrip) {
+    private Builder(String id, String childID, String firstName, String lastName, Boolean inTrip, ChildLocation childLocation) {
       this.id = id;
       this.childID = childID;
       this.firstName = firstName;
       this.lastName = lastName;
       this.inTrip = inTrip;
+      this.childLocation = childLocation;
     }
     
     @Override
@@ -194,7 +206,8 @@ public final class Child implements Model {
           childID,
           firstName,
           lastName,
-          inTrip);
+          inTrip,
+          childLocation);
     }
     
     @Override
@@ -221,6 +234,12 @@ public final class Child implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep childLocation(ChildLocation childLocation) {
+        this.childLocation = childLocation;
+        return this;
+    }
+    
     /**
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -233,8 +252,8 @@ public final class Child implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String childId, String firstName, String lastName, Boolean inTrip) {
-      super(id, childID, firstName, lastName, inTrip);
+    private CopyOfBuilder(String id, String childId, String firstName, String lastName, Boolean inTrip, ChildLocation childLocation) {
+      super(id, childID, firstName, lastName, inTrip, childLocation);
       
     }
     
@@ -256,6 +275,11 @@ public final class Child implements Model {
     @Override
      public CopyOfBuilder inTrip(Boolean inTrip) {
       return (CopyOfBuilder) super.inTrip(inTrip);
+    }
+    
+    @Override
+     public CopyOfBuilder childLocation(ChildLocation childLocation) {
+      return (CopyOfBuilder) super.childLocation(childLocation);
     }
   }
   

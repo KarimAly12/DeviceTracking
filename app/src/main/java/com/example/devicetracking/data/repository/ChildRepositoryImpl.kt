@@ -5,18 +5,25 @@ import androidx.compose.runtime.MutableState
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Child
+import com.amplifyframework.datastore.generated.model.ChildLocation
 import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.model.ChildLocation
+import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.google.firebase.database.ValueEventListener
 
 class ChildRepositoryImpl : ChildRepository {
     override fun createChild(child: ChildObject) {
+        val cLocation = ChildLocation.builder()
+            .latitude(37.0)
+            .longitude(21.0)
+            .build()
+
         val c = Child.builder()
             .childId("1")
             .firstName(child.firstName)
             .lastName(child.lastName)
             .inTrip(child.inTrip)
+            .childLocation(cLocation)
             .build()
 
         Amplify.API.mutate(ModelMutation.create(c),
@@ -35,7 +42,7 @@ class ChildRepositoryImpl : ChildRepository {
         TODO("Not yet implemented")
     }
 
-    override fun updateChildLocation(childId: String, childLocation: ChildLocation) {
+    override fun updateChildLocation(childId: String, childLocation: ChildLocationObject) {
         TODO("Not yet implemented")
     }
 
@@ -46,7 +53,7 @@ class ChildRepositoryImpl : ChildRepository {
     override suspend fun getChildLocation(
         childId: String,
         valueEventListener: ValueEventListener
-    ): ChildLocation {
+    ): ChildLocationObject {
         TODO("Not yet implemented")
     }
 

@@ -72,6 +72,15 @@
               "isRequired": false,
               "attributes": []
             },
+            "childLocation": {
+              "name": "childLocation",
+              "isArray": false,
+              "type": {
+                "nonModel": "ChildChildLocation"
+              },
+              "isRequired": false,
+              "attributes": []
+            },
             "createdAt": {
               "name": "createdAt",
               "isArray": false,
@@ -122,7 +131,27 @@
         }
       },
       "enums": {},
-      "nonModels": {}
+      "nonModels": {
+        "ChildChildLocation": {
+          "name": "ChildChildLocation",
+          "fields": {
+            "latitude": {
+              "name": "latitude",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
+            "longitude": {
+              "name": "longitude",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        }
+      }
     }
   },
   "version": "1"

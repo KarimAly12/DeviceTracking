@@ -1,7 +1,7 @@
 package com.example.devicetracking.domain.model
 
 
-data class ChildLocation(
+data class ChildLocationObject(
     val latitude: Double = 0.0,
     val longitude: Double = 0.0
 )

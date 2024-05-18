@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.model.ChildLocation
+import com.example.devicetracking.domain.model.ChildLocationObject
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -28,11 +28,11 @@ class ChildParentViewModel @Inject constructor(
     val childID = checkNotNull(savedStateHandle["childID"])
     val child: MutableState<ChildObject> = mutableStateOf(ChildObject())
 
-    var childLocation = mutableStateOf(ChildLocation())
+    var childLocation = mutableStateOf(ChildLocationObject())
     private val locationValueEventListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             // Get updated value
-            childLocation.value = dataSnapshot.getValue(ChildLocation::class.java)!!
+            childLocation.value = dataSnapshot.getValue(ChildLocationObject::class.java)!!
             Log.i("testEventListener", childLocation.toString())
 
         }
@@ -44,7 +44,7 @@ class ChildParentViewModel @Inject constructor(
     }
 
 
-    var childLocationFlow: Flow<ChildLocation> =  flow {
+    var childLocationFlow: Flow<ChildLocationObject> =  flow {
         while (true){
             //val childLocation = childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
             //emit(childLocation)
