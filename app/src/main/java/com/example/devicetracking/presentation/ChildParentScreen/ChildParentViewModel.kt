@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.ChildLocation
 import com.google.firebase.database.DataSnapshot
@@ -22,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChildParentViewModel @Inject constructor(
-    private val childUsecases: ChildUsecases,
+    //private val childUsecases: ChildUsecases,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -47,8 +46,8 @@ class ChildParentViewModel @Inject constructor(
 
     var childLocationFlow: Flow<ChildLocation> =  flow {
         while (true){
-            val childLocation = childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
-            emit(childLocation)
+            //val childLocation = childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
+            //emit(childLocation)
             delay(1000)
         }
 
@@ -61,7 +60,7 @@ class ChildParentViewModel @Inject constructor(
     fun getChildLocation(){
 
         viewModelScope.launch {
-            childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
+            //childUsecases.getChildLocation(childID.toString(), locationValueEventListener)
 
 //             childLocationFlow.collect{location ->
 //

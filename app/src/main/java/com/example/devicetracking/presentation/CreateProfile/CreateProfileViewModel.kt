@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.Child
 import com.example.devicetracking.domain.model.ChildLocation
@@ -17,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class  CreateProfileViewModel @Inject constructor(
 
-    val childUsecases: ChildUsecases,
+    //val childUsecases: ChildUsecases,
     val parentUsecases: ParentUsecases,
     savedStateHandle: SavedStateHandle
 ):ViewModel() {
