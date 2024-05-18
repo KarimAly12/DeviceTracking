@@ -12,21 +12,21 @@ import com.google.firebase.database.ValueEventListener
 
 class ChildRepositoryImpl : ChildRepository {
     override fun createChild(child: ChildObject) {
-//        val c = Child.builder()
-//            .childId("1")
-//            .firstName(child.firstName)
-//            .lastName(child.lastName)
-//            .inTrip(child.inTrip)
-//            .build()
-//
-//        Amplify.API.mutate(ModelMutation.create(c),
-//            {
-//                Log.i("MyAmplifyApp", it.errors.toString())
-//
-//            },
-//            {
-//                Log.i("MyAmplifyApp", it.message.toString())
-//            }
+        val c = Child.builder()
+            .childId("1")
+            .firstName(child.firstName)
+            .lastName(child.lastName)
+            .inTrip(child.inTrip)
+            .build()
+
+        Amplify.API.mutate(ModelMutation.create(c),
+            {
+                Log.i("MyAmplifyApp", it.errors.toString())
+
+            },
+            {
+                Log.i("MyAmplifyApp", it.message.toString())
+            }
         )
 
     }
