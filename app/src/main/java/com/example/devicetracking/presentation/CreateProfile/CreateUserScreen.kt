@@ -39,185 +39,185 @@ import androidx.navigation.NavHostController
 import com.example.devicetracking.R
 
 
-val PARENT = "Parent"
-val CHILD = "Child"
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CreateUserScreen(cpViewModel: CreateUserViewModel = hiltViewModel(), navHostController: NavHostController){
-
-
-
-    Column {
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Row(
-            modifier = Modifier.padding(32.dp)
-        ) {
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                "Create User",
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.weight(1f))
-
-
-        }
-
-
-        OutlinedTextField(
-            label = { Text("First Name") },
-            value = cpViewModel.firstName.value,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            onValueChange = {
-                cpViewModel.firstName.value = it
-            }
-        )
-
-        OutlinedTextField(
-            label = { Text("Last Name") },
-            value = cpViewModel.lastName.value,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            onValueChange = {
-                cpViewModel.lastName.value = it
-            }
-        )
-
-
-        UserTypeSelection(cpViewModel)
-
-        Button(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(20),
-            onClick = {
-
-
-                cpViewModel.createUser()
-
-                //signInViewModel.signIn(email,password, navHostController)
-            },
-        ) {
-            Text(
-                text = "Create User",
-                color = Color.White
-            )
-
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-
-    }
-
-}
-
-
-@Composable
-fun UserTypeSelection(
-    cpViewModel: CreateUserViewModel
-){
-
-    var parentBoxSelected by remember { mutableStateOf(false) }
-    var childBoxSelected by remember { mutableStateOf(false) }
-
-    //var selectedType by remember { mutableStateOf("") }
-
-    Column(
+//val PARENT = "Parent"
+//val CHILD = "Child"
+//
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun CreateUserScreen(cpViewModel: CreateUserViewModel = hiltViewModel(), navHostController: NavHostController){
+//
+//
+//
+//    Column {
+//
+//        Spacer(modifier = Modifier.weight(1f))
+//
+//        Row(
+//            modifier = Modifier.padding(32.dp)
+//        ) {
+//            Spacer(modifier = Modifier.weight(1f))
+//            Text(
+//                "Create User",
+//                fontSize = 30.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//            Spacer(modifier = Modifier.weight(1f))
+//
+//
+//        }
+//
+//
+//        OutlinedTextField(
+//            label = { Text("First Name") },
+//            value = cpViewModel.firstName.value,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(16.dp),
+//            onValueChange = {
+//                cpViewModel.firstName.value = it
+//            }
+//        )
+//
+//        OutlinedTextField(
+//            label = { Text("Last Name") },
+//            value = cpViewModel.lastName.value,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(16.dp),
+//            onValueChange = {
+//                cpViewModel.lastName.value = it
+//            }
+//        )
+//
+//
+//        UserTypeSelection(cpViewModel)
+//
+//        Button(
+//            modifier = Modifier
+//                .padding(16.dp)
+//                .fillMaxWidth(),
+//            shape = RoundedCornerShape(20),
+//            onClick = {
+//
+//
+//                cpViewModel.createUser()
+//
+//                //signInViewModel.signIn(email,password, navHostController)
+//            },
+//        ) {
+//            Text(
+//                text = "Create User",
+//                color = Color.White
+//            )
+//
+//        }
+//
+//        Spacer(modifier = Modifier.weight(1f))
+//
+//
+//    }
+//
+//}
 
 
-    ){
-
-        Row(
-            modifier = Modifier
-                .height(170.dp)
-        ){
-
-
-            Box(
-
-                modifier = Modifier
-
-                    .clickable {
-                        parentBoxSelected = true
-                        childBoxSelected = false
-                        cpViewModel.userType.value = PARENT
-                    }
-                    .fillMaxHeight()
-                    .padding(8.dp)
-                    .weight(1f)
-                    .background(
-                        color = if (parentBoxSelected) Color(0xFF295C92) else Color.Transparent,
-                        shape = RoundedCornerShape(8)
-                    )
-
-
-            ) {
-                Column(modifier = Modifier.align(Alignment.Center)) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.parent),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(60.dp),
-                    )
-
-                    Text(text = PARENT)
-
-
-                }
-
-            }
-
-            Box(
-
-                modifier = Modifier
-                    .clickable {
-                        parentBoxSelected = false
-                        childBoxSelected = true
-                        cpViewModel.userType.value = CHILD
-                    }
-                    .fillMaxHeight()
-                    .padding(8.dp)
-                    .weight(1f)
-                    .background(
-                        color = if (childBoxSelected) Color(0xFF295C92) else Color.Transparent,
-                        shape = RoundedCornerShape(8)
-                    )
-
-
-            ) {
-
-                Column(modifier = Modifier.align(Alignment.Center)) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.child),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(60.dp),
-                    )
-
-                    Text(text = CHILD)
-
-
-                }
-
-            }
-
-        }
-
-
-
-
-    }
-}
+//@Composable
+//fun UserTypeSelection(
+//    cpViewModel: CreateUserViewModel
+//){
+//
+//    var parentBoxSelected by remember { mutableStateOf(false) }
+//    var childBoxSelected by remember { mutableStateOf(false) }
+//
+//    //var selectedType by remember { mutableStateOf("") }
+//
+//    Column(
+//
+//
+//    ){
+//
+//        Row(
+//            modifier = Modifier
+//                .height(170.dp)
+//        ){
+//
+//
+//            Box(
+//
+//                modifier = Modifier
+//
+//                    .clickable {
+//                        parentBoxSelected = true
+//                        childBoxSelected = false
+//                        cpViewModel.userType.value = PARENT
+//                    }
+//                    .fillMaxHeight()
+//                    .padding(8.dp)
+//                    .weight(1f)
+//                    .background(
+//                        color = if (parentBoxSelected) Color(0xFF295C92) else Color.Transparent,
+//                        shape = RoundedCornerShape(8)
+//                    )
+//
+//
+//            ) {
+//                Column(modifier = Modifier.align(Alignment.Center)) {
+//
+//                    Image(
+//                        painter = painterResource(id = R.drawable.parent),
+//                        contentDescription = "",
+//                        modifier = Modifier
+//                            .size(60.dp),
+//                    )
+//
+//                    Text(text = PARENT)
+//
+//
+//                }
+//
+//            }
+//
+//            Box(
+//
+//                modifier = Modifier
+//                    .clickable {
+//                        parentBoxSelected = false
+//                        childBoxSelected = true
+//                        cpViewModel.userType.value = CHILD
+//                    }
+//                    .fillMaxHeight()
+//                    .padding(8.dp)
+//                    .weight(1f)
+//                    .background(
+//                        color = if (childBoxSelected) Color(0xFF295C92) else Color.Transparent,
+//                        shape = RoundedCornerShape(8)
+//                    )
+//
+//
+//            ) {
+//
+//                Column(modifier = Modifier.align(Alignment.Center)) {
+//
+//                    Image(
+//                        painter = painterResource(id = R.drawable.child),
+//                        contentDescription = "",
+//                        modifier = Modifier
+//                            .size(60.dp),
+//                    )
+//
+//                    Text(text = CHILD)
+//
+//
+//                }
+//
+//            }
+//
+//        }
+//
+//
+//
+//
+//    }
+//}
 
 
 @Composable

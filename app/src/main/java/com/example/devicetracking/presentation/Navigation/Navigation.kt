@@ -10,7 +10,6 @@ import androidx.navigation.navArgument
 import com.example.devicetracking.presentation.ChildParentScreen.ChildParentScreen
 import com.example.devicetracking.presentation.ChildScreen.ChildScreen
 import com.example.devicetracking.presentation.ParentScreen.ParentScreen
-import com.example.flightdelivery.Presentation.CreateProfile.CreateUserScreen
 
 
 @Composable
@@ -25,11 +24,11 @@ fun Navigation(){
             ){
 
         }
-        composable(
-            Screens.CreateUserScreen.name
-        ){
-            CreateUserScreen(navHostController = navHostController)
-        }
+//        composable(
+//            Screens.CreateUserScreen.name
+//        ){
+//            CreateUserScreen(navHostController = navHostController)
+//        }
 
         composable(Screens.ChildHome.name){
             ChildScreen()

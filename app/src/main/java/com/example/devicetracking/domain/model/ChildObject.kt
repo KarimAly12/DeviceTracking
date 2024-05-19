@@ -9,9 +9,9 @@ data class ChildObject(
     var childID:String = "",
     val firstName: String = "",
     val lastName: String = "",
-//    val email: String = "",
-//    var location: ChildLocation = ChildLocation(),
+    val email: String = "",
+    var childLocationObject: ChildLocationObject = ChildLocationObject(),
     val inTrip: Boolean = false
 ) {
-    constructor() : this("","", "",  false)
+    constructor() : this("","", "", "", ChildLocationObject(),false)
 }

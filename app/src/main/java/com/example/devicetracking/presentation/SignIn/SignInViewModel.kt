@@ -1,22 +1,51 @@
 package com.example.devicetracking.presentation.SignIn
 
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 //import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
+import com.example.devicetracking.domain.model.ChildLocationObject
+import com.example.devicetracking.domain.model.ChildObject
+import com.example.devicetracking.domain.repository.ChildRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+
+
+val PARENT = "Parent"
+val CHILD = "Child"
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    private val childRepository: ChildRepository,
     //val childUsecases: ChildUsecases,
-    val parentUsecases: ParentUsecases,
+    //val parentUsecases: ParentUsecases,
 ):ViewModel() {
 
     var passwordWeak = false
     var passwordMedium = false
     var passwordStrong = false
 
+    var email = ""
+    var firstName = mutableStateOf("")
+    var lastName = mutableStateOf("")
+    var userType = mutableStateOf("")
+
+    fun createUser(userId:String){
+
+        if (userType.value == CHILD){
+
+
+            val child = ChildObject(userId, firstName.value, lastName.value,
+                email, ChildLocationObject(), false)
+            childRepository.createChild(child)
+
+        }
+
+    }
 
 
     fun checkPasswordStrength(

@@ -31,14 +31,14 @@ class  CreateUserViewModel @Inject constructor(
     var userType = mutableStateOf("")
 
 
-    fun createUser(){
-        if (userType.value == CHILD){
-
-            viewModelScope.launch {
-                val child = ChildObject("1", firstName.value, lastName.value, false)
-                childRepository.createChild(child)
-            }
-
-        }
-    }
+//    fun createUser(){
+//        if (userType.value == CHILD){
+//
+//            viewModelScope.launch {
+//                val child = ChildObject("1", firstName.value, lastName.value, false)
+//                childRepository.createChild(child)
+//            }
+//
+//        }
+//    }
 }

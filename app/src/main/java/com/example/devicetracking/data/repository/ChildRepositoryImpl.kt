@@ -14,8 +14,8 @@ import com.google.firebase.database.ValueEventListener
 class ChildRepositoryImpl : ChildRepository {
     override fun createChild(child: ChildObject) {
         val cLocation = ChildLocation.builder()
-            .latitude(37.0)
-            .longitude(21.0)
+            .latitude(child.childLocationObject.latitude)
+            .longitude(child.childLocationObject.longitude)
             .build()
 
         val c = Child.builder()

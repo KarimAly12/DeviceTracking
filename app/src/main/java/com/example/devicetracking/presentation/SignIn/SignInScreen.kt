@@ -1,4 +1,7 @@
+import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -26,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -33,14 +38,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.amplifyframework.core.Amplify
 import com.amplifyframework.ui.authenticator.SignInState
 import com.amplifyframework.ui.authenticator.SignUpState
 import com.amplifyframework.ui.authenticator.forms.FieldKey
 import com.amplifyframework.ui.authenticator.ui.Authenticator
 import com.amplifyframework.ui.authenticator.ui.SignInFooter
 import com.amplifyframework.ui.authenticator.ui.SignUpFooter
+import com.example.devicetracking.R
+import com.example.devicetracking.presentation.SignIn.CHILD
+import com.example.devicetracking.presentation.SignIn.PARENT
 import com.example.devicetracking.presentation.SignIn.SignInViewModel
-import com.example.flightdelivery.Presentation.CreateProfile.CreateUserScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -56,26 +64,21 @@ fun SingInScreen(
         Authenticator(
 
             signInContent = { state ->
-
                 SignInScreen(signInViewModel = signInViewModel, state = state)
-
-
             },
             signUpContent = {state ->
-
                 SignUpScreen(signInViewModel = signInViewModel, state = state)
-
-
-
             }
 
         ) { state ->
 
+            Log.i("testUsername", state.user.username)
 
-            if(state.user.username != ""){
-                CreateUserScreen(navHostController = navHostController)
+            if(signInViewModel.userType.value == CHILD){
+                //signInViewModel.createUser(state.user.userId, signInViewModel.email)
+            }else if(signInViewModel.userType.value == PARENT){
+                //Parent Screen
             }
-
 
         }
 
@@ -85,6 +88,7 @@ fun SingInScreen(
 @Composable
 fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
 
+
     var passwordVisibility by remember { mutableStateOf(false) }
 
     val email = state.form.fields[FieldKey.Email]
@@ -92,9 +96,6 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
 
 
     Column {
-
-
-
 
         OutlinedTextField(
             label = { Text("Email") },
@@ -129,7 +130,6 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
                 //signInViewModel.checkPasswordStrength()
             })
 
-
         Button(
             modifier = Modifier
                 .padding(16.dp)
@@ -147,10 +147,7 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
 
         }
 
-
         SignInFooter(state = state)
-
-
 
     }
 
@@ -165,7 +162,7 @@ fun SignUpScreen(
     val email = state.form.fields[FieldKey.Email]
     val password = state.form.fields[FieldKey.Password]
     val confirmPassword = state.form.fields[FieldKey.ConfirmPassword]
-
+    //val userName = state.form.fields[FieldKey.Username]!!
 
     var passwordVisibility by remember { mutableStateOf(false) }
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
@@ -181,15 +178,23 @@ fun SignUpScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                "Sign Up",
+                "Create User",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.weight(1f))
-
-
         }
 
+//        OutlinedTextField(
+//            label = {Text("Email")},
+//            value = email!!.state.content,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(16.dp),
+//            onValueChange ={
+//                email.state.content = it
+//            }
+//        )
         OutlinedTextField(
             label = {Text("Email")},
             value = email!!.state.content,
@@ -198,7 +203,9 @@ fun SignUpScreen(
                 .padding(16.dp),
             onValueChange ={
                 email.state.content = it
-            } )
+            }
+        )
+
 
 
         Column {
@@ -307,6 +314,33 @@ fun SignUpScreen(
             } )
 
 
+        OutlinedTextField(
+            label = { Text("First Name") },
+            value = signInViewModel.firstName.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            onValueChange = {
+                signInViewModel.firstName.value = it
+            }
+        )
+
+        OutlinedTextField(
+            label = { Text("Last Name") },
+            value = signInViewModel.lastName.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            onValueChange = {
+                signInViewModel.lastName.value = it
+            }
+        )
+
+
+        UserTypeSelection(signInViewModel)
+
+
+
         Button(
             modifier = Modifier
                 .padding(16.dp)
@@ -315,10 +349,8 @@ fun SignUpScreen(
             onClick = {
 
                 scope.launch {
-
-
+                   // signInViewModel.email = email.state.content
                     state.signUp()
-
                 }
 
                 //signInViewModel.signIn(email,password, navHostController)
@@ -336,4 +368,100 @@ fun SignUpScreen(
 
     }
 
+}
+
+
+@Composable
+fun UserTypeSelection(
+    signInViewModel: SignInViewModel
+){
+
+    var parentBoxSelected by remember { mutableStateOf(false) }
+    var childBoxSelected by remember { mutableStateOf(false) }
+
+    //var selectedType by remember { mutableStateOf("") }
+
+    Column(
+
+
+    ){
+
+        Row(
+            modifier = Modifier
+                .height(170.dp)
+        ){
+
+
+            Box(
+
+                modifier = Modifier
+
+                    .clickable {
+                        parentBoxSelected = true
+                        childBoxSelected = false
+                        signInViewModel.userType.value = PARENT
+                    }
+                    .fillMaxHeight()
+                    .padding(8.dp)
+                    .weight(1f)
+                    .background(
+                        color = if (parentBoxSelected) Color(0xFF295C92) else Color.Transparent,
+                        shape = RoundedCornerShape(8)
+                    )
+
+
+            ) {
+                Column(modifier = Modifier.align(Alignment.Center)) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.parent),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(60.dp),
+                    )
+
+                    Text(text = PARENT)
+
+
+                }
+
+            }
+
+            Box(
+
+                modifier = Modifier
+                    .clickable {
+                        parentBoxSelected = false
+                        childBoxSelected = true
+                        signInViewModel.userType.value = CHILD
+                    }
+                    .fillMaxHeight()
+                    .padding(8.dp)
+                    .weight(1f)
+                    .background(
+                        color = if (childBoxSelected) Color(0xFF295C92) else Color.Transparent,
+                        shape = RoundedCornerShape(8)
+                    )
+
+
+            ) {
+
+                Column(modifier = Modifier.align(Alignment.Center)) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.child),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(60.dp),
+                    )
+
+                    Text(text = CHILD)
+
+
+                }
+
+            }
+
+        }
+    }
 }
