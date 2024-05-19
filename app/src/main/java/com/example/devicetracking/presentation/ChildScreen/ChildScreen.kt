@@ -157,10 +157,9 @@ fun ChildLocationMap(
                 onClick = {
 
                     val child = ChildObject(
-                        childViewModel.child.value.childID,
+                        childViewModel.child.value.email,
                         childViewModel.child.value.firstName,
                         childViewModel.child.value.lastName,
-                        childViewModel.child.value.email,
                         childViewModel.child.value.childLocationObject,
                         !childViewModel.child.value.inTrip
                     )

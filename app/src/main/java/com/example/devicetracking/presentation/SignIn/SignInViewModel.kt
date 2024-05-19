@@ -4,6 +4,7 @@ package com.example.devicetracking.presentation.SignIn
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.amplifyframework.core.Amplify
 //import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.ChildLocationObject
@@ -29,23 +30,25 @@ class SignInViewModel @Inject constructor(
     var passwordMedium = false
     var passwordStrong = false
 
-    var email = ""
     var firstName = mutableStateOf("")
     var lastName = mutableStateOf("")
     var userType = mutableStateOf("")
 
-    fun createUser(userId:String){
+    fun createUser(email:String){
 
         if (userType.value == CHILD){
 
+            viewModelScope.launch {
+                val child = ChildObject(email, firstName.value, lastName.value,
+                     ChildLocationObject(), false)
+                childRepository.createChild(child)
 
-            val child = ChildObject(userId, firstName.value, lastName.value,
-                email, ChildLocationObject(), false)
-            childRepository.createChild(child)
+            }
 
         }
 
     }
+
 
 
     fun checkPasswordStrength(

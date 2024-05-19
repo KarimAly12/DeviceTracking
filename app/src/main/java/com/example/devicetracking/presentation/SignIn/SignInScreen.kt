@@ -42,6 +42,7 @@ import com.amplifyframework.core.Amplify
 import com.amplifyframework.ui.authenticator.SignInState
 import com.amplifyframework.ui.authenticator.SignUpState
 import com.amplifyframework.ui.authenticator.forms.FieldKey
+import com.amplifyframework.ui.authenticator.rememberAuthenticatorState
 import com.amplifyframework.ui.authenticator.ui.Authenticator
 import com.amplifyframework.ui.authenticator.ui.SignInFooter
 import com.amplifyframework.ui.authenticator.ui.SignUpFooter
@@ -56,8 +57,6 @@ fun SingInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
     navHostController: NavHostController
 ) {
-
-
 
 
     Column {
@@ -75,6 +74,7 @@ fun SingInScreen(
             Log.i("testUsername", state.user.username)
 
             if(signInViewModel.userType.value == CHILD){
+
                 //signInViewModel.createUser(state.user.userId, signInViewModel.email)
             }else if(signInViewModel.userType.value == PARENT){
                 //Parent Screen
@@ -159,10 +159,11 @@ fun SignUpScreen(
     state: SignUpState
 ){
 
-    val email = state.form.fields[FieldKey.Email]
+
+
+    val email = state.form.fields[FieldKey.Email]!!
     val password = state.form.fields[FieldKey.Password]
     val confirmPassword = state.form.fields[FieldKey.ConfirmPassword]
-    //val userName = state.form.fields[FieldKey.Username]!!
 
     var passwordVisibility by remember { mutableStateOf(false) }
     var confirmPasswordVisibility by remember { mutableStateOf(false) }
@@ -185,30 +186,49 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.weight(1f))
         }
 
-//        OutlinedTextField(
-//            label = {Text("Email")},
-//            value = email!!.state.content,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(16.dp),
-//            onValueChange ={
-//                email.state.content = it
-//            }
-//        )
+
+
         OutlinedTextField(
-            label = {Text("Email")},
-            value = email!!.state.content,
+            label = { Text("First Name") },
+            value = signInViewModel.firstName.value,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            onValueChange ={
-                email.state.content = it
+            onValueChange = {
+                signInViewModel.firstName.value = it
+            }
+        )
+
+        OutlinedTextField(
+            label = { Text("Last Name") },
+            value = signInViewModel.lastName.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            onValueChange = {
+                signInViewModel.lastName.value = it
             }
         )
 
 
+        UserTypeSelection(signInViewModel)
+
+
+
 
         Column {
+
+            OutlinedTextField(
+                label = {Text("Email")},
+                value = email.state.content,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                onValueChange ={
+                    email.state.content = it
+                }
+            )
+
 
             OutlinedTextField(
                 label = {Text("Password")},
@@ -216,7 +236,7 @@ fun SignUpScreen(
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp),
                 trailingIcon = {
                     val image = if (passwordVisibility)
                         Icons.Filled.Visibility
@@ -235,7 +255,7 @@ fun SignUpScreen(
 
             Row(
                 modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
                     .fillMaxWidth()
                     .height(25.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -297,7 +317,7 @@ fun SignUpScreen(
             visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                .padding(start = 16.dp, end = 16.dp),
             trailingIcon = {
                 val image = if (confirmPasswordVisibility)
                     Icons.Filled.Visibility
@@ -314,39 +334,17 @@ fun SignUpScreen(
             } )
 
 
-        OutlinedTextField(
-            label = { Text("First Name") },
-            value = signInViewModel.firstName.value,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            onValueChange = {
-                signInViewModel.firstName.value = it
-            }
-        )
-
-        OutlinedTextField(
-            label = { Text("Last Name") },
-            value = signInViewModel.lastName.value,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            onValueChange = {
-                signInViewModel.lastName.value = it
-            }
-        )
-
-
-        UserTypeSelection(signInViewModel)
 
 
 
         Button(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(top = 32.dp, start = 16.dp, end = 16.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(20),
             onClick = {
+
+                signInViewModel.createUser(email.state.content)
 
                 scope.launch {
                    // signInViewModel.email = email.state.content
@@ -405,7 +403,7 @@ fun UserTypeSelection(
                     .padding(8.dp)
                     .weight(1f)
                     .background(
-                        color = if (parentBoxSelected) Color(0xFF295C92) else Color.Transparent,
+                        color = if (parentBoxSelected) Color(0xFF64A5E9) else Color.Transparent,
                         shape = RoundedCornerShape(8)
                     )
 
@@ -439,7 +437,7 @@ fun UserTypeSelection(
                     .padding(8.dp)
                     .weight(1f)
                     .background(
-                        color = if (childBoxSelected) Color(0xFF295C92) else Color.Transparent,
+                        color = if (childBoxSelected) Color(0xFF64A5E9) else Color.Transparent,
                         shape = RoundedCornerShape(8)
                     )
 

@@ -19,22 +19,30 @@ class ChildRepositoryImpl : ChildRepository {
             .build()
 
         val c = Child.builder()
-            .childId("1")
+            .email(child.email)
             .firstName(child.firstName)
             .lastName(child.lastName)
             .inTrip(child.inTrip)
-            .childLocation(cLocation)
+            .location(cLocation)
             .build()
 
-        Amplify.API.mutate(ModelMutation.create(c),
-            {
-                Log.i("MyAmplifyApp", it.errors.toString())
 
-            },
-            {
-                Log.i("MyAmplifyApp", it.message.toString())
-            }
-        )
+        try {
+
+            Amplify.API.mutate(ModelMutation.create(c),
+                {
+                    Log.i("MyAmplifyApp", it.errors.toString())
+
+                },
+                {
+                    Log.i("MyAmplifyApp", it.message.toString())
+                }
+            )
+        }catch (e: Exception){
+
+            Log.e("CHILD_REPOSITORY", e.message.toString())
+        }
+
 
     }
 

@@ -92,7 +92,7 @@ fun ChildItem(child:ChildObject, navHostController: NavHostController){
     Row(
         modifier = Modifier
             .clickable {
-                navHostController.navigate(Screens.ParentChildScreen.name + "/${child.childID}")
+                navHostController.navigate(Screens.ParentChildScreen.name + "/${child.email}")
             }
             .padding(16.dp)
             .fillMaxWidth()

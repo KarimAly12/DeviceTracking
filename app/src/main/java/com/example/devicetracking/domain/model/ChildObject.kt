@@ -6,12 +6,11 @@ data class ChildLocationObject(
     val longitude: Double = 0.0
 )
 data class ChildObject(
-    var childID:String = "",
+    var email:String = "",
     val firstName: String = "",
     val lastName: String = "",
-    val email: String = "",
     var childLocationObject: ChildLocationObject = ChildLocationObject(),
     val inTrip: Boolean = false
 ) {
-    constructor() : this("","", "", "", ChildLocationObject(),false)
+    constructor() : this("","",  "", ChildLocationObject(),false)
 }

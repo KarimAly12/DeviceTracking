@@ -20,25 +20,21 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the Child type in your schema. */
+/** This is an auto generated class representing the Parent type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Children", type = Model.Type.USER, version = 1, authRules = {
+@ModelConfig(pluralName = "Parents", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, provider = "apiKey", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 }, hasLazySupport = true)
-public final class Child implements Model {
-  public static final ChildPath rootPath = new ChildPath("root", false, null);
-  public static final QueryField ID = field("Child", "id");
-  public static final QueryField EMAIL = field("Child", "email");
-  public static final QueryField FIRST_NAME = field("Child", "firstName");
-  public static final QueryField LAST_NAME = field("Child", "lastName");
-  public static final QueryField IN_TRIP = field("Child", "inTrip");
-  public static final QueryField LOCATION = field("Child", "location");
+public final class Parent implements Model {
+  public static final ParentPath rootPath = new ParentPath("root", false, null);
+  public static final QueryField ID = field("Parent", "id");
+  public static final QueryField EMAIL = field("Parent", "email");
+  public static final QueryField FIRST_NAME = field("Parent", "firstName");
+  public static final QueryField LAST_NAME = field("Parent", "lastName");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String") String email;
   private final @ModelField(targetType="String") String firstName;
   private final @ModelField(targetType="String") String lastName;
-  private final @ModelField(targetType="Boolean") Boolean inTrip;
-  private final @ModelField(targetType="ChildLocation") ChildLocation location;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -63,14 +59,6 @@ public final class Child implements Model {
       return lastName;
   }
   
-  public Boolean getInTrip() {
-      return inTrip;
-  }
-  
-  public ChildLocation getLocation() {
-      return location;
-  }
-  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -79,13 +67,11 @@ public final class Child implements Model {
       return updatedAt;
   }
   
-  private Child(String id, String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
+  private Parent(String id, String email, String firstName, String lastName) {
     this.id = id;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.inTrip = inTrip;
-    this.location = location;
   }
   
   @Override
@@ -95,15 +81,13 @@ public final class Child implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      Child child = (Child) obj;
-      return ObjectsCompat.equals(getId(), child.getId()) &&
-              ObjectsCompat.equals(getEmail(), child.getEmail()) &&
-              ObjectsCompat.equals(getFirstName(), child.getFirstName()) &&
-              ObjectsCompat.equals(getLastName(), child.getLastName()) &&
-              ObjectsCompat.equals(getInTrip(), child.getInTrip()) &&
-              ObjectsCompat.equals(getLocation(), child.getLocation()) &&
-              ObjectsCompat.equals(getCreatedAt(), child.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), child.getUpdatedAt());
+      Parent parent = (Parent) obj;
+      return ObjectsCompat.equals(getId(), parent.getId()) &&
+              ObjectsCompat.equals(getEmail(), parent.getEmail()) &&
+              ObjectsCompat.equals(getFirstName(), parent.getFirstName()) &&
+              ObjectsCompat.equals(getLastName(), parent.getLastName()) &&
+              ObjectsCompat.equals(getCreatedAt(), parent.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), parent.getUpdatedAt());
       }
   }
   
@@ -114,8 +98,6 @@ public final class Child implements Model {
       .append(getEmail())
       .append(getFirstName())
       .append(getLastName())
-      .append(getInTrip())
-      .append(getLocation())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -125,13 +107,11 @@ public final class Child implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("Child {")
+      .append("Parent {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("email=" + String.valueOf(getEmail()) + ", ")
       .append("firstName=" + String.valueOf(getFirstName()) + ", ")
       .append("lastName=" + String.valueOf(getLastName()) + ", ")
-      .append("inTrip=" + String.valueOf(getInTrip()) + ", ")
-      .append("location=" + String.valueOf(getLocation()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -150,11 +130,9 @@ public final class Child implements Model {
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
    */
-  public static Child justId(String id) {
-    return new Child(
+  public static Parent justId(String id) {
+    return new Parent(
       id,
-      null,
-      null,
       null,
       null,
       null
@@ -165,18 +143,14 @@ public final class Child implements Model {
     return new CopyOfBuilder(id,
       email,
       firstName,
-      lastName,
-      inTrip,
-      location);
+      lastName);
   }
   public interface BuildStep {
-    Child build();
+    Parent build();
     BuildStep id(String id);
     BuildStep email(String email);
     BuildStep firstName(String firstName);
     BuildStep lastName(String lastName);
-    BuildStep inTrip(Boolean inTrip);
-    BuildStep location(ChildLocation location);
   }
   
 
@@ -185,32 +159,26 @@ public final class Child implements Model {
     private String email;
     private String firstName;
     private String lastName;
-    private Boolean inTrip;
-    private ChildLocation location;
     public Builder() {
       
     }
     
-    private Builder(String id, String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
+    private Builder(String id, String email, String firstName, String lastName) {
       this.id = id;
       this.email = email;
       this.firstName = firstName;
       this.lastName = lastName;
-      this.inTrip = inTrip;
-      this.location = location;
     }
     
     @Override
-     public Child build() {
+     public Parent build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new Child(
+        return new Parent(
           id,
           email,
           firstName,
-          lastName,
-          inTrip,
-          location);
+          lastName);
     }
     
     @Override
@@ -231,18 +199,6 @@ public final class Child implements Model {
         return this;
     }
     
-    @Override
-     public BuildStep inTrip(Boolean inTrip) {
-        this.inTrip = inTrip;
-        return this;
-    }
-    
-    @Override
-     public BuildStep location(ChildLocation location) {
-        this.location = location;
-        return this;
-    }
-    
     /**
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -255,8 +211,8 @@ public final class Child implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-      super(id, email, firstName, lastName, inTrip, location);
+    private CopyOfBuilder(String id, String email, String firstName, String lastName) {
+      super(id, email, firstName, lastName);
       
     }
     
@@ -274,22 +230,12 @@ public final class Child implements Model {
      public CopyOfBuilder lastName(String lastName) {
       return (CopyOfBuilder) super.lastName(lastName);
     }
-    
-    @Override
-     public CopyOfBuilder inTrip(Boolean inTrip) {
-      return (CopyOfBuilder) super.inTrip(inTrip);
-    }
-    
-    @Override
-     public CopyOfBuilder location(ChildLocation location) {
-      return (CopyOfBuilder) super.location(location);
-    }
   }
   
 
-  public static class ChildIdentifier extends ModelIdentifier<Child> {
+  public static class ParentIdentifier extends ModelIdentifier<Parent> {
     private static final long serialVersionUID = 1L;
-    public ChildIdentifier(String id) {
+    public ParentIdentifier(String id) {
       super(id);
     }
   }

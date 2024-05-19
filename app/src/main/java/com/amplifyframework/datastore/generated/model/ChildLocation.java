@@ -3,7 +3,10 @@ package com.amplifyframework.datastore.generated.model;
 
 import androidx.core.util.ObjectsCompat;
 
-/** This is an auto generated class representing the ChildChildLocation type in your schema. */
+import java.util.Objects;
+import java.util.List;
+
+/** This is an auto generated class representing the ChildLocation type in your schema. */
 public final class ChildLocation {
   private final Double latitude;
   private final Double longitude;
@@ -27,9 +30,9 @@ public final class ChildLocation {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      ChildLocation childChildLocation = (ChildLocation) obj;
-      return ObjectsCompat.equals(getLatitude(), childChildLocation.getLatitude()) &&
-              ObjectsCompat.equals(getLongitude(), childChildLocation.getLongitude());
+      ChildLocation childLocation = (ChildLocation) obj;
+      return ObjectsCompat.equals(getLatitude(), childLocation.getLatitude()) &&
+              ObjectsCompat.equals(getLongitude(), childLocation.getLongitude());
       }
   }
   
