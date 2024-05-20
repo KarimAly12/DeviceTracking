@@ -34,6 +34,8 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
 import com.example.devicetracking.core.service.DefaultLocationServiceManager
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.presentation.LocationMap.LocationMap
@@ -51,16 +53,15 @@ import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel()){
+fun ChildScreen(childViewModel:ChildViewModel = hiltViewModel(), navHostController: NavHostController){
 
-    val context = LocalContext.current
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
 
 
-    if(false){
-        childViewModel.getChild()
+    if(childViewModel.child.value == ChildObject()){
+        AuthenticatorLoading()
 
     }else{
 
@@ -156,28 +157,28 @@ fun ChildLocationMap(
                 containerColor = colorButton1,
                 onClick = {
 
-                    val child = ChildObject(
-                        childViewModel.child.value.email,
-                        childViewModel.child.value.firstName,
-                        childViewModel.child.value.lastName,
-                        childViewModel.child.value.childLocationObject,
-                        !childViewModel.child.value.inTrip
-                    )
-                    childViewModel.child.value = child
-
-                    childViewModel.updateChild(child)
-
-                    val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
-
-                    locationRequest = if(locationRequest == null){
-
-                        defaultLocationServiceManager.startService()
-                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
-
-                    }else{
-                        defaultLocationServiceManager.stopService()
-                        null
-                    }
+//                    val child = ChildObject(
+//                        childViewModel.child.value.email,
+//                        childViewModel.child.value.firstName,
+//                        childViewModel.child.value.lastName,
+//                        childViewModel.child.value.childLocationObject,
+//                        !childViewModel.child.value.inTrip
+//                    )
+//                    childViewModel.child.value = child
+//
+//                    childViewModel.updateChild(child)
+//
+//                    val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
+//
+//                    locationRequest = if(locationRequest == null){
+//
+//                        defaultLocationServiceManager.startService()
+//                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
+//
+//                    }else{
+//                        defaultLocationServiceManager.stopService()
+//                        null
+//                    }
 
                     //childViewModel.getChildLocation()
 //                        val intent = Intent(context, LocationService::class.java)

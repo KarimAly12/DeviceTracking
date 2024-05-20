@@ -44,9 +44,12 @@ import com.amplifyframework.ui.authenticator.SignUpState
 import com.amplifyframework.ui.authenticator.forms.FieldKey
 import com.amplifyframework.ui.authenticator.rememberAuthenticatorState
 import com.amplifyframework.ui.authenticator.ui.Authenticator
+import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
 import com.amplifyframework.ui.authenticator.ui.SignInFooter
+import com.amplifyframework.ui.authenticator.ui.SignUpConfirmFooter
 import com.amplifyframework.ui.authenticator.ui.SignUpFooter
 import com.example.devicetracking.R
+import com.example.devicetracking.presentation.ChildScreen.ChildScreen
 import com.example.devicetracking.presentation.SignIn.CHILD
 import com.example.devicetracking.presentation.SignIn.PARENT
 import com.example.devicetracking.presentation.SignIn.SignInViewModel
@@ -71,13 +74,21 @@ fun SingInScreen(
 
         ) { state ->
 
-            Log.i("testUsername", state.user.username)
+
 
             if(signInViewModel.userType.value == CHILD){
 
+                signInViewModel.createUser()
+                ChildScreen(
+                    navHostController = navHostController
+                )
+              
+
                 //signInViewModel.createUser(state.user.userId, signInViewModel.email)
             }else if(signInViewModel.userType.value == PARENT){
-                //Parent Screen
+                Text(text = "ParentScreen")
+            }else{
+                signInViewModel.getUserType()
             }
 
         }
@@ -88,6 +99,7 @@ fun SingInScreen(
 @Composable
 fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
 
+    val scope = rememberCoroutineScope()
 
     var passwordVisibility by remember { mutableStateOf(false) }
 
@@ -137,6 +149,11 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
             shape = RoundedCornerShape(20),
             onClick = {
 
+                scope.launch {
+                    state.signIn()
+
+                }
+
                 //signInViewModel.signIn(email,password, navHostController)
             },
         ) {
@@ -158,6 +175,8 @@ fun SignUpScreen(
     signInViewModel: SignInViewModel,
     state: SignUpState
 ){
+
+
 
 
 
@@ -344,10 +363,9 @@ fun SignUpScreen(
             shape = RoundedCornerShape(20),
             onClick = {
 
-                signInViewModel.createUser(email.state.content)
 
                 scope.launch {
-                   // signInViewModel.email = email.state.content
+                    signInViewModel.userEmail.value = email.state.content
                     state.signUp()
                 }
 

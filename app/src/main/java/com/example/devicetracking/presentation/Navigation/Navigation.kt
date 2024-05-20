@@ -30,9 +30,9 @@ fun Navigation(){
 //            CreateUserScreen(navHostController = navHostController)
 //        }
 
-        composable(Screens.ChildHome.name){
-            ChildScreen()
-        }
+//        composable(Screens.ChildHome.name){
+//            ChildScreen()
+//        }
         composable(Screens.ParentHome.name){
             ParentScreen(navHostController = navHostController)
         }

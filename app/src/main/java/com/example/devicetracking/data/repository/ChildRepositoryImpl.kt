@@ -2,13 +2,18 @@ package com.example.devicetracking.data.repository
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import com.amplifyframework.api.graphql.GraphQLOperation
+import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.ChildLocation
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.repository.ChildRepository
+import com.google.android.gms.common.api.Api
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.ValueEventListener
 
 class ChildRepositoryImpl : ChildRepository {
@@ -46,8 +51,46 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-    override suspend fun getChild(childId: String, child: MutableState<ChildObject>) {
-        TODO("Not yet implemented")
+    override fun isChildExist(email:String, onChildFound: (Boolean) -> Unit){
+
+        try{
+            Amplify.API.query(
+                ModelQuery[Child::class.java, email],
+                {child ->
+                    if(child.data != null){
+                        onChildFound(true)
+                    }else{
+                        onChildFound(false)
+                    }
+
+                },
+                {
+
+                }
+            )
+        }catch (error: ApiException){
+            Log.e("CHILD_FINDING", error.message.toString())
+        }
+
+    }
+
+    override  fun getChild(email: String, onChildFound: (ChildObject) -> Unit) {
+        try{
+            Amplify.API.query(
+                ModelQuery[Child::class.java, email],
+                {childResponse ->
+                    onChildFound(convertChildToChildObject(childResponse.data))
+
+                },
+                {
+
+                }
+            )
+        }catch (error: ApiException){
+            Log.e("CHILD_REPOSITORY", error.message.toString())
+        }
+
+
     }
 
     override fun updateChildLocation(childId: String, childLocation: ChildLocationObject) {
@@ -65,5 +108,15 @@ class ChildRepositoryImpl : ChildRepository {
         TODO("Not yet implemented")
     }
 
+    private fun convertChildToChildObject(child: Child): ChildObject {
+
+        return ChildObject(
+            child.email,
+            child.firstName,
+            child.lastName,
+            ChildLocationObject(child.location.latitude, child.location.longitude),
+            child.inTrip,
+            )
+    }
 
 }

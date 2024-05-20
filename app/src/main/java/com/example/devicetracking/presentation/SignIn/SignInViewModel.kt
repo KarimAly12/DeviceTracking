@@ -1,15 +1,21 @@
 package com.example.devicetracking.presentation.SignIn
 
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.amplifyframework.api.graphql.GraphQLResponse
+import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Child
+import com.amplifyframework.datastore.generated.model.Parent
+import com.example.devicetracking.R
 //import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
-import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.repository.ChildRepository
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,23 +36,101 @@ class SignInViewModel @Inject constructor(
     var passwordMedium = false
     var passwordStrong = false
 
+    var userEmail =  mutableStateOf("")
     var firstName = mutableStateOf("")
     var lastName = mutableStateOf("")
     var userType = mutableStateOf("")
 
-    fun createUser(email:String){
+    fun createUser(){
 
         if (userType.value == CHILD){
 
-            viewModelScope.launch {
-                val child = ChildObject(email, firstName.value, lastName.value,
-                     ChildLocationObject(), false)
-                childRepository.createChild(child)
+            childRepository.isChildExist(userEmail.value){found ->
+                if(!found){
+                    viewModelScope.launch {
+                        val child = ChildObject(userEmail.value, firstName.value, lastName.value,
+                            ChildLocationObject(), false)
+                        childRepository.createChild(child)
 
+                    }
+                }
             }
+        }
+    }
 
+
+    fun getUserType(){
+
+        try{
+
+            Amplify.Auth.fetchUserAttributes(
+                {
+                    Log.i("email", it[0].value.toString())
+                    childRepository.isChildExist(email = it[0].value.toString()){
+                        userType.value = CHILD
+                    }
+
+                    isParentExist(email = it[0].value.toString()){
+                        userType.value = PARENT
+                    }
+                },
+                {}
+            )
+
+        }catch (e: Exception){
+            Log.e("SIGN_IN_VIEW_MODEL", e.message.toString())
         }
 
+
+    }
+
+//    private fun isChildExist(email:String, onChildFound: (Boolean) -> Unit){
+//
+//        try{
+//           Amplify.API.query(
+//               ModelQuery[Child::class.java, email],
+//                {child ->
+//                    if(child.data != null){
+//                        onChildFound(true)
+//                   }else{
+//                        onChildFound(false)
+//                    }
+//
+//                },
+//                {
+//
+//                }
+//            )
+//        }catch (error: ApiException){
+//            Log.e("CHILD_FINDING", error.message.toString())
+//        }
+//
+//
+//    }
+
+
+    private fun isParentExist(email:String, onParentFound: (Boolean) -> Unit) {
+
+        try {
+            Amplify.API.query(
+                ModelQuery.get(Parent::class.java, email),
+                {parent ->
+                    if(parent.data != null){
+                        onParentFound(true)
+
+                    }else{
+                        onParentFound(false)
+                    }
+
+                },
+                {
+
+                }
+            )
+        } catch (error: ApiException) {
+
+
+        }
     }
 
 

@@ -25,16 +25,15 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "Children", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, provider = "apiKey", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 }, hasLazySupport = true)
+@Index(name = "undefined", fields = {"email"})
 public final class Child implements Model {
   public static final ChildPath rootPath = new ChildPath("root", false, null);
-  public static final QueryField ID = field("Child", "id");
   public static final QueryField EMAIL = field("Child", "email");
   public static final QueryField FIRST_NAME = field("Child", "firstName");
   public static final QueryField LAST_NAME = field("Child", "lastName");
   public static final QueryField IN_TRIP = field("Child", "inTrip");
   public static final QueryField LOCATION = field("Child", "location");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String") String email;
+  private final @ModelField(targetType="ID", isRequired = true) String email;
   private final @ModelField(targetType="String") String firstName;
   private final @ModelField(targetType="String") String lastName;
   private final @ModelField(targetType="Boolean") Boolean inTrip;
@@ -44,11 +43,7 @@ public final class Child implements Model {
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
    public String resolveIdentifier() {
-    return id;
-  }
-  
-  public String getId() {
-      return id;
+    return email;
   }
   
   public String getEmail() {
@@ -79,8 +74,7 @@ public final class Child implements Model {
       return updatedAt;
   }
   
-  private Child(String id, String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-    this.id = id;
+  private Child(String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -96,8 +90,7 @@ public final class Child implements Model {
         return false;
       } else {
       Child child = (Child) obj;
-      return ObjectsCompat.equals(getId(), child.getId()) &&
-              ObjectsCompat.equals(getEmail(), child.getEmail()) &&
+      return ObjectsCompat.equals(getEmail(), child.getEmail()) &&
               ObjectsCompat.equals(getFirstName(), child.getFirstName()) &&
               ObjectsCompat.equals(getLastName(), child.getLastName()) &&
               ObjectsCompat.equals(getInTrip(), child.getInTrip()) &&
@@ -110,7 +103,6 @@ public final class Child implements Model {
   @Override
    public int hashCode() {
     return new StringBuilder()
-      .append(getId())
       .append(getEmail())
       .append(getFirstName())
       .append(getLastName())
@@ -126,7 +118,6 @@ public final class Child implements Model {
    public String toString() {
     return new StringBuilder()
       .append("Child {")
-      .append("id=" + String.valueOf(getId()) + ", ")
       .append("email=" + String.valueOf(getEmail()) + ", ")
       .append("firstName=" + String.valueOf(getFirstName()) + ", ")
       .append("lastName=" + String.valueOf(getLastName()) + ", ")
@@ -138,41 +129,24 @@ public final class Child implements Model {
       .toString();
   }
   
-  public static BuildStep builder() {
+  public static EmailStep builder() {
       return new Builder();
   }
   
-  /**
-   * WARNING: This method should not be used to build an instance of this object for a CREATE mutation.
-   * This is a convenience method to return an instance of the object with only its ID populated
-   * to be used in the context of a parameter in a delete mutation or referencing a foreign key
-   * in a relationship.
-   * @param id the id of the existing item this instance will represent
-   * @return an instance of this model with only ID populated
-   */
-  public static Child justId(String id) {
-    return new Child(
-      id,
-      null,
-      null,
-      null,
-      null,
-      null
-    );
-  }
-  
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(id,
-      email,
+    return new CopyOfBuilder(email,
       firstName,
       lastName,
       inTrip,
       location);
   }
+  public interface EmailStep {
+    BuildStep email(String email);
+  }
+  
+
   public interface BuildStep {
     Child build();
-    BuildStep id(String id);
-    BuildStep email(String email);
     BuildStep firstName(String firstName);
     BuildStep lastName(String lastName);
     BuildStep inTrip(Boolean inTrip);
@@ -180,8 +154,7 @@ public final class Child implements Model {
   }
   
 
-  public static class Builder implements BuildStep {
-    private String id;
+  public static class Builder implements EmailStep, BuildStep {
     private String email;
     private String firstName;
     private String lastName;
@@ -191,8 +164,7 @@ public final class Child implements Model {
       
     }
     
-    private Builder(String id, String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-      this.id = id;
+    private Builder(String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
       this.email = email;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -202,10 +174,8 @@ public final class Child implements Model {
     
     @Override
      public Child build() {
-        String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new Child(
-          id,
           email,
           firstName,
           lastName,
@@ -215,6 +185,7 @@ public final class Child implements Model {
     
     @Override
      public BuildStep email(String email) {
+        Objects.requireNonNull(email);
         this.email = email;
         return this;
     }
@@ -242,22 +213,13 @@ public final class Child implements Model {
         this.location = location;
         return this;
     }
-    
-    /**
-     * @param id id
-     * @return Current Builder instance, for fluent method chaining
-     */
-    public BuildStep id(String id) {
-        this.id = id;
-        return this;
-    }
   }
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-      super(id, email, firstName, lastName, inTrip, location);
-      
+    private CopyOfBuilder(String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
+      super(email, firstName, lastName, inTrip, location);
+      Objects.requireNonNull(email);
     }
     
     @Override
@@ -289,8 +251,8 @@ public final class Child implements Model {
 
   public static class ChildIdentifier extends ModelIdentifier<Child> {
     private static final long serialVersionUID = 1L;
-    public ChildIdentifier(String id) {
-      super(id);
+    public ChildIdentifier(String email) {
+      super(email);
     }
   }
   

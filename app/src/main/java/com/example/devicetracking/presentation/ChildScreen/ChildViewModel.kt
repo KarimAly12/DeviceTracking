@@ -1,56 +1,51 @@
 package com.example.devicetracking.presentation.ChildScreen
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.amplifyframework.core.Amplify
 import com.example.devicetracking.domain.model.ChildObject
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.example.devicetracking.domain.repository.ChildRepository
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ChildViewModel @Inject constructor(
     //private val childUsecases: ChildUsecases,
+    private val childRepository: ChildRepository
 ): ViewModel(){
 
 
-    val childId = Firebase.auth.currentUser!!.uid
+    var email:String? = null
     private val barcodeEncoder = BarcodeEncoder()
-    val bitmap = barcodeEncoder.encodeBitmap(childId, BarcodeFormat.QR_CODE, 400, 400)
+    lateinit var bitmap:Bitmap
     val child:MutableState<ChildObject> = mutableStateOf(ChildObject())
 
 
+    init {
+        initChild()
+    }
 
-    fun updateChild(
-        child:ChildObject
-    ){
-        viewModelScope.launch {
-           // childUsecases.updateChild(childId, child)
-        }
+    private fun initChild(){
+        Amplify.Auth.fetchUserAttributes(
+            {
+                email = it[0].value
+                bitmap = barcodeEncoder.encodeBitmap(email, BarcodeFormat.QR_CODE, 400, 400)
+                childRepository.getChild(
+                    email!!
+                ){ child.value = it }
+
+
+            },
+            {}
+        )
     }
 
 
-//    fun getChildLocation(){
-//
-//        viewModelScope.launch {
-//            while (isGettingLocation){
-//                childUsecases.getChild(childId, child)
-//                Thread.sleep(10000)
-//            }
-//        }
-//    }
-    fun getChild(){
-
-        viewModelScope.launch {
-           // childUsecases.getChild(childId, child)
-        }
-    }
 
 
 }

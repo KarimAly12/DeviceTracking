@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "ap-southeast-2_28WdksT4U",
+    "user_pool_id": "ap-southeast-2_dF9JZQv4Z",
     "aws_region": "ap-southeast-2",
-    "user_pool_client_id": "6d81kh9gc38u9nefhtdi4lu4cn",
-    "identity_pool_id": "ap-southeast-2:726878d5-0df3-4b1b-9712-4efaf3ee82c9",
+    "user_pool_client_id": "7fqtkjburfdt3scshja9feb3nr",
+    "identity_pool_id": "ap-southeast-2:08dfe3d7-d8d1-4f69-8b36-98adc195c392",
     "standard_required_attributes": [
       "email"
     ],
@@ -23,9 +23,9 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://zzxj7z3fjjaibjfr3vund4adme.appsync-api.ap-southeast-2.amazonaws.com/graphql",
+    "url": "https://wlk7gqer6zaqxojittht2763zq.appsync-api.ap-southeast-2.amazonaws.com/graphql",
     "aws_region": "ap-southeast-2",
-    "api_key": "da2-sk4e5kqpk5c2lofvge5tfuup6m",
+    "api_key": "da2-5zpqie3iszafbit7q5e4u7wgnm",
     "default_authorization_type": "API_KEY",
     "authorization_types": [
       "AMAZON_COGNITO_USER_POOLS",
@@ -37,18 +37,11 @@
         "Child": {
           "name": "Child",
           "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
             "email": {
               "name": "email",
               "isArray": false,
-              "type": "String",
-              "isRequired": false,
+              "type": "ID",
+              "isRequired": true,
               "attributes": []
             },
             "firstName": {
@@ -106,6 +99,14 @@
               "properties": {}
             },
             {
+              "type": "key",
+              "properties": {
+                "fields": [
+                  "email"
+                ]
+              }
+            },
+            {
               "type": "auth",
               "properties": {
                 "rules": [
@@ -124,26 +125,19 @@
             }
           ],
           "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
+            "isCustomPrimaryKey": true,
+            "primaryKeyFieldName": "email",
             "sortKeyFieldNames": []
           }
         },
         "Parent": {
           "name": "Parent",
           "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
             "email": {
               "name": "email",
               "isArray": false,
-              "type": "String",
-              "isRequired": false,
+              "type": "ID",
+              "isRequired": true,
               "attributes": []
             },
             "firstName": {
@@ -185,6 +179,14 @@
               "properties": {}
             },
             {
+              "type": "key",
+              "properties": {
+                "fields": [
+                  "email"
+                ]
+              }
+            },
+            {
               "type": "auth",
               "properties": {
                 "rules": [
@@ -203,8 +205,8 @@
             }
           ],
           "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
+            "isCustomPrimaryKey": true,
+            "primaryKeyFieldName": "email",
             "sortKeyFieldNames": []
           }
         }
