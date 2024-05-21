@@ -1,5 +1,6 @@
 package com.example.devicetracking.presentation.ChildScreen
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.navigation.NavHostController
 import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
 import com.example.devicetracking.core.service.DefaultLocationServiceManager
 import com.example.devicetracking.domain.model.ChildObject
+import com.example.devicetracking.presentation.Location.LocationService
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation
@@ -164,25 +166,24 @@ fun ChildLocationMap(
 //                        childViewModel.child.value.childLocationObject,
 //                        !childViewModel.child.value.inTrip
 //                    )
-//                    childViewModel.child.value = child
-//
-//                    childViewModel.updateChild(child)
-//
-//                    val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
-//
-//                    locationRequest = if(locationRequest == null){
-//
-//                        defaultLocationServiceManager.startService()
-//                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
-//
-//                    }else{
-//                        defaultLocationServiceManager.stopService()
-//                        null
-//                    }
+                    //childViewModel.child.value = child
 
-                    //childViewModel.getChildLocation()
-//                        val intent = Intent(context, LocationService::class.java)
-//                        context.startForegroundService(intent)
+                    //childViewModel.updateChild(child)
+
+                    val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
+
+                    locationRequest = if(locationRequest == null){
+
+                        defaultLocationServiceManager.startService()
+                        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
+
+                    }else{
+                        defaultLocationServiceManager.stopService()
+                        null
+                    }
+
+                    val intent = Intent(context, LocationService::class.java)
+                    context.startForegroundService(intent)
 
 
                 }) {

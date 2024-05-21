@@ -1,9 +1,6 @@
 package com.example.devicetracking.data.repository
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import com.amplifyframework.api.graphql.GraphQLOperation
-import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
@@ -12,24 +9,14 @@ import com.amplifyframework.datastore.generated.model.ChildLocation
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.repository.ChildRepository
-import com.google.android.gms.common.api.Api
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.database.ValueEventListener
 
 class ChildRepositoryImpl : ChildRepository {
     override fun createChild(child: ChildObject) {
-        val cLocation = ChildLocation.builder()
-            .latitude(child.childLocationObject.latitude)
-            .longitude(child.childLocationObject.longitude)
-            .build()
 
-        val c = Child.builder()
-            .email(child.email)
-            .firstName(child.firstName)
-            .lastName(child.lastName)
-            .inTrip(child.inTrip)
-            .location(cLocation)
-            .build()
+
+        val c = convertChildObjectToChild(child)
 
 
         try {
@@ -97,8 +84,24 @@ class ChildRepositoryImpl : ChildRepository {
         TODO("Not yet implemented")
     }
 
-    override fun updateChild(childID: String, child: ChildObject) {
-        TODO("Not yet implemented")
+    override suspend fun updateChild(child: ChildObject, onChildUpdated: (ChildObject) -> Unit) {
+
+        val c = convertChildObjectToChild(child)
+        try{
+            Amplify.API.mutate(ModelMutation.update(c),
+                {
+                    onChildUpdated(convertChildToChildObject(it.data))
+                },
+                {error->
+                    Log.e("CHILD_REPOSITORY", error.message.toString())
+                }
+            )
+
+
+        }catch (error:Exception){
+            Log.e("CHILD_REPOSITORY", error.message.toString())
+        }
+
     }
 
     override suspend fun getChildLocation(
@@ -117,6 +120,22 @@ class ChildRepositoryImpl : ChildRepository {
             ChildLocationObject(child.location.latitude, child.location.longitude),
             child.inTrip,
             )
+    }
+
+    private fun convertChildObjectToChild(child: ChildObject): Child {
+        val cLocation = ChildLocation.builder()
+            .latitude(child.childLocationObject.latitude)
+            .longitude(child.childLocationObject.longitude)
+            .build()
+
+        return Child.builder()
+            .email(child.email)
+            .firstName(child.firstName)
+            .lastName(child.lastName)
+            .inTrip(child.inTrip)
+            .location(cLocation)
+            .build()
+
     }
 
 }

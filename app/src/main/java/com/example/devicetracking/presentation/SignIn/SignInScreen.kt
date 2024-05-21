@@ -61,6 +61,7 @@ fun SingInScreen(
     navHostController: NavHostController
 ) {
 
+    val scope = rememberCoroutineScope()
 
     Column {
         Authenticator(
@@ -82,12 +83,11 @@ fun SingInScreen(
                 ChildScreen(
                     navHostController = navHostController
                 )
-              
-
                 //signInViewModel.createUser(state.user.userId, signInViewModel.email)
             }else if(signInViewModel.userType.value == PARENT){
                 Text(text = "ParentScreen")
             }else{
+
                 signInViewModel.getUserType()
             }
 

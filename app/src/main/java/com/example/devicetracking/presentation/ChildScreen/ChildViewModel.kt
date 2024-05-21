@@ -4,18 +4,19 @@ import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.amplifyframework.core.Amplify
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class ChildViewModel @Inject constructor(
-    //private val childUsecases: ChildUsecases,
     private val childRepository: ChildRepository
 ): ViewModel(){
 
@@ -27,7 +28,19 @@ class ChildViewModel @Inject constructor(
 
 
     init {
-        initChild()
+        viewModelScope.launch {
+            initChild()
+        }
+    }
+
+
+
+    fun updateChild(childObject: ChildObject){
+        viewModelScope.launch {
+            childRepository.updateChild(childObject){updatedChild->
+                child.value = updatedChild
+            }
+        }
     }
 
     private fun initChild(){

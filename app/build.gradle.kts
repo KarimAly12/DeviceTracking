@@ -114,5 +114,7 @@ dependencies {
     implementation ("com.amplifyframework:core:2.16.1")
     implementation("com.amplifyframework:aws-api:2.16.1")
     implementation ("com.amplifyframework:aws-datastore:2.16.1")
-    
+    implementation("com.amplifyframework:core-kotlin:2.16.1")
+
+
 }

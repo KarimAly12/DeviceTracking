@@ -53,6 +53,8 @@ class SignInViewModel @Inject constructor(
                         childRepository.createChild(child)
 
                     }
+
+                    Log.i("test", "in")
                 }
             }
         }
@@ -81,32 +83,9 @@ class SignInViewModel @Inject constructor(
             Log.e("SIGN_IN_VIEW_MODEL", e.message.toString())
         }
 
-
     }
 
-//    private fun isChildExist(email:String, onChildFound: (Boolean) -> Unit){
-//
-//        try{
-//           Amplify.API.query(
-//               ModelQuery[Child::class.java, email],
-//                {child ->
-//                    if(child.data != null){
-//                        onChildFound(true)
-//                   }else{
-//                        onChildFound(false)
-//                    }
-//
-//                },
-//                {
-//
-//                }
-//            )
-//        }catch (error: ApiException){
-//            Log.e("CHILD_FINDING", error.message.toString())
-//        }
-//
-//
-//    }
+
 
 
     private fun isParentExist(email:String, onParentFound: (Boolean) -> Unit) {
