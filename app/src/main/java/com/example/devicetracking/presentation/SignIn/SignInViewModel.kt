@@ -68,12 +68,19 @@ class SignInViewModel @Inject constructor(
             Amplify.Auth.fetchUserAttributes(
                 {
                     Log.i("email", it[0].value.toString())
-                    childRepository.isChildExist(email = it[0].value.toString()){
-                        userType.value = CHILD
+                    childRepository.isChildExist(email = it[0].value.toString()){exist ->
+                        if(exist){
+                            userType.value = CHILD
+
+                        }
                     }
 
-                    isParentExist(email = it[0].value.toString()){
-                        userType.value = PARENT
+                    isParentExist(email = it[0].value.toString()){exist ->
+
+                        if(exist){
+                            userType.value = PARENT
+
+                        }
                     }
                 },
                 {}
