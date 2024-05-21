@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LocationService: Service() {
 
-    private val serviceScope = CoroutineScope(SupervisorJob()+Dispatchers.IO)
 
     private lateinit var locationManager: LocationManager
 
@@ -32,7 +31,6 @@ class LocationService: Service() {
     //@Inject
     //lateinit var childUsecases: ChildUsecases
 
-    val authId = Firebase.auth.currentUser!!.uid
 
     private lateinit var locationCallback:LocationCallback
     private var locationRequest: LocationRequest? = null

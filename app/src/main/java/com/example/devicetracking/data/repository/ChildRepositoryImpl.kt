@@ -80,9 +80,9 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-    override fun updateChildLocation(childId: String, childLocation: ChildLocationObject) {
-        TODO("Not yet implemented")
-    }
+//    override fun updateChildLocation(childId: String, childLocation: ChildLocationObject) {
+//        TODO("Not yet implemented")
+//    }
 
     override suspend fun updateChild(child: ChildObject, onChildUpdated: (ChildObject) -> Unit) {
 
@@ -104,12 +104,12 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-    override suspend fun getChildLocation(
-        childId: String,
-        valueEventListener: ValueEventListener
-    ): ChildLocationObject {
-        TODO("Not yet implemented")
-    }
+//    override suspend fun getChildLocation(
+//        childId: String,
+//        valueEventListener: ValueEventListener
+//    ): ChildLocationObject {
+//        TODO("Not yet implemented")
+//    }
 
     private fun convertChildToChildObject(child: Child): ChildObject {
 

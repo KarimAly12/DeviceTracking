@@ -1,5 +1,7 @@
 package com.example.devicetracking.domain.model
 
+import android.os.Parcelable
+
 
 data class ChildLocationObject(
     val latitude: Double = 0.0,

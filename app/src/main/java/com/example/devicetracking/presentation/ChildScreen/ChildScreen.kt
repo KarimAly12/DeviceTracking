@@ -159,31 +159,33 @@ fun ChildLocationMap(
                 containerColor = colorButton1,
                 onClick = {
 
-//                    val child = ChildObject(
-//                        childViewModel.child.value.email,
-//                        childViewModel.child.value.firstName,
-//                        childViewModel.child.value.lastName,
-//                        childViewModel.child.value.childLocationObject,
-//                        !childViewModel.child.value.inTrip
-//                    )
+                    val child = ChildObject(
+                        childViewModel.child.value.email,
+                        childViewModel.child.value.firstName,
+                        childViewModel.child.value.lastName,
+                        childViewModel.child.value.childLocationObject,
+                        !childViewModel.child.value.inTrip
+                    )
                     //childViewModel.child.value = child
 
-                    //childViewModel.updateChild(child)
+                    childViewModel.updateChild(child)
+
+
 
                     val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
 
                     locationRequest = if(locationRequest == null){
 
-                        defaultLocationServiceManager.startService()
+                       // defaultLocationServiceManager.startService()
                         LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
 
                     }else{
-                        defaultLocationServiceManager.stopService()
+                        //defaultLocationServiceManager.stopService()
                         null
                     }
-
-                    val intent = Intent(context, LocationService::class.java)
-                    context.startForegroundService(intent)
+//
+//                    val intent = Intent(context, LocationService::class.java)
+//                    context.startForegroundService(intent)
 
 
                 }) {
