@@ -49,8 +49,7 @@ data class ChildObject(
         parcel.readString().toString(),
         parcel.readParcelable(ChildLocationObject::class.java.classLoader, ChildLocationObject::class.java)!!,
         parcel.readByte() != 0.toByte()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(email)

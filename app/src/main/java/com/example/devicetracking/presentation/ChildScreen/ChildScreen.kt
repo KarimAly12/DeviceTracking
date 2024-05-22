@@ -39,6 +39,7 @@ import androidx.navigation.NavHostController
 import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
 import com.example.devicetracking.core.service.DefaultLocationServiceManager
 import com.example.devicetracking.domain.model.ChildObject
+import com.example.devicetracking.presentation.Location.CHILD_PARCEL
 import com.example.devicetracking.presentation.Location.LocationService
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
@@ -167,11 +168,13 @@ fun ChildLocationMap(
                         !childViewModel.child.value.inTrip
                     )
 
-                    childViewModel.updateChild(child)
+                    childViewModel.onChildOperationStateChanged(ChildOperationState.UpdateChild(child))
 
 
+                    val locationServiceIntent = Intent(context, LocationService::class.java)
+                    locationServiceIntent.putExtra(CHILD_PARCEL, child)
 
-                    val defaultLocationSM = DefaultLocationServiceManager(context = context)
+                    val defaultLocationSM = DefaultLocationServiceManager(context = context, locationServiceIntent)
 
                     locationRequest = if(locationRequest == null){
 
@@ -182,9 +185,6 @@ fun ChildLocationMap(
                         defaultLocationSM.stopService()
                         null
                     }
-
-                    val intent = Intent(context, LocationService::class.java)
-                    context.startForegroundService(intent)
 
 
                 }) {

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.IBinder
 import com.example.devicetracking.core.location.LocationManager
 import com.example.devicetracking.domain.model.ChildLocationObject
+import com.example.devicetracking.domain.model.ChildObject
+import com.example.devicetracking.domain.repository.ChildRepository
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -17,8 +19,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
+val CHILD_PARCEL = "CHILD_PARCEL"
 @AndroidEntryPoint
 class LocationService: Service() {
 
@@ -28,6 +32,10 @@ class LocationService: Service() {
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)
 
+    private var child:ChildObject? = null
+
+    @Inject
+    lateinit var childRepository: ChildRepository
     //@Inject
     //lateinit var childUsecases: ChildUsecases
 
@@ -48,9 +56,10 @@ class LocationService: Service() {
                 for (location in restult.locations) {
                     val childLocation = ChildLocationObject(location.latitude, location.longitude)
                     scope.launch {
-                        //childUsecases.updatChildLocation(authId, childLocation)
-                        //Log.i("testLocationService", latLng.toString())
-
+                        child?.childLocationObject = childLocation
+                        childRepository.updateChild(child!!){
+                            child = it
+                        }
                     }
                 }
             }
@@ -61,6 +70,7 @@ class LocationService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
+        child = intent?.getParcelableExtra(CHILD_PARCEL, ChildObject::class.java)
         locationManager.registerCallback(locationCallback)
 
         return START_STICKY
@@ -74,9 +84,9 @@ class LocationService: Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        locationRequest = null
-        locationManager.unRegisterCallback(locationCallback)
-        job.cancel()
+        //locationRequest = null
+        //locationManager.unRegisterCallback(locationCallback)
+        //job.cancel()
     }
 
 

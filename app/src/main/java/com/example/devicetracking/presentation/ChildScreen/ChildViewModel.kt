@@ -34,8 +34,19 @@ class ChildViewModel @Inject constructor(
     }
 
 
+    fun onChildOperationStateChanged(childOperationState: ChildOperationState){
 
-    fun updateChild(childObject: ChildObject){
+        when(childOperationState){
+
+            is ChildOperationState.UpdateChild ->{
+                updateChild(childOperationState.child)
+            }
+        }
+
+    }
+
+
+    private fun updateChild(childObject: ChildObject){
         viewModelScope.launch {
             childRepository.updateChild(childObject){updatedChild->
                 child.value = updatedChild
