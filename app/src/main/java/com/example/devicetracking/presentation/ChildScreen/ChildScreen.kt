@@ -166,26 +166,25 @@ fun ChildLocationMap(
                         childViewModel.child.value.childLocationObject,
                         !childViewModel.child.value.inTrip
                     )
-                    //childViewModel.child.value = child
 
                     childViewModel.updateChild(child)
 
 
 
-                    val defaultLocationServiceManager = DefaultLocationServiceManager(context = context)
+                    val defaultLocationSM = DefaultLocationServiceManager(context = context)
 
                     locationRequest = if(locationRequest == null){
 
-                       // defaultLocationServiceManager.startService()
+                        defaultLocationSM.startService()
                         LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
 
                     }else{
-                        //defaultLocationServiceManager.stopService()
+                        defaultLocationSM.stopService()
                         null
                     }
-//
-//                    val intent = Intent(context, LocationService::class.java)
-//                    context.startForegroundService(intent)
+
+                    val intent = Intent(context, LocationService::class.java)
+                    context.startForegroundService(intent)
 
 
                 }) {

@@ -5,12 +5,9 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.Parent
-import com.example.devicetracking.R
 //import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.model.ChildObject

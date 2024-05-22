@@ -10,7 +10,6 @@ import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.database.ValueEventListener
 
 class ChildRepositoryImpl : ChildRepository {
     override fun createChild(child: ChildObject) {
