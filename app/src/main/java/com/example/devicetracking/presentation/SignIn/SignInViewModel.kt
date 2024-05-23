@@ -11,7 +11,9 @@ import com.amplifyframework.datastore.generated.model.Parent
 //import com.example.devicetracking.domain.Usecases.Childusecases.ChildUsecases
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.model.ChildObject
+import com.example.devicetracking.domain.model.ParentObject
 import com.example.devicetracking.domain.repository.ChildRepository
+import com.example.devicetracking.domain.repository.ParentRepository
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,8 +27,8 @@ val CHILD = "Child"
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val childRepository: ChildRepository,
-    //val childUsecases: ChildUsecases,
-    //val parentUsecases: ParentUsecases,
+    private val parentRepository: ParentRepository
+
 ):ViewModel() {
 
     var passwordWeak = false
@@ -54,6 +56,25 @@ class SignInViewModel @Inject constructor(
                     Log.i("test", "in")
                 }
             }
+
+        }else if(userType.value == PARENT){
+
+            parentRepository.isParentExist(userEmail.value){found ->
+
+                if(!found){
+                    viewModelScope.launch {
+                        val parent = ParentObject(userEmail.value, firstName.value, lastName.value)
+                        parentRepository.createParent(parent)
+
+                    }
+
+                    Log.i("test", "in")
+                }
+
+            }
+
+
+
         }
     }
 
@@ -64,7 +85,7 @@ class SignInViewModel @Inject constructor(
 
             Amplify.Auth.fetchUserAttributes(
                 {
-                    Log.i("email", it[0].value.toString())
+
                     childRepository.isChildExist(email = it[0].value.toString()){exist ->
                         if(exist){
                             userType.value = CHILD
@@ -72,11 +93,9 @@ class SignInViewModel @Inject constructor(
                         }
                     }
 
-                    isParentExist(email = it[0].value.toString()){exist ->
-
+                    parentRepository.isParentExist(email = it[0].value.toString()){exist ->
                         if(exist){
                             userType.value = PARENT
-
                         }
                     }
                 },
@@ -92,29 +111,7 @@ class SignInViewModel @Inject constructor(
 
 
 
-    private fun isParentExist(email:String, onParentFound: (Boolean) -> Unit) {
 
-        try {
-            Amplify.API.query(
-                ModelQuery.get(Parent::class.java, email),
-                {parent ->
-                    if(parent.data != null){
-                        onParentFound(true)
-
-                    }else{
-                        onParentFound(false)
-                    }
-
-                },
-                {
-
-                }
-            )
-        } catch (error: ApiException) {
-
-
-        }
-    }
 
 
 

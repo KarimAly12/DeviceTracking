@@ -50,6 +50,7 @@ import com.amplifyframework.ui.authenticator.ui.SignUpConfirmFooter
 import com.amplifyframework.ui.authenticator.ui.SignUpFooter
 import com.example.devicetracking.R
 import com.example.devicetracking.presentation.ChildScreen.ChildScreen
+import com.example.devicetracking.presentation.ParentScreen.ParentScreen
 import com.example.devicetracking.presentation.SignIn.CHILD
 import com.example.devicetracking.presentation.SignIn.PARENT
 import com.example.devicetracking.presentation.SignIn.SignInViewModel
@@ -83,9 +84,9 @@ fun SingInScreen(
                 ChildScreen(
                     navHostController = navHostController
                 )
-                //signInViewModel.createUser(state.user.userId, signInViewModel.email)
             }else if(signInViewModel.userType.value == PARENT){
-                Text(text = "ParentScreen")
+                signInViewModel.createUser()
+                ParentScreen(navHostController = navHostController)
             }else{
 
                 signInViewModel.getUserType()

@@ -6,14 +6,12 @@ import com.google.firebase.database.ValueEventListener
 
 interface ChildRepository {
 
-    fun createChild(child: ChildObject)
+    suspend fun createChild(child: ChildObject)
 
     fun isChildExist(email:String, onChildFound: (Boolean) -> Unit)
-    fun getChild(email: String, onChildFound: (ChildObject) -> Unit)
-    //fun updateChildLocation(childId: String, childLocation: ChildLocationObject,)
+     fun getChild(email: String, onChildFound: (ChildObject) -> Unit)
 
     suspend fun updateChild(child: ChildObject, onChildUpdated: (ChildObject) -> Unit)
 
 
-    //suspend fun getChildLocation(childId: String, valueEventListener: ValueEventListener) : ChildLocationObject
 }

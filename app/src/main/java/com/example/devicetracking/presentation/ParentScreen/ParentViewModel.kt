@@ -1,60 +1,51 @@
 package com.example.devicetracking.presentation.ParentScreen
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
-import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.model.Parent
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
+import com.amplifyframework.core.Amplify
+import com.example.devicetracking.domain.model.ParentObject
+import com.example.devicetracking.domain.repository.ParentRepository
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ParentViewModel @Inject constructor(
-    val parenteUsecases: ParentUsecases
+    private val parentRepository: ParentRepository
 ):ViewModel() {
 
 
-    val auth = Firebase.auth
-
-    var parent = mutableStateOf(Parent("", "", ""))
-    var children:MutableList<ChildObject> = mutableStateListOf()
+    var parent: MutableState<ParentObject> = mutableStateOf(ParentObject())
 
 
     init {
-
-        viewModelScope.launch {
-            parenteUsecases.getParent(auth.currentUser!!.uid, parent)
-
-        }
-    }
-
-
-    fun getChildren(){
-        children.clear()
-        viewModelScope.launch {
-            //parenteUsecases.getParent(auth.currentUser!!.uid, parent)
-            children = parenteUsecases.getChildren(parent.value.children)
-            Log.i("test", children.size.toString())
-
-        }
-    }
-
-    fun addChild(childId:String){
-
-        parent.value.children.add(childId)
-
-        viewModelScope.launch {
-
-            parenteUsecases.addChildToParent(parent.value)
-
-
-        }
+        initParent()
 
     }
+
+
+    private fun initParent(){
+        viewModelScope.launch {
+            Amplify.Auth.fetchUserAttributes(
+                {
+                    parentRepository.getParent(it[0].value){p ->
+                        parent.value = p
+                    }
+                },
+                {
+                    Log.e("AuthQuickstart", "Failed to fetch user attributes", it)
+                }
+            )
+
+
+
+       }
+
+    }
+
 }

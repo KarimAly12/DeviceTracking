@@ -5,7 +5,6 @@ import android.app.Application
 import com.example.devicetracking.DeviceTrackingApp
 import com.example.devicetracking.data.repository.ChildRepositoryImpl
 import com.example.devicetracking.data.repository.ParentRepositoryImpl
-import com.example.devicetracking.domain.Usecases.ParentUsecases.AddChildToParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.CreateParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.GetChildren
 import com.example.devicetracking.domain.Usecases.ParentUsecases.GetParent
@@ -40,15 +39,15 @@ object AppModule {
 
     }
 
-    @Provides
-    fun provideParentUsecases(parentRepository: ParentRepository):ParentUsecases{
-        return ParentUsecases(
-            createParent = CreateParent(parentRepository),
-            addChildToParent = AddChildToParent(parentRepository),
-            getParent = GetParent(parentRepository),
-            getChildren = GetChildren(parentRepository)
-        )
-    }
+//    @Provides
+//    fun provideParentUsecases(parentRepository: ParentRepository):ParentUsecases{
+//        return ParentUsecases(
+//            createParent = CreateParent(parentRepository),
+//            addChildToParent = AddChildToParent(parentRepository),
+//            getParent = GetParent(parentRepository),
+//            getChildren = GetChildren(parentRepository)
+//        )
+//    }
 
     @Provides
     fun provideChildRepository():ChildRepository{

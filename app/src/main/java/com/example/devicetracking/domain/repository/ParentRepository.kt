@@ -3,16 +3,19 @@ package com.example.devicetracking.domain.repository
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.model.Parent
+import com.example.devicetracking.domain.model.ParentObject
 
 interface ParentRepository {
 
-    fun createParent(parent: Parent, password:String, isCreateProfile: MutableState<Boolean>):Boolean
-    suspend fun getParent(parentId:String, parent: MutableState<Parent>)
 
-    fun addChildToParent(childId:Parent)
+    suspend fun createParent(parent: ParentObject)
+    fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit)
 
-    suspend fun getChildren(childrenList:List<String>): SnapshotStateList<ChildObject>
+    fun isParentExist(email:String, onParentFound: (Boolean) -> Unit)
+
+
+
+    suspend fun getChildren(childrenList:List<String>)
 
 
 

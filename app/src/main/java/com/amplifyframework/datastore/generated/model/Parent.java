@@ -1,5 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
@@ -25,25 +27,26 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "Parents", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, provider = "apiKey", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 }, hasLazySupport = true)
-@Index(name = "undefined", fields = {"email"})
+@Index(name = "undefined", fields = {"parentEmail"})
 public final class Parent implements Model {
   public static final ParentPath rootPath = new ParentPath("root", false, null);
-  public static final QueryField EMAIL = field("Parent", "email");
+  public static final QueryField PARENT_EMAIL = field("Parent", "parentEmail");
   public static final QueryField FIRST_NAME = field("Parent", "firstName");
   public static final QueryField LAST_NAME = field("Parent", "lastName");
-  private final @ModelField(targetType="ID", isRequired = true) String email;
+  private final @ModelField(targetType="ID", isRequired = true) String parentEmail;
   private final @ModelField(targetType="String") String firstName;
   private final @ModelField(targetType="String") String lastName;
+  private final @ModelField(targetType="ParentChild") @HasMany(associatedWith = "parent", type = ParentChild.class) ModelList<ParentChild> children = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
    public String resolveIdentifier() {
-    return email;
+    return parentEmail;
   }
   
-  public String getEmail() {
-      return email;
+  public String getParentEmail() {
+      return parentEmail;
   }
   
   public String getFirstName() {
@@ -54,6 +57,10 @@ public final class Parent implements Model {
       return lastName;
   }
   
+  public ModelList<ParentChild> getChildren() {
+      return children;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -62,8 +69,8 @@ public final class Parent implements Model {
       return updatedAt;
   }
   
-  private Parent(String email, String firstName, String lastName) {
-    this.email = email;
+  private Parent(String parentEmail, String firstName, String lastName) {
+    this.parentEmail = parentEmail;
     this.firstName = firstName;
     this.lastName = lastName;
   }
@@ -76,7 +83,7 @@ public final class Parent implements Model {
         return false;
       } else {
       Parent parent = (Parent) obj;
-      return ObjectsCompat.equals(getEmail(), parent.getEmail()) &&
+      return ObjectsCompat.equals(getParentEmail(), parent.getParentEmail()) &&
               ObjectsCompat.equals(getFirstName(), parent.getFirstName()) &&
               ObjectsCompat.equals(getLastName(), parent.getLastName()) &&
               ObjectsCompat.equals(getCreatedAt(), parent.getCreatedAt()) &&
@@ -87,7 +94,7 @@ public final class Parent implements Model {
   @Override
    public int hashCode() {
     return new StringBuilder()
-      .append(getEmail())
+      .append(getParentEmail())
       .append(getFirstName())
       .append(getLastName())
       .append(getCreatedAt())
@@ -100,7 +107,7 @@ public final class Parent implements Model {
    public String toString() {
     return new StringBuilder()
       .append("Parent {")
-      .append("email=" + String.valueOf(getEmail()) + ", ")
+      .append("parentEmail=" + String.valueOf(getParentEmail()) + ", ")
       .append("firstName=" + String.valueOf(getFirstName()) + ", ")
       .append("lastName=" + String.valueOf(getLastName()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -109,17 +116,17 @@ public final class Parent implements Model {
       .toString();
   }
   
-  public static EmailStep builder() {
+  public static ParentEmailStep builder() {
       return new Builder();
   }
   
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(email,
+    return new CopyOfBuilder(parentEmail,
       firstName,
       lastName);
   }
-  public interface EmailStep {
-    BuildStep email(String email);
+  public interface ParentEmailStep {
+    BuildStep parentEmail(String parentEmail);
   }
   
 
@@ -130,16 +137,16 @@ public final class Parent implements Model {
   }
   
 
-  public static class Builder implements EmailStep, BuildStep {
-    private String email;
+  public static class Builder implements ParentEmailStep, BuildStep {
+    private String parentEmail;
     private String firstName;
     private String lastName;
     public Builder() {
       
     }
     
-    private Builder(String email, String firstName, String lastName) {
-      this.email = email;
+    private Builder(String parentEmail, String firstName, String lastName) {
+      this.parentEmail = parentEmail;
       this.firstName = firstName;
       this.lastName = lastName;
     }
@@ -148,15 +155,15 @@ public final class Parent implements Model {
      public Parent build() {
         
         return new Parent(
-          email,
+          parentEmail,
           firstName,
           lastName);
     }
     
     @Override
-     public BuildStep email(String email) {
-        Objects.requireNonNull(email);
-        this.email = email;
+     public BuildStep parentEmail(String parentEmail) {
+        Objects.requireNonNull(parentEmail);
+        this.parentEmail = parentEmail;
         return this;
     }
     
@@ -175,14 +182,14 @@ public final class Parent implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String email, String firstName, String lastName) {
-      super(email, firstName, lastName);
-      Objects.requireNonNull(email);
+    private CopyOfBuilder(String parentEmail, String firstName, String lastName) {
+      super(parentEmail, firstName, lastName);
+      Objects.requireNonNull(parentEmail);
     }
     
     @Override
-     public CopyOfBuilder email(String email) {
-      return (CopyOfBuilder) super.email(email);
+     public CopyOfBuilder parentEmail(String parentEmail) {
+      return (CopyOfBuilder) super.parentEmail(parentEmail);
     }
     
     @Override
@@ -199,8 +206,8 @@ public final class Parent implements Model {
 
   public static class ParentIdentifier extends ModelIdentifier<Parent> {
     private static final long serialVersionUID = 1L;
-    public ParentIdentifier(String email) {
-      super(email);
+    public ParentIdentifier(String parentEmail) {
+      super(parentEmail);
     }
   }
   

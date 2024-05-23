@@ -4,9 +4,16 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Child
+import com.amplifyframework.datastore.generated.model.ChildLocation
+import com.amplifyframework.datastore.generated.model.Parent
 import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.model.Parent
+import com.example.devicetracking.domain.model.ParentObject
 import com.example.devicetracking.domain.repository.ParentRepository
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
@@ -16,94 +23,66 @@ import com.google.firebase.database.database
 
 class ParentRepositoryImpl:ParentRepository {
 
-    private val auth = Firebase.auth
-    val database = Firebase.database
-    override fun createParent(parent: Parent, password:String, isCreateProfile: MutableState<Boolean>):Boolean {
-        val ref = database.getReference("Users")
 
-        var success = false
-
-        auth.createUserWithEmailAndPassword(parent.email,password)
-            .addOnCompleteListener{
-                if(!it.isSuccessful){
-
-                }else{
-                    ref.child("parent").child(auth.currentUser!!.uid).setValue(parent)
-
-                    isCreateProfile.value = true
-                }
-            }
-
-        return success
-    }
-
-    override suspend fun getParent(parentId:String, parent: MutableState<Parent>) {
-
-        val ref = database.getReference("Users")
-
-        ref.addListenerForSingleValueEvent(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    Log.i("test", parentId)
-
-                    try {
-                        parent.value = snapshot.child("parent").child(parentId).getValue(Parent::class.java)!!
-
-
-                    }catch (_:Exception){
-
-
-                    }
-
-                }
-
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-
+    override suspend fun createParent(parent: ParentObject) {
+        Amplify.API.mutate(
+            ModelMutation.create(
+                convertParentObjectToParent(parent)
+            ),
+            {
+                Log.i("PARENT_REPOSITORY", "create parent success")
+            },
+            {
+                Log.e("PARENT_REPOSITORY", "create parent error ", it)
             }
         )
 
 
+    }
+    override fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit) {
 
+        
 
     }
 
+    override fun isParentExist(email:String, onParentFound: (Boolean) -> Unit) {
+        try {
+            Amplify.API.query(
+                ModelQuery[Parent::class.java, email],
+                {parent ->
+                    if(parent.data != null){
+                        onParentFound(true)
 
-    override fun addChildToParent(parent: Parent) {
-        val ref = database.getReference("Users")
-
-        ref.child("parent").child(auth.currentUser!!.uid).child("children").setValue(parent.children)
-    }
-
-    override suspend fun getChildren(childrenList:List<String>):SnapshotStateList<ChildObject> {
-        val list = mutableStateListOf<ChildObject>()
-        val ref = database.getReference("Users")
-
-        Log.i("testAddChildren", childrenList.toString() )
-        ref.child("children").addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach{
-                        list.clear()
-                        if(childrenList.contains(it.key!!)){
-                            list.add(it.getValue(ChildObject::class.java)!!)
-                            //Log.i("testAddChildren", list[0].email )
-                        }
+                    }else{
+                        onParentFound(false)
                     }
 
-                   //Log.i("testNewChildren", "in")
+                },
+                {
+
                 }
+            )
+        } catch (error: ApiException) {
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            }
-        )
+            Log.e("PARENT_REPOSITORY", "get parent error ", error)
+
+        }
+    }
 
 
-        return list
+    override suspend fun getChildren(childrenList:List<String>) {
+
+    }
+
+
+    private fun convertParentObjectToParent(parent: ParentObject): Parent {
+
+       return Parent.builder()
+           .parentEmail(parent.email)
+           .firstName(parent.firstName)
+           .lastName(parent.lastName)
+           .build()
+
+
     }
 }

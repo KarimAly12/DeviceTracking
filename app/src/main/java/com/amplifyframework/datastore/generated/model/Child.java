@@ -1,5 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.HasMany;
+import com.amplifyframework.core.model.ModelList;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
@@ -25,29 +27,30 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @ModelConfig(pluralName = "Children", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, provider = "apiKey", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 }, hasLazySupport = true)
-@Index(name = "undefined", fields = {"email"})
+@Index(name = "undefined", fields = {"childEmail"})
 public final class Child implements Model {
   public static final ChildPath rootPath = new ChildPath("root", false, null);
-  public static final QueryField EMAIL = field("Child", "email");
+  public static final QueryField CHILD_EMAIL = field("Child", "childEmail");
   public static final QueryField FIRST_NAME = field("Child", "firstName");
   public static final QueryField LAST_NAME = field("Child", "lastName");
   public static final QueryField IN_TRIP = field("Child", "inTrip");
   public static final QueryField LOCATION = field("Child", "location");
-  private final @ModelField(targetType="ID", isRequired = true) String email;
+  private final @ModelField(targetType="ID", isRequired = true) String childEmail;
   private final @ModelField(targetType="String") String firstName;
   private final @ModelField(targetType="String") String lastName;
   private final @ModelField(targetType="Boolean") Boolean inTrip;
   private final @ModelField(targetType="ChildLocation") ChildLocation location;
+  private final @ModelField(targetType="ParentChild") @HasMany(associatedWith = "child", type = ParentChild.class) ModelList<ParentChild> parents = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
   @Deprecated
    public String resolveIdentifier() {
-    return email;
+    return childEmail;
   }
   
-  public String getEmail() {
-      return email;
+  public String getChildEmail() {
+      return childEmail;
   }
   
   public String getFirstName() {
@@ -66,6 +69,10 @@ public final class Child implements Model {
       return location;
   }
   
+  public ModelList<ParentChild> getParents() {
+      return parents;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -74,8 +81,8 @@ public final class Child implements Model {
       return updatedAt;
   }
   
-  private Child(String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-    this.email = email;
+  private Child(String childEmail, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
+    this.childEmail = childEmail;
     this.firstName = firstName;
     this.lastName = lastName;
     this.inTrip = inTrip;
@@ -90,7 +97,7 @@ public final class Child implements Model {
         return false;
       } else {
       Child child = (Child) obj;
-      return ObjectsCompat.equals(getEmail(), child.getEmail()) &&
+      return ObjectsCompat.equals(getChildEmail(), child.getChildEmail()) &&
               ObjectsCompat.equals(getFirstName(), child.getFirstName()) &&
               ObjectsCompat.equals(getLastName(), child.getLastName()) &&
               ObjectsCompat.equals(getInTrip(), child.getInTrip()) &&
@@ -103,7 +110,7 @@ public final class Child implements Model {
   @Override
    public int hashCode() {
     return new StringBuilder()
-      .append(getEmail())
+      .append(getChildEmail())
       .append(getFirstName())
       .append(getLastName())
       .append(getInTrip())
@@ -118,7 +125,7 @@ public final class Child implements Model {
    public String toString() {
     return new StringBuilder()
       .append("Child {")
-      .append("email=" + String.valueOf(getEmail()) + ", ")
+      .append("childEmail=" + String.valueOf(getChildEmail()) + ", ")
       .append("firstName=" + String.valueOf(getFirstName()) + ", ")
       .append("lastName=" + String.valueOf(getLastName()) + ", ")
       .append("inTrip=" + String.valueOf(getInTrip()) + ", ")
@@ -129,19 +136,19 @@ public final class Child implements Model {
       .toString();
   }
   
-  public static EmailStep builder() {
+  public static ChildEmailStep builder() {
       return new Builder();
   }
   
   public CopyOfBuilder copyOfBuilder() {
-    return new CopyOfBuilder(email,
+    return new CopyOfBuilder(childEmail,
       firstName,
       lastName,
       inTrip,
       location);
   }
-  public interface EmailStep {
-    BuildStep email(String email);
+  public interface ChildEmailStep {
+    BuildStep childEmail(String childEmail);
   }
   
 
@@ -154,8 +161,8 @@ public final class Child implements Model {
   }
   
 
-  public static class Builder implements EmailStep, BuildStep {
-    private String email;
+  public static class Builder implements ChildEmailStep, BuildStep {
+    private String childEmail;
     private String firstName;
     private String lastName;
     private Boolean inTrip;
@@ -164,8 +171,8 @@ public final class Child implements Model {
       
     }
     
-    private Builder(String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-      this.email = email;
+    private Builder(String childEmail, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
+      this.childEmail = childEmail;
       this.firstName = firstName;
       this.lastName = lastName;
       this.inTrip = inTrip;
@@ -176,7 +183,7 @@ public final class Child implements Model {
      public Child build() {
         
         return new Child(
-          email,
+          childEmail,
           firstName,
           lastName,
           inTrip,
@@ -184,9 +191,9 @@ public final class Child implements Model {
     }
     
     @Override
-     public BuildStep email(String email) {
-        Objects.requireNonNull(email);
-        this.email = email;
+     public BuildStep childEmail(String childEmail) {
+        Objects.requireNonNull(childEmail);
+        this.childEmail = childEmail;
         return this;
     }
     
@@ -217,14 +224,14 @@ public final class Child implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String email, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
-      super(email, firstName, lastName, inTrip, location);
-      Objects.requireNonNull(email);
+    private CopyOfBuilder(String childEmail, String firstName, String lastName, Boolean inTrip, ChildLocation location) {
+      super(childEmail, firstName, lastName, inTrip, location);
+      Objects.requireNonNull(childEmail);
     }
     
     @Override
-     public CopyOfBuilder email(String email) {
-      return (CopyOfBuilder) super.email(email);
+     public CopyOfBuilder childEmail(String childEmail) {
+      return (CopyOfBuilder) super.childEmail(childEmail);
     }
     
     @Override
@@ -251,8 +258,8 @@ public final class Child implements Model {
 
   public static class ChildIdentifier extends ModelIdentifier<Child> {
     private static final long serialVersionUID = 1L;
-    public ChildIdentifier(String email) {
-      super(email);
+    public ChildIdentifier(String childEmail) {
+      super(childEmail);
     }
   }
   

@@ -30,9 +30,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
 import com.example.devicetracking.R
 import com.example.devicetracking.core.barcode.BarcodeScanning
 import com.example.devicetracking.domain.model.ChildObject
+import com.example.devicetracking.domain.model.ParentObject
 import com.example.devicetracking.presentation.Navigation.Screens
 import com.example.devicetracking.ui.theme.colorButton1
 
@@ -40,48 +42,52 @@ import com.example.devicetracking.ui.theme.colorButton1
 @Composable
 fun ParentScreen(parentViewModel: ParentViewModel = hiltViewModel(), navHostController: NavHostController){
 
-
-    if(parentViewModel.children.isEmpty()){
-        parentViewModel.getChildren()
-    }
-
     val context =  LocalContext.current
     val barcodeScanning by remember { mutableStateOf(BarcodeScanning(context)) }
-    Scaffold(
-        floatingActionButton = {
-            
-            FloatingActionButton(
-                containerColor = colorButton1,
-                onClick = {
 
-                    Log.i("test", "parent home")
+    if(parentViewModel.parent.value == ParentObject()){
+        
+       AuthenticatorLoading()
+        
+    }else{
 
-                    barcodeScanning.starScan(
-                        onScanSuccess = {
-                            parentViewModel.addChild(it)
-                            parentViewModel.getChildren()
-                        }
+        Scaffold(
+            floatingActionButton = {
+
+                FloatingActionButton(
+                    containerColor = colorButton1,
+                    onClick = {
+                        
+                        barcodeScanning.starScan(
+                            onScanSuccess = {
+
+                            }
+                        )
+
+                    }
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.round_qr_code_scanner_24),
+                        contentDescription = "QR_CODE_SCANNER",
+                        tint = Color.White
                     )
-
                 }
+            },
+            floatingActionButtonPosition = FabPosition.End
+        ) {
+
+            Column(
+                modifier = Modifier.padding(it)
             ) {
-                Icon(painter = painterResource(id = R.drawable.round_qr_code_scanner_24),
-                    contentDescription = "QR_CODE_SCANNER",
-                    tint = Color.White
-                    )
+
+                //ChildLazyColumn(children = parentViewModel.children, navHostController)
+
             }
-        },
-        floatingActionButtonPosition = FabPosition.End
-    ) {
-       
-       Column(
-           modifier = Modifier.padding(it)
-       ) {
-           
-           ChildLazyColumn(children = parentViewModel.children, navHostController)
-           
-       }
+        }
+
     }
+
+
+
 }
 
 

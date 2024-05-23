@@ -12,11 +12,10 @@ import com.example.devicetracking.domain.repository.ChildRepository
 import com.google.android.gms.common.api.ApiException
 
 class ChildRepositoryImpl : ChildRepository {
-    override fun createChild(child: ChildObject) {
+    override  suspend fun createChild(child: ChildObject) {
 
 
         val c = convertChildObjectToChild(child)
-
 
         try {
 
@@ -60,7 +59,7 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-    override  fun getChild(email: String, onChildFound: (ChildObject) -> Unit) {
+    override fun getChild(email: String, onChildFound: (ChildObject) -> Unit) {
         try{
             Amplify.API.query(
                 ModelQuery[Child::class.java, email],
@@ -79,9 +78,7 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-//    override fun updateChildLocation(childId: String, childLocation: ChildLocationObject) {
-//        TODO("Not yet implemented")
-//    }
+
 
     override suspend fun updateChild(child: ChildObject, onChildUpdated: (ChildObject) -> Unit) {
 
@@ -103,17 +100,11 @@ class ChildRepositoryImpl : ChildRepository {
 
     }
 
-//    override suspend fun getChildLocation(
-//        childId: String,
-//        valueEventListener: ValueEventListener
-//    ): ChildLocationObject {
-//        TODO("Not yet implemented")
-//    }
 
     private fun convertChildToChildObject(child: Child): ChildObject {
 
         return ChildObject(
-            child.email,
+            child.childEmail,
             child.firstName,
             child.lastName,
             ChildLocationObject(child.location.latitude, child.location.longitude),
@@ -128,7 +119,7 @@ class ChildRepositoryImpl : ChildRepository {
             .build()
 
         return Child.builder()
-            .email(child.email)
+            .childEmail(child.email)
             .firstName(child.firstName)
             .lastName(child.lastName)
             .inTrip(child.inTrip)

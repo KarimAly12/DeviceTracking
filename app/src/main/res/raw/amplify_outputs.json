@@ -34,11 +34,113 @@
     "model_introspection": {
       "version": 1,
       "models": {
+        "ParentChild": {
+          "name": "ParentChild",
+          "fields": {
+            "id": {
+              "name": "id",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "childEmail": {
+              "name": "childEmail",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "parentEmail": {
+              "name": "parentEmail",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "child": {
+              "name": "child",
+              "isArray": false,
+              "type": {
+                "model": "Child"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "childEmail"
+                ]
+              }
+            },
+            "parent": {
+              "name": "parent",
+              "isArray": false,
+              "type": {
+                "model": "Parent"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "association": {
+                "connectionType": "BELONGS_TO",
+                "targetNames": [
+                  "parentEmail"
+                ]
+              }
+            },
+            "createdAt": {
+              "name": "createdAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            },
+            "updatedAt": {
+              "name": "updatedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            }
+          },
+          "syncable": true,
+          "pluralName": "ParentChildren",
+          "attributes": [
+            {
+              "type": "model",
+              "properties": {}
+            },
+            {
+              "type": "auth",
+              "properties": {
+                "rules": [
+                  {
+                    "allow": "public",
+                    "provider": "apiKey",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "primaryKeyInfo": {
+            "isCustomPrimaryKey": false,
+            "primaryKeyFieldName": "id",
+            "sortKeyFieldNames": []
+          }
+        },
         "Child": {
           "name": "Child",
           "fields": {
-            "email": {
-              "name": "email",
+            "childEmail": {
+              "name": "childEmail",
               "isArray": false,
               "type": "ID",
               "isRequired": true,
@@ -74,6 +176,22 @@
               "isRequired": false,
               "attributes": []
             },
+            "parents": {
+              "name": "parents",
+              "isArray": true,
+              "type": {
+                "model": "ParentChild"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "childEmail"
+                ]
+              }
+            },
             "createdAt": {
               "name": "createdAt",
               "isArray": false,
@@ -102,7 +220,7 @@
               "type": "key",
               "properties": {
                 "fields": [
-                  "email"
+                  "childEmail"
                 ]
               }
             },
@@ -126,15 +244,15 @@
           ],
           "primaryKeyInfo": {
             "isCustomPrimaryKey": true,
-            "primaryKeyFieldName": "email",
+            "primaryKeyFieldName": "childEmail",
             "sortKeyFieldNames": []
           }
         },
         "Parent": {
           "name": "Parent",
           "fields": {
-            "email": {
-              "name": "email",
+            "parentEmail": {
+              "name": "parentEmail",
               "isArray": false,
               "type": "ID",
               "isRequired": true,
@@ -153,6 +271,22 @@
               "type": "String",
               "isRequired": false,
               "attributes": []
+            },
+            "children": {
+              "name": "children",
+              "isArray": true,
+              "type": {
+                "model": "ParentChild"
+              },
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true,
+              "association": {
+                "connectionType": "HAS_MANY",
+                "associatedWith": [
+                  "parentEmail"
+                ]
+              }
             },
             "createdAt": {
               "name": "createdAt",
@@ -182,7 +316,7 @@
               "type": "key",
               "properties": {
                 "fields": [
-                  "email"
+                  "parentEmail"
                 ]
               }
             },
@@ -206,7 +340,7 @@
           ],
           "primaryKeyInfo": {
             "isCustomPrimaryKey": true,
-            "primaryKeyFieldName": "email",
+            "primaryKeyFieldName": "parentEmail",
             "sortKeyFieldNames": []
           }
         }
