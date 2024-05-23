@@ -22,8 +22,6 @@ class LocationManager(
       @SuppressLint("MissingPermission")
       fun registerCallback(locationCallback: LocationCallback){
 
-
-
           if (areLocationPermissionGranted()){
 
               fusedLocationClient.requestLocationUpdates(

@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.example.devicetracking.core.tracking.location.LocationManager
+import com.example.devicetracking.core.tracking.notification.LocationNotificationHelper
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.repository.ChildRepository
@@ -34,6 +35,9 @@ class LocationService: Service() {
 
     @Inject
     lateinit var childRepository: ChildRepository
+    @Inject
+    lateinit var locationNotificationHelper: LocationNotificationHelper
+
     //@Inject
     //lateinit var childUsecases: ChildUsecases
 
@@ -71,6 +75,7 @@ class LocationService: Service() {
         child = intent?.getParcelableExtra(CHILD_PARCEL, ChildObject::class.java)
         locationManager.registerCallback(locationCallback)
 
+        locationNotificationHelper.showLocationNotification()
         return START_STICKY
     }
 
@@ -82,9 +87,9 @@ class LocationService: Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        //locationRequest = null
-        //locationManager.unRegisterCallback(locationCallback)
-        //job.cancel()
+        locationRequest = null
+        locationManager.unRegisterCallback(locationCallback)
+        job.cancel()
     }
 
 

@@ -2,7 +2,10 @@ package com.example.devicetracking.common
 
 
 import android.app.Application
+import android.content.Context
 import com.example.devicetracking.DeviceTrackingApp
+import com.example.devicetracking.core.tracking.notification.LocationNotification
+import com.example.devicetracking.core.tracking.notification.LocationNotificationHelper
 import com.example.devicetracking.data.repository.ChildRepositoryImpl
 import com.example.devicetracking.data.repository.ParentRepositoryImpl
 import com.example.devicetracking.domain.Usecases.ParentUsecases.CreateParent
@@ -11,10 +14,13 @@ import com.example.devicetracking.domain.Usecases.ParentUsecases.GetParent
 import com.example.devicetracking.domain.Usecases.ParentUsecases.ParentUsecases
 import com.example.devicetracking.domain.repository.ChildRepository
 import com.example.devicetracking.domain.repository.ParentRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 
 @Module
@@ -22,9 +28,18 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
 
+
+
+//    @Provides
+//    fun provoideApplication(): Context {
+//        return DeviceTrackingApp().applicationContext
+//    }
+
+
+    @Singleton
     @Provides
-    fun provoideApplication(): Application {
-        return DeviceTrackingApp()
+    fun provideLocationNotification(@ApplicationContext context: Context):LocationNotification{
+        return LocationNotificationHelper(context)
     }
 
 //
@@ -33,6 +48,7 @@ object AppModule {
 //    fun provideLocationProvider(application: Application): LocationProvider {
 //        return LocationProvider(application)
 //    }
+    @Singleton
     @Provides
     fun provideParentRepository():ParentRepository{
         return ParentRepositoryImpl()
@@ -49,6 +65,7 @@ object AppModule {
 //        )
 //    }
 
+    @Singleton
     @Provides
     fun provideChildRepository():ChildRepository{
         return ChildRepositoryImpl()
@@ -64,6 +81,7 @@ object AppModule {
 //            getChildLocation = GetChildLocation(childRepository)
 //        )
 //    }
+
 
 
 }

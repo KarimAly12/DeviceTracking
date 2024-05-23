@@ -12,13 +12,18 @@ import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.core.configuration.AmplifyOutputs
+import com.example.devicetracking.core.tracking.notification.LocationNotification
+import com.example.devicetracking.core.tracking.notification.LocationNotificationHelper
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 
 @HiltAndroidApp
 class DeviceTrackingApp:Application() {
 
 
+    @Inject
+    lateinit var locationNotificationHelper: LocationNotification
     override fun onCreate() {
         super.onCreate()
         try {
@@ -29,21 +34,12 @@ class DeviceTrackingApp:Application() {
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
         }
-        createNotificationChannel()
+        locationNotificationHelper.createNotificationChannel()
 
 
     }
 
     
 
-    private fun createNotificationChannel(){
 
-        val channel = NotificationChannel(
-            "LOCATION_NOTIFY", "location", NotificationManager.IMPORTANCE_HIGH
-        )
-
-        val notificationManager :NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-
-    }
 }
