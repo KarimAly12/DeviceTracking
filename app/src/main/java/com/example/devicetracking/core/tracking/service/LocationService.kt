@@ -1,9 +1,9 @@
-package com.example.devicetracking.presentation.Location
+package com.example.devicetracking.core.tracking.service
 
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.example.devicetracking.core.location.LocationManager
+import com.example.devicetracking.core.tracking.location.LocationManager
 import com.example.devicetracking.domain.model.ChildLocationObject
 import com.example.devicetracking.domain.model.ChildObject
 import com.example.devicetracking.domain.repository.ChildRepository
@@ -12,8 +12,6 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -37,10 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
-import com.example.devicetracking.core.service.DefaultLocationServiceManager
+import com.example.devicetracking.core.tracking.service.DefaultLocationServiceManager
 import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.presentation.Location.CHILD_PARCEL
-import com.example.devicetracking.presentation.Location.LocationService
+import com.example.devicetracking.core.tracking.service.CHILD_PARCEL
+import com.example.devicetracking.core.tracking.service.LocationService
 import com.example.devicetracking.presentation.LocationMap.LocationMap
 import com.example.devicetracking.presentation.LocationMap.LocationUpdatesEffect
 import com.example.devicetracking.presentation.LocationMap.centerOnLocation

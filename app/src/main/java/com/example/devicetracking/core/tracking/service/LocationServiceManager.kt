@@ -1,4 +1,4 @@
-package com.example.devicetracking.core.service
+package com.example.devicetracking.core.tracking.service
 
 interface LocationServiceManager {
 

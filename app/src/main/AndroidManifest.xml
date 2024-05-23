@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".presentation.Location.LocationService"
+        <service android:name=".core.tracking.service.LocationService"
             android:foregroundServiceType="location"
             android:exported="false"/>
 

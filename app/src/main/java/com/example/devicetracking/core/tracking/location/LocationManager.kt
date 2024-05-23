@@ -1,4 +1,4 @@
-package com.example.devicetracking.core.location
+package com.example.devicetracking.core.tracking.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,7 +15,6 @@ class LocationManager(
     var fusedLocationClient: FusedLocationProviderClient,
     var locationRequest:LocationRequest
 ) {
-
 
 
 
