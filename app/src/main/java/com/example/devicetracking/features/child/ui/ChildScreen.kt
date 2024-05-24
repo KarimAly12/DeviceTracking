@@ -45,7 +45,6 @@ import com.example.devicetracking.core.ui.map.LocationMap
 import com.example.devicetracking.core.ui.map.LocationUpdatesEffect
 import com.example.devicetracking.core.ui.map.centerOnLocation
 import com.example.devicetracking.core.ui.navigation.ScreenNavigationDrawer
-import com.example.devicetracking.features.child.domain.model.ChildOperationState
 import com.example.devicetracking.ui.theme.colorButton1
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority

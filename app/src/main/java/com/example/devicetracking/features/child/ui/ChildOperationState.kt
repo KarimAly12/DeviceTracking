@@ -1,4 +1,4 @@
-package com.example.devicetracking.features.child.domain.model
+package com.example.devicetracking.features.child.ui
 
 import com.example.devicetracking.core.domain.model.ChildObject
 

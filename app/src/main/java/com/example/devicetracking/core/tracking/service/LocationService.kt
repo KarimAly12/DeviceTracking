@@ -88,6 +88,19 @@ class LocationService: Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        val newChild = ChildObject(
+            email = child!!.email,
+            firstName = child!!.firstName,
+            lastName = child!!.lastName,
+            childLocationObject = child!!.childLocationObject,
+            inTrip = false
+        )
+        scope.launch {
+            childRepository.updateChild(newChild){}
+
+        }
+
         locationRequest = null
         locationManager.unRegisterCallback(locationCallback)
         job.cancel()

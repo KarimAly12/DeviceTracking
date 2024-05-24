@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.amplifyframework.core.Amplify
 import com.example.devicetracking.core.domain.model.ChildObject
 import com.example.devicetracking.core.domain.repository.ChildRepository
-import com.example.devicetracking.features.child.domain.model.ChildOperationState
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import dagger.hilt.android.lifecycle.HiltViewModel
