@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.IBinder
 import com.example.devicetracking.core.tracking.location.LocationManager
 import com.example.devicetracking.core.tracking.notification.LocationNotificationHelper
-import com.example.devicetracking.domain.model.ChildLocationObject
-import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.repository.ChildRepository
+import com.example.devicetracking.core.domain.model.ChildLocationObject
+import com.example.devicetracking.core.domain.model.ChildObject
+import com.example.devicetracking.core.domain.repository.ChildRepository
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -31,7 +31,7 @@ class LocationService: Service() {
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)
 
-    private var child:ChildObject? = null
+    private var child: ChildObject? = null
 
     @Inject
     lateinit var childRepository: ChildRepository
@@ -47,6 +47,7 @@ class LocationService: Service() {
 
     override fun onCreate() {
         super.onCreate()
+
 
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build()

@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.devicetracking.domain.model.ChildObject
-import com.example.devicetracking.domain.model.ChildLocationObject
+import com.example.devicetracking.core.domain.model.ChildObject
+import com.example.devicetracking.core.domain.model.ChildLocationObject
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

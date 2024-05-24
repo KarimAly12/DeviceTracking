@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.devicetracking.presentation.Navigation.Navigation
+import com.example.devicetracking.core.ui.navigation.Navigation
 import com.example.devicetracking.ui.theme.MyApplicationTheme
-import com.example.devicetracking.presentation.requestPermissions
+import com.example.devicetracking.core.ui.permissions.requestPermissions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
