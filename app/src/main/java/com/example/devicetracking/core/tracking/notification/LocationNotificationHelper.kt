@@ -42,6 +42,7 @@ class LocationNotificationHelper @Inject constructor(
        .setSmallIcon(R.drawable.walk)
        .setContentIntent(stopLocServicePendingIntent)
        .addAction(stopTripAction)
+       .setOngoing(true)
 
 
    private val notificationManager:NotificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

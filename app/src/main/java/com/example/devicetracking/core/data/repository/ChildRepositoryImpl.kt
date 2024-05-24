@@ -3,6 +3,7 @@ package com.example.devicetracking.core.data.repository
 import android.util.Log
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.api.graphql.model.ModelSubscription
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.ChildLocation
@@ -18,6 +19,8 @@ class ChildRepositoryImpl : ChildRepository {
         val c = convertChildObjectToChild(child)
 
         try {
+
+
 
             Amplify.API.mutate(ModelMutation.create(c),
                 {
@@ -84,6 +87,10 @@ class ChildRepositoryImpl : ChildRepository {
 
         val c = convertChildObjectToChild(child)
         try{
+
+
+
+
             Amplify.API.mutate(ModelMutation.update(c),
                 {
                     onChildUpdated(convertChildToChildObject(it.data))
@@ -91,6 +98,16 @@ class ChildRepositoryImpl : ChildRepository {
                 {error->
                     Log.e("CHILD_REPOSITORY", error.message.toString())
                 }
+            )
+
+            Amplify.API.subscribe(ModelSubscription.onUpdate(Child::class.java),
+                {},
+                {
+                    onChildUpdated(convertChildToChildObject(it.data))
+                },
+                {},
+                {}
+
             )
 
 

@@ -70,6 +70,7 @@ class LocationService: Service() {
     }
 
 
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
@@ -100,6 +101,8 @@ class LocationService: Service() {
             childRepository.updateChild(newChild){}
 
         }
+
+        locationNotificationHelper.removeLocationNotification()
 
         locationRequest = null
         locationManager.unRegisterCallback(locationCallback)
