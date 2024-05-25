@@ -79,6 +79,7 @@ class LocationNotificationHelper @Inject constructor(
     }
 
     override fun removeLocationNotification() {
+
         notificationManager.cancel(NOTIFICATION_ID)
     }
 

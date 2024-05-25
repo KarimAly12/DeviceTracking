@@ -3,6 +3,7 @@ package com.example.devicetracking.core.tracking.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import com.example.devicetracking.core.tracking.location.LocationManager
 import com.example.devicetracking.core.tracking.notification.LocationNotificationHelper
 import com.example.devicetracking.core.domain.model.ChildLocationObject
@@ -71,12 +72,14 @@ class LocationService: Service() {
 
 
 
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
         child = intent?.getParcelableExtra(CHILD_PARCEL, ChildObject::class.java)
         locationManager.registerCallback(locationCallback)
 
+        Log.i("LocationService", "onStartCommand")
         locationNotificationHelper.showLocationNotification()
         return START_STICKY
     }
@@ -85,6 +88,8 @@ class LocationService: Service() {
     override fun onBind(intent: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
+
+
 
 
     override fun onDestroy() {

@@ -160,23 +160,22 @@ fun ChildLocationMap(
                 containerColor = colorButton1,
                 onClick = {
 
-                    val child = ChildObject(
-                        childViewModel.child.value.email,
-                        childViewModel.child.value.firstName,
-                        childViewModel.child.value.lastName,
-                        childViewModel.child.value.childLocationObject,
-                        !childViewModel.child.value.inTrip
-                    )
+                    childViewModel.apply {
 
-                    childViewModel.onChildOperationStateChanged(
-                        ChildOperationState.UpdateChild(
-                            child
+                        child.value.inTrip = !child.value.inTrip
+                        onChildOperationStateChanged(
+                            ChildOperationState.UpdateChild(
+                                child.value
+                            )
                         )
-                    )
+
+                    }
+
+
 
 
                     val locationServiceIntent = Intent(context, LocationService::class.java)
-                    locationServiceIntent.putExtra(CHILD_PARCEL, child)
+                    locationServiceIntent.putExtra(CHILD_PARCEL, childViewModel.child.value)
 
                     val defaultLocationSM = DefaultLocationServiceManager(context = context, locationServiceIntent)
 

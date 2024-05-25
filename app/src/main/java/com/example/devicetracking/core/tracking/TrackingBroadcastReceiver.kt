@@ -16,9 +16,12 @@ class TrackingBroadcastReceiver: BroadcastReceiver() {
 
         when(intent?.action){
             LocServiceEvents.StopLocService.event ->{
-                val locServiceIntent = Intent(context, LocationService::class.java)
-                val locServiceManager = DefaultLocationServiceManager(context!!,locServiceIntent)
-                locServiceManager.stopService()
+
+                Intent(context, LocationService::class.java).apply {
+                    val locServiceManager = DefaultLocationServiceManager(context!!,this)
+                    locServiceManager.stopService()
+                }
+
 
             }
         }

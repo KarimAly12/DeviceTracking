@@ -41,7 +41,7 @@ data class ChildObject(
     val firstName: String = "",
     val lastName: String = "",
     var childLocationObject: ChildLocationObject = ChildLocationObject(),
-    val inTrip: Boolean = false
+    var inTrip: Boolean = false
 ):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
