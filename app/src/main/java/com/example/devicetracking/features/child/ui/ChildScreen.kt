@@ -131,8 +131,12 @@ fun ChildLocationMap(
     var locationRequest by remember { mutableStateOf<LocationRequest?>(null) }
     var locationLatLng by remember { mutableStateOf(LatLng(0.0,0.0)) }
     val cameraState = rememberCameraPositionState()
+
     if(childViewModel.child.value.inTrip){
-        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build() }
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(3)).build()
+    }else{
+        locationRequest = null
+    }
 
     if(locationRequest != null){
         LocationUpdatesEffect(locationRequest = locationRequest!!) {result ->

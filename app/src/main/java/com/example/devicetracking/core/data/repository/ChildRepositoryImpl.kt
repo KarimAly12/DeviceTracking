@@ -11,15 +11,14 @@ import com.example.devicetracking.core.domain.model.ChildObject
 import com.example.devicetracking.core.domain.model.ChildLocationObject
 import com.example.devicetracking.core.domain.repository.ChildRepository
 import com.google.android.gms.common.api.ApiException
+import kotlinx.coroutines.runBlocking
 
 class ChildRepositoryImpl : ChildRepository {
     override  suspend fun createChild(child: ChildObject) {
 
-
         val c = convertChildObjectToChild(child)
 
         try {
-
 
 
             Amplify.API.mutate(ModelMutation.create(c),
@@ -31,6 +30,17 @@ class ChildRepositoryImpl : ChildRepository {
                     Log.i("MyAmplifyApp", it.message.toString())
                 }
             )
+
+            Amplify.API.subscribe(ModelSubscription.onCreate(Child::class.java),
+
+                {},
+                {
+
+                },
+                {},
+                {}
+            )
+
         }catch (e: Exception){
 
             Log.e("CHILD_REPOSITORY", e.message.toString())
@@ -40,6 +50,7 @@ class ChildRepositoryImpl : ChildRepository {
     }
 
     override fun isChildExist(email:String, onChildFound: (Boolean) -> Unit){
+
 
         try{
             Amplify.API.query(
@@ -67,13 +78,28 @@ class ChildRepositoryImpl : ChildRepository {
             Amplify.API.query(
                 ModelQuery[Child::class.java, email],
                 {childResponse ->
-                    onChildFound(convertChildToChildObject(childResponse.data))
+                    if(childResponse.data != null){
+                        onChildFound(convertChildToChildObject(childResponse.data))
+                    }
 
                 },
                 {
 
                 }
             )
+
+
+            Amplify.API.subscribe(ModelSubscription.onCreate(Child::class.java),
+
+                {},
+                {childResponse ->
+                    onChildFound(convertChildToChildObject(childResponse.data))
+                },
+                {},
+                {}
+            )
+
+
         }catch (error: ApiException){
             Log.e("CHILD_REPOSITORY", error.message.toString())
         }
@@ -99,6 +125,7 @@ class ChildRepositoryImpl : ChildRepository {
                     Log.e("CHILD_REPOSITORY", error.message.toString())
                 }
             )
+
 
             Amplify.API.subscribe(ModelSubscription.onUpdate(Child::class.java),
                 {},
