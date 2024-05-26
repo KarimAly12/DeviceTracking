@@ -16,7 +16,7 @@ fun ChildNavigation(
     childViewModel: ChildViewModel,
     navHostController: NavHostController
 ){
-    NavHost(navController = navHostController, startDestination = ChildNavScreen.Home.route ) {
+    NavHost(navController = navHostController, startDestination = ChildNavScreen.Home.route, modifier = modifier ) {
         composable(ChildNavScreen.Home.route){
             ChildHome(childViewModel = childViewModel, navHostController = navHostController)
         }
