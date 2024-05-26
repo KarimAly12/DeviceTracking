@@ -3,8 +3,12 @@ package com.example.devicetracking.core.data.repository
 import android.util.Log
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
+import com.amplifyframework.api.graphql.model.ModelSubscription
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.Parent
+import com.example.devicetracking.core.domain.model.ChildLocationObject
+import com.example.devicetracking.core.domain.model.ChildObject
 import com.example.devicetracking.core.domain.model.ParentObject
 import com.example.devicetracking.core.domain.repository.ParentRepository
 import com.google.android.gms.common.api.ApiException
@@ -25,9 +29,29 @@ class ParentRepositoryImpl: ParentRepository {
             }
         )
 
+        
 
     }
     override fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit) {
+
+        try {
+
+            Amplify.API.query(ModelQuery[Parent::class.java, parentEmail],
+                {parentResponse->
+                if (parentResponse.data != null){
+
+                    onParentFound(convertParentToParentObject(parentResponse.data))
+                }
+
+                },
+                {}
+            )
+
+
+        }catch (e:Exception){
+
+            Log.i("PARENT_REPOSITORY", e.message.toString())
+        }
 
         
 
@@ -63,6 +87,15 @@ class ParentRepositoryImpl: ParentRepository {
     }
 
 
+
+    private fun convertParentToParentObject(parent: Parent): ParentObject {
+        return ParentObject(
+            parent.parentEmail,
+            parent.firstName,
+            parent.lastName,
+
+        )
+    }
     private fun convertParentObjectToParent(parent: ParentObject): Parent {
 
        return Parent.builder()
