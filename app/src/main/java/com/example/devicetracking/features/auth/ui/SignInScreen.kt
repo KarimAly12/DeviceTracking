@@ -48,6 +48,7 @@ import com.amplifyframework.ui.authenticator.ui.SignInFooter
 import com.amplifyframework.ui.authenticator.ui.SignUpFooter
 import com.example.devicetracking.R
 import com.example.devicetracking.features.child.ui.ChildScreen
+import com.example.devicetracking.features.child.ui.navigation.ChildNavScreen
 import com.example.devicetracking.features.parent.ui.ParentScreen
 import kotlinx.coroutines.launch
 
@@ -80,9 +81,7 @@ fun SingInScreen(
             if(signInViewModel.userType.value == CHILD){
 
                 signInViewModel.createUser()
-                ChildScreen(
-                    navHostController = navHostController
-                )
+                ChildScreen()
             }else if(signInViewModel.userType.value == PARENT){
                 signInViewModel.createUser()
                 ParentScreen(navHostController = navHostController)
