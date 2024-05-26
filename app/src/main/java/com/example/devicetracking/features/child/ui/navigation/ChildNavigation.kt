@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.devicetracking.features.child.ui.ChildLocationMap
 import com.example.devicetracking.features.child.ui.ChildHome
+import com.example.devicetracking.features.child.ui.ChildProfile
 import com.example.devicetracking.features.child.ui.ChildViewModel
 
 
@@ -25,7 +26,7 @@ fun ChildNavigation(
         }
 
         composable(ChildNavScreen.Profile.route){
-
+            ChildProfile(childViewModel = childViewModel, navHostController = navHostController )
         }
         
     }

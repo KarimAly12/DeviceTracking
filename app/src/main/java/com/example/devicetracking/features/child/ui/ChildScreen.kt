@@ -265,3 +265,11 @@ fun ChildLocationMap(
 
 }
 
+
+@Composable
+fun ChildProfile(
+    childViewModel: ChildViewModel,
+    navHostController: NavHostController
+){
+
+}
