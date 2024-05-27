@@ -3,6 +3,7 @@ package com.example.devicetracking.features.child.ui
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -83,8 +84,10 @@ fun ChildScreen(childViewModel: ChildViewModel= hiltViewModel()){
                 BottomNavigation {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val destination = navBackStackEntry?.destination
+
                     screens.forEach { screen->
                         BottomNavigationItem(
+                            alwaysShowLabel = false,
                             label = { Text(text = screen.name, color = Color.White, fontSize = 12.sp)},
                             icon = { Icon(painter = painterResource(id = screen.resourceId), contentDescription = null,tint=Color.White )},
                             selected = destination?.hierarchy?.any { screen.route == it.route } == true,
