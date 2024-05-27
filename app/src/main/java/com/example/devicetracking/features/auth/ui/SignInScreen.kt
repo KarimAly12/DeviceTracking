@@ -76,6 +76,7 @@ fun SingInScreen(
 
         ) { state ->
 
+            Log.i("test", signInViewModel.userEmail.value)
 
 
             if(signInViewModel.userType.value == CHILD){
@@ -116,6 +117,7 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
                 .padding(16.dp),
             onValueChange = {
                 email.state.content = it
+                signInViewModel.userEmail.value = it
             })
 
         OutlinedTextField(
@@ -149,8 +151,9 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
             onClick = {
 
                 scope.launch {
-                    state.signIn()
+                    signInViewModel.userType.value = ""
 
+                    state.signIn()
                 }
 
                 //signInViewModel.signIn(email,password, navHostController)

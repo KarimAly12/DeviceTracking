@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
@@ -39,6 +40,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,6 +51,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.amplifyframework.core.Amplify
 import com.amplifyframework.ui.authenticator.ui.AuthenticatorLoading
 import com.example.devicetracking.core.tracking.service.DefaultLocationServiceManager
 import com.example.devicetracking.core.domain.model.ChildObject
@@ -274,5 +278,17 @@ fun ChildProfile(
     childViewModel: ChildViewModel,
     navHostController: NavHostController
 ){
+
+    ClickableText(
+        text = AnnotatedString("Sign out"),
+        style = TextStyle(
+            color = Color.Red
+        )
+    ) {
+        Amplify.Auth.signOut{
+
+        }
+
+    }
 
 }
