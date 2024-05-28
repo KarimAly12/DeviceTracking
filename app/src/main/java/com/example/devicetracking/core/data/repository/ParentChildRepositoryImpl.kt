@@ -2,6 +2,7 @@ package com.example.devicetracking.core.data.repository
 
 import android.util.Log
 import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.ChildLocation
@@ -12,39 +13,53 @@ import com.example.devicetracking.core.domain.model.ParentObject
 import com.example.devicetracking.core.domain.repository.ChildRepository
 import com.example.devicetracking.core.domain.repository.ParentChildRepository
 import com.example.devicetracking.core.domain.repository.ParentRepository
+import kotlinx.coroutines.awaitAll
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ParentChildRepositoryImpl @Inject constructor(
-    private val childRepository: ChildRepository,
-    private val parentRepository: ParentRepository
+
 
 ): ParentChildRepository {
     override suspend fun addParentChild(childEmail: String, parentEmail: String) {
 
        try {
 
-           childRepository.getChild(childEmail){c ->
-               parentRepository.getParent(parentEmail){p ->
 
-                   val parentChild = ParentChild
-                       .builder()
-                       .child(convertChildObjectToChild(c))
-                       .parent(convertParentObjectToParent(p))
-                       .build()
+           Amplify.API.query(
+               ModelQuery[Child::class.java, childEmail],
+               {c ->
+                   Amplify.API.query(
+                       ModelQuery[Parent::class.java, parentEmail],
+                       {p ->
 
-                   Amplify.API.mutate(ModelMutation.create(parentChild),
-                       {
-                           Log.i("PARENT_CHILD_REPOSITORY", it.errors.toString())
+                           val parentChild = ParentChild
+                               .builder()
+                               .child(c.data)
+                               .parent(p.data)
+                               .build()
+
+                           Amplify.API.mutate(ModelMutation.create(parentChild),
+                               {
+                                   Log.i("PARENT_CHILD_REPOSITORY", it.errors.toString())
+
+                               },
+                               {
+                                   Log.i("PARENT_CHILD_REPOSITORY", it.message.toString())
+                               }
+                           )
+
 
                        },
-                       {
-                           Log.i("PARENT_CHILD_REPOSITORY", it.message.toString())
-                       }
+                       {}
                    )
-               }
-           }
+
+
+               },
+               {}
+           )
+
 
 
        }catch(error:Exception){
@@ -59,7 +74,29 @@ class ParentChildRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getChildren(parentEmail: String) {
-        TODO("Not yet implemented")
+        try {
+
+
+            Amplify.API.query(ModelQuery.list(ParentChild::class.java,
+                ParentChild.PARENT.contains(parentEmail)),
+
+                {
+
+                    it.data.forEach {
+                        Log.i("test", it.id)
+                    }
+
+                },
+                {}
+
+
+
+            )
+
+
+        }catch (error:Exception){
+            Log.i("CHILD_REPOSITORY", error.message.toString())
+        }
     }
 
 

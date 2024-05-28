@@ -76,7 +76,7 @@ fun SingInScreen(
 
         ) { state ->
 
-            Log.i("test", signInViewModel.userEmail.value)
+            Log.i("test", signInViewModel.userType.value)
 
 
             if(signInViewModel.userType.value == CHILD){
@@ -151,7 +151,6 @@ fun SignInScreen(signInViewModel: SignInViewModel, state: SignInState){
             onClick = {
 
                 scope.launch {
-                    signInViewModel.userType.value = ""
 
                     state.signIn()
                 }

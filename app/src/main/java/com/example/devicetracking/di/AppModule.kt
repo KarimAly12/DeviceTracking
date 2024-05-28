@@ -5,8 +5,10 @@ import android.content.Context
 import com.example.devicetracking.core.tracking.notification.LocationNotification
 import com.example.devicetracking.core.tracking.notification.LocationNotificationHelper
 import com.example.devicetracking.core.data.repository.ChildRepositoryImpl
+import com.example.devicetracking.core.data.repository.ParentChildRepositoryImpl
 import com.example.devicetracking.core.data.repository.ParentRepositoryImpl
 import com.example.devicetracking.core.domain.repository.ChildRepository
+import com.example.devicetracking.core.domain.repository.ParentChildRepository
 import com.example.devicetracking.core.domain.repository.ParentRepository
 import dagger.Module
 import dagger.Provides
@@ -57,6 +59,12 @@ object AppModule {
 //            getChildren = GetChildren(parentRepository)
 //        )
 //    }
+
+    @Singleton
+    @Provides
+    fun provideParentChildRepository():ParentChildRepository{
+        return ParentChildRepositoryImpl()
+    }
 
     @Singleton
     @Provides
