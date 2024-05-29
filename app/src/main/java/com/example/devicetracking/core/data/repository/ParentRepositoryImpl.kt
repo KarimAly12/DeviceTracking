@@ -7,6 +7,7 @@ import com.amplifyframework.api.graphql.model.ModelSubscription
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.Parent
+import com.amplifyframework.datastore.generated.model.ParentChild
 import com.example.devicetracking.core.domain.model.ChildLocationObject
 import com.example.devicetracking.core.domain.model.ChildObject
 import com.example.devicetracking.core.domain.model.ParentObject
@@ -52,11 +53,29 @@ class ParentRepositoryImpl: ParentRepository {
 
             Log.i("PARENT_REPOSITORY", e.message.toString())
         }
-
-        
-
     }
 
+
+    override suspend fun addChild(childEmail:String, parentObj: ParentObject){
+        Amplify.API.query(
+            ModelQuery[Child::class.java, childEmail],
+            {
+                val parentChild = ParentChild.builder()
+                    .child(it.data)
+                    .parent(convertParentObjectToParent(parentObj))
+                    .build()
+
+                Amplify.API.mutate(
+                    ModelMutation.create(parentChild),
+                    {},
+                    {}
+                )
+
+            },
+            {}
+        )
+
+    }
     override fun isParentExist(email:String, onParentFound: (Boolean) -> Unit) {
         try {
             Amplify.API.query(
