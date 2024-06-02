@@ -10,7 +10,7 @@ interface ParentRepository {
 
 
     suspend fun createParent(parent: ParentObject)
-    fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit)
+    suspend fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit)
 
     fun isParentExist(email:String, onParentFound: (Boolean) -> Unit)
 

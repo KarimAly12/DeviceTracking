@@ -4,7 +4,7 @@ import android.util.Log
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.api.graphql.model.ModelSubscription
-import com.amplifyframework.core.Amplify
+import com.amplifyframework.kotlin.core.Amplify
 import com.amplifyframework.datastore.generated.model.Child
 import com.amplifyframework.datastore.generated.model.Parent
 import com.amplifyframework.datastore.generated.model.ParentChild
@@ -18,86 +18,37 @@ class ParentRepositoryImpl: ParentRepository {
 
 
     override suspend fun createParent(parent: ParentObject) {
-        Amplify.API.mutate(
-            ModelMutation.create(
-                convertParentObjectToParent(parent)
-            ),
-            {
-                Log.i("PARENT_REPOSITORY", "create parent success")
-            },
-            {
-                Log.e("PARENT_REPOSITORY", "create parent error ", it)
-            }
-        )
 
-        
+       try {
+
+           Amplify.API.mutate(ModelMutation.create(convertParentObjectToParent(parent)))
+
+
+       }catch (error:Exception){
+           Log.e("PARENT_REPOSITORY", "create parent error ", error)
+       }
 
     }
-    override fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit) {
+    override suspend fun getParent(parentEmail:String, onParentFound: (ParentObject) -> Unit) {
 
         try {
+            Amplify.API.mutate(ModelQuery[Parent::class.java, parentEmail])
+            
 
-            Amplify.API.query(ModelQuery[Parent::class.java, parentEmail],
-                {parentResponse->
-                if (parentResponse.data != null){
+        }catch (error:Exception){
+            Log.e("PARENT_REPOSITORY", "get parent error ", error)
 
-                    onParentFound(convertParentToParentObject(parentResponse.data))
-                }
-
-                },
-                {}
-            )
-
-
-        }catch (e:Exception){
-
-            Log.i("PARENT_REPOSITORY", e.message.toString())
         }
+
     }
 
 
     override suspend fun addChild(childEmail:String, parentObj: ParentObject){
-        Amplify.API.query(
-            ModelQuery[Child::class.java, childEmail],
-            {
-                val parentChild = ParentChild.builder()
-                    .child(it.data)
-                    .parent(convertParentObjectToParent(parentObj))
-                    .build()
 
-                Amplify.API.mutate(
-                    ModelMutation.create(parentChild),
-                    {},
-                    {}
-                )
-
-            },
-            {}
-        )
 
     }
     override fun isParentExist(email:String, onParentFound: (Boolean) -> Unit) {
-        try {
-            Amplify.API.query(
-                ModelQuery[Parent::class.java, email],
-                {parent ->
-                    if(parent.data != null){
-                        onParentFound(true)
 
-                    }else{
-                        onParentFound(false)
-                    }
-
-                },
-                {
-
-                }
-            )
-        } catch (error: ApiException) {
-
-            Log.e("PARENT_REPOSITORY", "get parent error ", error)
-
-        }
     }
 
 
